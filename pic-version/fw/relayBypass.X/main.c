@@ -28,7 +28,10 @@
 #define GPIO_PHET   RA2
 #endif
 
+volatile uint8_t buttonCounter = 0;
+
 void checkButtonState (uint8_t *pState);
+uint8_t checkButton ();
 
 void main ()
 {
@@ -48,11 +51,9 @@ TRISC4 = 0xFF; // set RC4 as input
 TRISA2 = 0x00; // set RA2 as output
 #endif
 
-pedalStatus pedalState = PEDAL_OFF;
-buttonStatus buttonState = BUTTON_RELEASED;
 /*
 RC3 = LOW;
-RC1 = LOW;
+RC1 = LOW/
 RC0 = LOW;
 */
 GPIO_LED    = LOW;
@@ -60,44 +61,74 @@ GPIO_RELE   = LOW;
 GPIO_BUTTON = LOW;
 GPIO_PHET   = LOW;
 
-uint8_t state = 0;
+uint8_t pedalState  = FX_OFF;
+uint8_t buttonState = BUTTON_NOT_PRESSED;
 
     while (1)
     {
-     checkButtonState(&state);
+        buttonState = checkButton();
         
-        /*
-        if (GPIO_BUTTON == LOW)
+        if (buttonState == BUTTON_PRESSED)
         {
-            buttonState = BUTTON_PRESSED;
+            switch(pedalState)
+            {
+                case FX_OFF:
+                    GPIO_PHET = HIGH;   
+                    __delay_ms(20);
+                    pedalState = FX_ON; 
+                    GPIO_RELE = HIGH;   
+                    GPIO_LED = HIGH;    
+                    __delay_ms(20);
+                    GPIO_PHET = LOW;
+                break;
+                
+                case FX_ON:
+                    GPIO_PHET = HIGH; 
+                    __delay_ms(20);
+                    pedalState = FX_OFF; 
+                    GPIO_RELE = LOW; 
+                    GPIO_LED = LOW; 
+                    __delay_ms(20);
+                    GPIO_PHET = LOW;
+                break;
+            }
         }
         
-        switch(pedalState)
+     //checkButtonState(&state);
+        
+    }
+}
+
+uint8_t checkButton ()
+{   
+    if (GPIO_BUTTON == LOW)
+    {
+        if (buttonCounter < 50)
         {
-            case PEDAL_OFF:
-                if (GPIO_BUTTON == HIGH && buttonState == BUTTON_PRESSED)
-                {
-                    pedalState = PEDAL_ON;
-                    //RC3 = HIGH; // enable led
-                    GPIO_LED = HIGH;
-                    //RC1 = HIGH; // enable rele
-                    GPIO_RELE = HIGH;
-                    buttonState = BUTTON_RELEASED;
-                }  
-            break;
-            case PEDAL_ON:
-                if (GPIO_BUTTON == HIGH && buttonState == BUTTON_PRESSED)
-                {
-                    pedalState = PEDAL_OFF;
-                    GPIO_LED = LOW; // disable led
-                    GPIO_RELE = LOW; // disable rele
-                    buttonState = BUTTON_RELEASED;
-                }  
-            break;
+            buttonCounter++;
+            return BUTTON_NOT_PRESSED;
         }
-        */
         
+        else
+        {
+           buttonCounter = 0;
+           return BUTTON_PRESSED;
+        }
+    }
+    
+    else if (GPIO_BUTTON == HIGH)
+    {
+        if (buttonCounter < 50)
+        {
+            buttonCounter--;
+            return BUTTON_NOT_PRESSED;
+        }
         
+        else
+        {
+           buttonCounter = 0;
+           return BUTTON_NOT_PRESSED;
+        }
     }
 }
 

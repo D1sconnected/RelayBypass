@@ -17,17 +17,12 @@
 // Define oscillator frequency
 #define _XTAL_FREQ 8000000
 
-#define HIGH 1
-#define LOW 0
-
-#define BUTTON_PRESSED 0xFF
-#define BUTTON_NOT_PRESSED 0x00
+#define HIGH    0x01
+#define LOW     0x00
 
 #define FX_ON   0xFF
 #define FX_OFF  0x00
 
-typedef enum 
-{
-    PEDAL_ON,
-    PEDAL_OFF
-}   pedalStatus;
+#define BUTTON_PRESSED      0xFF
+#define BUTTON_NOT_PRESSED  0x00
+

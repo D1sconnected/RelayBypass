@@ -28,7 +28,8 @@
 #define GPIO_PHET   RA2
 #endif
 
-volatile uint8_t buttonCounter = 0;
+volatile uint16_t buttonCounter = 0;
+uint8_t changeStateFlag = LOW;
 
 void checkButtonState (uint8_t *pState);
 uint8_t checkButton ();
@@ -70,8 +71,11 @@ uint8_t buttonState = BUTTON_NOT_PRESSED;
         
         if (buttonState == BUTTON_PRESSED)
         {
+            //changeStateFlag = LOW;
+  
             switch(pedalState)
             {
+                
                 case FX_OFF:
                     GPIO_PHET = HIGH;   
                     __delay_ms(20);
@@ -101,34 +105,33 @@ uint8_t buttonState = BUTTON_NOT_PRESSED;
 
 uint8_t checkButton ()
 {   
-    if (GPIO_BUTTON == LOW)
+    //static uint8_t buttonFlag = LOW;
+    
+    if (GPIO_BUTTON == LOW && changeStateFlag == LOW)
     {
-        if (buttonCounter < 50)
+        if (buttonCounter < 2500)
         {
-            buttonCounter++;
+            ++buttonCounter;
             return BUTTON_NOT_PRESSED;
         }
         
         else
         {
            buttonCounter = 0;
+           changeStateFlag = HIGH;
            return BUTTON_PRESSED;
         }
     }
     
     else if (GPIO_BUTTON == HIGH)
     {
-        if (buttonCounter < 50)
+        if (buttonCounter == 0)
         {
-            buttonCounter--;
-            return BUTTON_NOT_PRESSED;
-        }
-        
-        else
-        {
-           buttonCounter = 0;
+           changeStateFlag = LOW;
            return BUTTON_NOT_PRESSED;
         }
+        
+        --buttonCounter;
     }
 }
 

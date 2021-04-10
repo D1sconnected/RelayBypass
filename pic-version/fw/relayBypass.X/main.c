@@ -32,8 +32,8 @@ uint8_t checkButton ();
 
 void main ()
 {
-    ANSEL = 0; // no analog GPIO
-    ADCON0 = 0; // ADC and DAC converters off
+    //ANSEL = 0; // no analog GPIO
+    //ADCON0 = 0; // ADC and DAC converters off
 #ifdef DEBUG_PLATFORM
     TRISC3 = 0x00; // set RC3 as output
     TRISC1 = 0x00; // set RC1 as output
@@ -65,21 +65,21 @@ void main ()
             {
                 case FX_OFF:
                     GPIO_PHET = HIGH;   
-                    __delay_ms(20);
+                    __delay_ms(7);
                     pedalState = FX_ON; 
                     GPIO_RELE = HIGH;   
                     GPIO_LED = HIGH;    
-                    __delay_ms(20);
+                    __delay_ms(7);
                     GPIO_PHET = LOW;
                 break;
                 
                 case FX_ON:
                     GPIO_PHET = HIGH; 
-                    __delay_ms(20);
+                    __delay_ms(7);
                     pedalState = FX_OFF; 
                     GPIO_RELE = LOW; 
                     GPIO_LED = LOW; 
-                    __delay_ms(20);
+                    __delay_ms(7);
                     GPIO_PHET = LOW;
                 break;
             }
@@ -91,7 +91,7 @@ uint8_t checkButton ()
 {   
     if (GPIO_BUTTON == LOW && changeStateFlag == LOW)
     {
-        if (btnSwitchCounter < 2500)
+        if (btnSwitchCounter < 1750)
         {
             ++btnSwitchCounter;
             return BUTTON_NOT_PRESSED;

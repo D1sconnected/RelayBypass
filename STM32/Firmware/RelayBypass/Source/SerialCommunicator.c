@@ -2,7 +2,7 @@
 
 typedef struct SerialCommunicatorStruct
 {
-    char command[32];
+    char command[SERIAL_RECEIVE_BUFFER_SIZE];
 } SerialCommunicatorStruct;
 
 SerialCommunicator * SerialCommunicator_Create(void)
@@ -17,7 +17,6 @@ void SerialCommunicator_Destroy(SerialCommunicator * pSelf)
     if (pSelf == NULL) 
     {
         return;
-        //return INVALID_PARAMETERS;
     }
 
     free(pSelf);

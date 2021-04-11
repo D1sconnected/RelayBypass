@@ -15,18 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
+    <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\SerialCommunicator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ProductionCodeLib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\SerialCommunicator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

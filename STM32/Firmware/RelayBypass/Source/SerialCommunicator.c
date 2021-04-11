@@ -7,9 +7,19 @@ typedef struct SerialCommunicatorStruct
 
 SerialCommunicator * SerialCommunicator_Create(void)
 {
-    return NULL;
+    SerialCommunicator * pSelf = (SerialCommunicator*)calloc(1, sizeof(SerialCommunicatorStruct));
+    
+    return pSelf;
 }
 
-void SerialCommunicator_Destroy(SerialCommunicator * self)
+void SerialCommunicator_Destroy(SerialCommunicator * pSelf)
 {
+    if (pSelf == NULL) 
+    {
+        return;
+        //return INVALID_PARAMETERS;
+    }
+
+    free(pSelf);
+    pSelf = NULL;
 }

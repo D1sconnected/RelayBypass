@@ -22,3 +22,12 @@ void SerialCommunicator_Destroy(SerialCommunicator * pSelf)
     free(pSelf);
     pSelf = NULL;
 }
+
+Status SerialCommunicator_Handler(SerialCommunicator* pSelf) 
+{
+    if (pSelf == NULL)
+    {
+        return;
+    }
+
+}

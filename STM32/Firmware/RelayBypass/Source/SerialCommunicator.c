@@ -6,6 +6,8 @@ typedef struct SerialCommunicatorStruct
     Serial *pSerial;
 } SerialCommunicatorStruct;
 
+static const char helpCommand[] = "help";
+
 SerialCommunicator *SerialCommunicator_Create(Serial *pSerial)
 {
     if (pSerial == NULL)
@@ -43,5 +45,22 @@ Status SerialCommunicator_Handler(SerialCommunicator *pSelf)
     {
         return INVALID_PARAMETERS;
     }
+
+    // Получаем команду из буфера приема UART
+    Status status = Serial_ReceiveCmd(pSelf->pSerial, pSelf->command);
+
+    if (status != OK) 
+    {
+        return status;
+    }
+
+    // Обработка полученной команды
+    if (strstr(pSelf->command, helpCommand) == NULL)
+    {
+        return UNSUPPORTED;
+    }
+
+    status = Serial_SendResponse(pSelf->pSerial, HELP_OUTPUT);
+    return status;
 
 }

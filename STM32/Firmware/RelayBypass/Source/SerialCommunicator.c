@@ -3,12 +3,24 @@
 typedef struct SerialCommunicatorStruct
 {
     char command[SERIAL_RX_BUFFER_SIZE];
+    Serial *pSerial;
 } SerialCommunicatorStruct;
 
-SerialCommunicator * SerialCommunicator_Create(void)
+SerialCommunicator *SerialCommunicator_Create(Serial *pSerial)
 {
-    SerialCommunicator * pSelf = (SerialCommunicator*)calloc(1, sizeof(SerialCommunicatorStruct));
+    if (pSerial == NULL)
+    {
+        return NULL;
+    }
+
+    SerialCommunicator *pSelf = (SerialCommunicator*)calloc(1, sizeof(SerialCommunicatorStruct));
     
+    if (pSelf == NULL) 
+    {
+        return NULL;
+    }
+
+    pSelf->pSerial = pSerial;
     return pSelf;
 }
 
@@ -19,6 +31,8 @@ void SerialCommunicator_Destroy(SerialCommunicator *pSelf)
         return;
     }
 
+    Serial_Destroy(pSelf->pSerial);
+
     free(pSelf);
     pSelf = NULL;
 }
@@ -27,7 +41,7 @@ Status SerialCommunicator_Handler(SerialCommunicator *pSelf)
 {
     if (pSelf == NULL)
     {
-        return;
+        return INVALID_PARAMETERS;
     }
 
 }

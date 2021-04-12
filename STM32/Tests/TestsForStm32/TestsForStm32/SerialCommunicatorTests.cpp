@@ -14,10 +14,12 @@ TEST_GROUP(SerialCommunicator)
     void setup()
     {
         pCommunicator = SerialCommunicator_Create();
+        pSerial = Serial_Create();
     }
     void teardown()
     {
         SerialCommunicator_Destroy(pCommunicator);
+        Serial_Destroy(pSerial);
     }
 };
 

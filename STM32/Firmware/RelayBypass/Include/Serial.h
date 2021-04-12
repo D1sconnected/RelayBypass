@@ -9,4 +9,8 @@
 
 typedef struct SerialStruct Serial;
 
+Serial *Serial_Create(void);
+
+void Serial_Destroy(Serial* pSelf);
+
 #endif

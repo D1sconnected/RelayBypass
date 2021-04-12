@@ -11,6 +11,7 @@ typedef enum
     OK = 0,
     FAIL = -1,
     INVALID_PARAMETERS = -3,
+    OUT_OF_BOUNDS = -4,
 } Status;
 
 #endif

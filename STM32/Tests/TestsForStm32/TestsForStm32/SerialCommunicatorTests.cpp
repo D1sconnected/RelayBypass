@@ -8,7 +8,8 @@ extern "C"
 
 TEST_GROUP(SerialCommunicator)
 {
-    SerialCommunicator* pCommunicator = NULL;
+    SerialCommunicator *pCommunicator = NULL;
+    Serial* pSerial = NULL;
 
     void setup()
     {
@@ -29,7 +30,7 @@ TEST(SerialCommunicator, ShouldHandleHelpCommand)
 {
     // Arrange Ц установка вход€щей команды от ѕ  в буфер приема UART
     char helpCmd[] = "help\r\n";
-    LONGS_EQUAL(OK, SerialSpy_SetRxBuffer(serial, helpCmd, sizeof(helpCmd)));
+    LONGS_EQUAL(OK, SerialSpy_SetRxBuffer(pSerial, helpCmd, sizeof(helpCmd)));
 
     // Act Ц вызов обработчика команд
     Status status = SerialCommunicator_Handler(pCommunicator);
@@ -38,6 +39,6 @@ TEST(SerialCommunicator, ShouldHandleHelpCommand)
     LONGS_EQUAL(OK, status);
     // проверка ответа, отправленного обратно на ѕ  по UART
     char* pTxBuffer = NULL;
-    LONGS_EQUAL(OK, SerialSpy_GetTxBuffer(serial, &pTxBuffer));
+    LONGS_EQUAL(OK, SerialSpy_GetTxBuffer(pSerial, &pTxBuffer));
     STRCMP_EQUAL(HELP_OUTPUT, pTxBuffer);
 }

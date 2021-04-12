@@ -148,7 +148,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SerialCommunicatorTests.cpp" />
+    <ClCompile Include="SerialSpy.c" />
     <ClCompile Include="TestsForStm32.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SerialSpy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

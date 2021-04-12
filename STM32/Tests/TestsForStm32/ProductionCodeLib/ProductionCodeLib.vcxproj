@@ -156,9 +156,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Common.h" />
+    <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Serial.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\SerialCommunicator.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\Serial.c" />
     <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\SerialCommunicator.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

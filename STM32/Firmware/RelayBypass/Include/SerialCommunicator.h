@@ -1,6 +1,5 @@
 #include "Common.h"
-
-#define SERIAL_RECEIVE_BUFFER_SIZE 32
+#include "Serial.h"
 
 typedef struct SerialCommunicatorStruct SerialCommunicator;
 
@@ -8,4 +7,4 @@ SerialCommunicator * SerialCommunicator_Create(void);
 
 void SerialCommunicator_Destroy(SerialCommunicator *pSelf);
 
-Status SerialCommunicator_Handler(SerialCommunicator* pSelf);
+Status SerialCommunicator_Handler(SerialCommunicator *pSelf);

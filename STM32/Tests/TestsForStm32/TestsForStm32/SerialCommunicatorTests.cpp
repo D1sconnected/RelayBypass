@@ -19,7 +19,6 @@ TEST_GROUP(SerialCommunicator)
     void teardown()
     {
         SerialCommunicator_Destroy(pCommunicator);
-        Serial_Destroy(pSerial);
     }
 };
 

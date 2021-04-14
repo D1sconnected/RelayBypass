@@ -34,7 +34,7 @@ Status Serial_Handler(Serial *pSelf)
     }
 
     // Get command from input UART buffer
-    Status status = Serial_ReceiveCmd(pSelf, pSelf->command);
+    Status status = Serial_ReceiveCmd(pSelf);
 
     if (status != OK)
     {

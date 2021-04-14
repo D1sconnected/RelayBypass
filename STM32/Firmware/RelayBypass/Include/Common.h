@@ -13,6 +13,8 @@ typedef enum
     INVALID_PARAMETERS = -3,
     OUT_OF_BOUNDS = -4,
     UNSUPPORTED = -5,
+    NO_DATA = -6,
+    NO_COMMAND = -7,
 } Status;
 
 #endif

@@ -30,12 +30,11 @@ Status Serial_Handler(Serial *pSelf);
 
 // ѕроверка наличи€ данных в буфере приема UART
 //  pSelf Ц указатель на объект типа Serial
-//  pCmd Ц указатель на буфер, в который будут скопированы все прин€тые данные
 // 
 // ¬озвращаемые значени€:
 //  OK Ц в случае наличи€ данных в буфере приема
 //  NO_DATA Ц при отсутствии данных в буфере приема
-Status Serial_ReceiveCmd(Serial *pSelf, char *pCmd);
+Status Serial_ReceiveCmd(Serial *pSelf);
 
 // ќтправка данных по UART
 //  pSelf Ц указатель на объект типа Serial

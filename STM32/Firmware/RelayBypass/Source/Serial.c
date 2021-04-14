@@ -51,13 +51,3 @@ Status Serial_Handler(Serial *pSelf)
     return status;
 
 }
-
-Status Serial_ReceiveCmd(Serial *pSelf, char *pCommand) 
-{
-    return;
-}
-
-Status Serial_SendResponse(Serial* pSelf, char* pCommand)
-{
-    return;
-}

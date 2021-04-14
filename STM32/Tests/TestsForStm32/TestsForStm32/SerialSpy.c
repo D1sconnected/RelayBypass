@@ -34,3 +34,13 @@ Status SerialSpy_GetTxBuffer(Serial *pSelf, char **pData)
 	*pData = pSelf->txBuffer;
 	return OK;
 }
+
+Status Serial_ReceiveCmd(Serial* pSelf, char* pCommand)
+{
+	return;
+}
+
+Status Serial_SendResponse(Serial* pSelf, char* pCommand)
+{
+	return;
+}

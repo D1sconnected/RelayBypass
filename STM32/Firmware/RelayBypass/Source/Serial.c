@@ -74,6 +74,22 @@ Status Serial_HandleToggleCommand(Serial* pSelf)
         return INVALID_PARAMETERS;
     }
 
-    //Status status = Serial_SendResponse(pSelf, HELP_OUTPUT);
-    return OK;
+    if (pSelf->command[7] == 'A' ||
+        pSelf->command[7] == 'a' ||
+        pSelf->command[7] == 'B' ||
+        pSelf->command[7] == 'b') 
+        {
+            if (pSelf->command[9] > 0) 
+            {
+                char toggleResponse[64] = { 0 };
+                //toggleResponse = "Toggle Slot X x times\r\n";
+                memcpy(toggleResponse, "Toggle Slot A 3 times\r\n", sizeof("Toggle Slot A 3 times\r\n"));
+                toggleResponse[12] = pSelf->command[7];
+                toggleResponse[14] = pSelf->command[9];
+                
+                return Serial_SendResponse(pSelf, toggleResponse);
+            }
+        }
+
+    return INVALID_FORMAT;
 }

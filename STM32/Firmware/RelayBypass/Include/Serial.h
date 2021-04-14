@@ -14,6 +14,9 @@
     - enable: <slot>\r\n \
     - toogle: <slot> <count>\r\n"
 
+#define TOGGLE_OUTPUT \
+"Toggle Slot a 3 times\r\n"
+
 typedef struct SerialStruct Serial;
 
 Serial *Serial_Create(void);

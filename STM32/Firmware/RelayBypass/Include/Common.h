@@ -15,6 +15,7 @@ typedef enum
     UNSUPPORTED = -5,
     NO_DATA = -6,
     NO_COMMAND = -7,
+    INVALID_FORMAT = -8,
 } Status;
 
 #endif

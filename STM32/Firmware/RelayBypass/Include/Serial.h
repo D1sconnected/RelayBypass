@@ -20,13 +20,21 @@ Serial *Serial_Create(void);
 void Serial_Destroy(Serial *pSelf);
 
 
-// ќбработка сообщений по UART
-// pSelf Ц указатель на объект типа Serial
+// UART message handler
+// pSelf Ц pinter to object with Serial type
 //
-// ¬озвращаемые значени€:
-//  OK Ц в случае успешной обработки сообщени€
-//  NO_COMMAND Ц при отсутствии известной команды в буфере
+// Returns:
+// OK Ц in case of success
+// NO_COMMAND Ц in case of unkown command in rxBuffer 
 Status Serial_Handler(Serial *pSelf);
+
+// Handler for <help> command
+// pSelf Ц pinter to object with Serial type
+//
+// Returns:
+//  OK Ц in case of success
+//  OUT_OF_BOUNDS - in case of response len > txBuffer
+Status Serial_HandleHelpCommand(Serial* pSelf);
 
 // ѕроверка наличи€ данных в буфере приема UART
 //  pSelf Ц указатель на объект типа Serial

@@ -44,10 +44,19 @@ Status Serial_Handler(Serial *pSelf)
     // Handle command from buffer
     if (strstr(pSelf->command, helpCommand) == NULL)
     {
-        return UNSUPPORTED;
+        status = Serial_HandleHelpCommand(pSelf);
     }
 
-    status = Serial_SendResponse(pSelf, HELP_OUTPUT);
     return status;
+}
 
+Status Serial_HandleHelpCommand(Serial *pSelf)
+{
+    if (pSelf == NULL)
+    {
+        return INVALID_PARAMETERS;
+    }
+
+    Status status = Serial_SendResponse(pSelf, HELP_OUTPUT);
+    return status;
 }

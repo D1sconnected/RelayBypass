@@ -27,17 +27,34 @@ TEST(Serial, ShouldNotBeNull)
 
 TEST(Serial, ShouldHandleHelpCommand)
 {
-    // Arrange Ц установка вход€щей команды от ѕ  в буфер приема UART
+    // Arrange Ц set command from PC tu UART Rx Buffer
     char helpCmd[] = "help\r\n";
     LONGS_EQUAL(OK, SerialSpy_SetRxBuffer(pSerial, helpCmd, sizeof(helpCmd)));
 
-    // Act Ц вызов обработчика команд
+    // Act Ц Call to Handler for command processing
     Status status = Serial_Handler(pSerial);
 
-    // Assert Ц проверка статуса обработки
+    // Assert Ц Check returned status
     LONGS_EQUAL(OK, status);
-    // проверка ответа, отправленного обратно на ѕ  по UART
+    // Check response sended from UART to PC
     char* pTxBuffer = NULL;
     LONGS_EQUAL(OK, SerialSpy_GetTxBuffer(pSerial, &pTxBuffer));
     STRCMP_EQUAL(HELP_OUTPUT, pTxBuffer);
+}
+
+TEST(Serial, ShouldHandleToogleCommand)
+{
+    // Arrange Ц set command from PC tu UART Rx Buffer
+    char toggleCmd[] = "toggle\r\n";
+    LONGS_EQUAL(OK, SerialSpy_SetRxBuffer(pSerial, toggleCmd, sizeof(toggleCmd)));
+
+    // Act Ц Call to Handler for command processing
+    Status status = Serial_Handler(pSerial);
+
+    // Assert Ц Check returned status
+    LONGS_EQUAL(OK, status);
+    // Check response sended from UART to PC
+    char* pTxBuffer = NULL;
+    LONGS_EQUAL(OK, SerialSpy_GetTxBuffer(pSerial, &pTxBuffer));
+    //STRCMP_EQUAL(HELP_OUTPUT, pTxBuffer);
 }

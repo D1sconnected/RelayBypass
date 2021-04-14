@@ -8,6 +8,7 @@ typedef struct SerialStruct
 } SerialStruct;
 
 static const char helpCommand[] = "help";
+static const char toggleCommand[] = "toggle";
 
 Serial *Serial_Create(void)
 {
@@ -42,9 +43,14 @@ Status Serial_Handler(Serial *pSelf)
     }
 
     // Handle command from buffer
-    if (strstr(helpCommand, pSelf->command) == NULL)
+    if (strstr(pSelf->command, helpCommand) != NULL)
     {
-        status = Serial_HandleHelpCommand(pSelf);
+        return Serial_HandleHelpCommand(pSelf);
+    }
+
+    else if (strstr(pSelf->command, toggleCommand) != NULL)
+    {
+        return Serial_HandleToggleCommand(pSelf);
     }
 
     return status;
@@ -59,4 +65,15 @@ Status Serial_HandleHelpCommand(Serial *pSelf)
 
     Status status = Serial_SendResponse(pSelf, HELP_OUTPUT);
     return status;
+}
+
+Status Serial_HandleToggleCommand(Serial* pSelf)
+{
+    if (pSelf == NULL)
+    {
+        return INVALID_PARAMETERS;
+    }
+
+    //Status status = Serial_SendResponse(pSelf, HELP_OUTPUT);
+    return OK;
 }

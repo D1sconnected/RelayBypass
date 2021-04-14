@@ -21,7 +21,7 @@ void Serial_Destroy(Serial *pSelf);
 
 
 // UART message handler
-// pSelf Ц pinter to object with Serial type
+// pSelf Ц pointer to object with Serial type
 //
 // Returns:
 // OK Ц in case of success
@@ -29,12 +29,20 @@ void Serial_Destroy(Serial *pSelf);
 Status Serial_Handler(Serial *pSelf);
 
 // Handler for <help> command
-// pSelf Ц pinter to object with Serial type
+// pSelf Ц pointer to object with Serial type
 //
 // Returns:
 //  OK Ц in case of success
 //  OUT_OF_BOUNDS - in case of response len > txBuffer
 Status Serial_HandleHelpCommand(Serial* pSelf);
+
+// Handler for <toogle> command
+// pSelf Ц pointer to object with Serial type
+//
+// Returns:
+//  OK Ц in case of success
+//  OUT_OF_BOUNDS - in case of response len > txBuffer
+Status Serial_HandleToggleCommand(Serial* pSelf);
 
 // ѕроверка наличи€ данных в буфере приема UART
 //  pSelf Ц указатель на объект типа Serial

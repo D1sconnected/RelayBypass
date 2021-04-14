@@ -42,7 +42,7 @@ Status Serial_Handler(Serial *pSelf)
     }
 
     // Handle command from buffer
-    if (strstr(pSelf->command, helpCommand) == NULL)
+    if (strstr(helpCommand, pSelf->command) == NULL)
     {
         status = Serial_HandleHelpCommand(pSelf);
     }

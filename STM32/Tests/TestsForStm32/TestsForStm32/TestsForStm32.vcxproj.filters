@@ -18,10 +18,10 @@
     <ClCompile Include="TestsForStm32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SerialCommunicatorTests.cpp">
+    <ClCompile Include="SerialSpy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SerialSpy.c">
+    <ClCompile Include="SerialTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

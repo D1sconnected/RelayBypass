@@ -4,7 +4,10 @@ typedef struct SerialStruct
 {
 	char rxBuffer[SERIAL_RX_BUFFER_SIZE];
 	char txBuffer[SERIAL_TX_BUFFER_SIZE];
+    char command[SERIAL_RX_BUFFER_SIZE];
 } SerialStruct;
+
+static const char helpCommand[] = "help";
 
 Serial *Serial_Create(void)
 {
@@ -21,4 +24,40 @@ void Serial_Destroy(Serial *pSelf)
 
 	free(pSelf);
 	pSelf = NULL;
+}
+
+Status Serial_Handler(Serial *pSelf)
+{
+    if (pSelf == NULL)
+    {
+        return INVALID_PARAMETERS;
+    }
+
+    // Get command from input UART buffer
+    Status status = Serial_ReceiveCmd(pSelf, pSelf->command);
+
+    if (status != OK)
+    {
+        return status;
+    }
+
+    // Handle command from buffer
+    if (strstr(pSelf->command, helpCommand) == NULL)
+    {
+        return UNSUPPORTED;
+    }
+
+    status = Serial_SendResponse(pSelf, HELP_OUTPUT);
+    return status;
+
+}
+
+Status Serial_ReceiveCmd(Serial *pSelf, char *pCommand) 
+{
+    return;
+}
+
+Status Serial_SendResponse(Serial* pSelf, char* pCommand)
+{
+    return;
 }

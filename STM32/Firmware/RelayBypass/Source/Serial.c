@@ -67,23 +67,25 @@ Status Serial_HandleHelpCommand(Serial *pSelf)
     return status;
 }
 
-Status Serial_HandleToggleCommand(Serial* pSelf)
+Status Serial_HandleToggleCommand(Serial *pSelf)
 {
     if (pSelf == NULL)
     {
         return INVALID_PARAMETERS;
     }
-
+    // Check if slot parameter is correct
     if (pSelf->command[7] == 'A' ||
         pSelf->command[7] == 'a' ||
         pSelf->command[7] == 'B' ||
         pSelf->command[7] == 'b') 
         {
+            // Check if amount of "toggles" is more than 0
             if (pSelf->command[9] > 0) 
             {
-                char toggleResponse[64] = { 0 };
-                //toggleResponse = "Toggle Slot X x times\r\n";
-                memcpy(toggleResponse, "Toggle Slot A 3 times\r\n", sizeof("Toggle Slot A 3 times\r\n"));
+                // ToDo: Call UI_SwitchChannel function to switch specific channel exact amount of times
+                // return status = UI_SwitchChannel
+                char toggleResponse[32] = { 0 };
+                memcpy(toggleResponse, TOGGLE_OUTPUT, sizeof(TOGGLE_OUTPUT));
                 toggleResponse[12] = pSelf->command[7];
                 toggleResponse[14] = pSelf->command[9];
                 

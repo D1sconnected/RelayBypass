@@ -82,8 +82,8 @@ Status Serial_HandleToggleCommand(Serial *pSelf)
             // Check if amount of "toggles" is more than 0
             if (pSelf->command[9] > 0) 
             {
-                // ToDo: Call UI_SwitchChannel function to switch specific channel exact amount of times
-                // return status = UI_SwitchChannel
+                // ToDo: Call Interface_SwitchChannel function to switch specific channel exact amount of times
+                // return status of Interface_SwitchChannel if not OK
                 char toggleResponse[32] = { 0 };
                 memcpy(toggleResponse, TOGGLE_OUTPUT, sizeof(TOGGLE_OUTPUT));
                 toggleResponse[12] = pSelf->command[7];

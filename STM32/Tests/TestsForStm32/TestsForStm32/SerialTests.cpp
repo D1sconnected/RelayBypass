@@ -61,3 +61,23 @@ TEST(Serial, ShouldHandleToogleCommand)
     strcat_s(str, "A\r\n");
     STRCMP_EQUAL(str, pTxBuffer);
 }
+
+TEST(Serial, ShouldHandleSwitchCommand)
+{
+    // Arrange – set command from PC tu UART Rx Buffer
+    char switchCmd[] = "switch B\r\n";
+    LONGS_EQUAL(OK, SerialSpy_SetRxBuffer(pSerial, switchCmd, sizeof(switchCmd)));
+
+    // Act – Call to Handler for command processing
+    Status status = Serial_Handler(pSerial);
+
+    // Assert – Check returned status
+    LONGS_EQUAL(OK, status);
+    // Check response sended from UART to PC
+    char* pTxBuffer = NULL;
+    LONGS_EQUAL(OK, SerialSpy_GetTxBuffer(pSerial, &pTxBuffer));
+    char str[16] = { 0 };
+    strcat_s(str, SWITCH_OUTPUT);
+    strcat_s(str, "B\r\n");
+    STRCMP_EQUAL(str, pTxBuffer);
+}

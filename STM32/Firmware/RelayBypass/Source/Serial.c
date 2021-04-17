@@ -10,6 +10,7 @@ typedef struct SerialStruct
 
 static const char helpCommand[] = "help";
 static const char toggleCommand[] = "toggle";
+static const char switchCommand[] = "switch";
 
 Serial *Serial_Create(void)
 {
@@ -54,6 +55,11 @@ Status Serial_Handler(Serial *pSelf)
         return Serial_HandleToggleCommand(pSelf);
     }
 
+    else if (strstr(pSelf->command, switchCommand) != NULL)
+    {
+        return Serial_HandleSwitchCommand(pSelf);
+    }
+
     return status;
 }
 
@@ -74,12 +80,18 @@ Status Serial_HandleToggleCommand(Serial *pSelf)
     {
         return INVALID_PARAMETERS;
     }
+
     // Check if slot parameter is correct
     if (pSelf->command[7] == CHANNEL_A || pSelf->command[7] == CHANNEL_B) 
         {
             Status status = Interface_ToggleChannel(pSelf->command[7]);
-
-            char toggleResponse[16] = { 0 };
+            /*
+            if (status != OK) 
+            {
+                return status;
+            }
+            */
+            char toggleResponse[16] = {0};
             memcpy(toggleResponse, TOGGLE_OUTPUT, sizeof(TOGGLE_OUTPUT));
             toggleResponse[12] = pSelf->command[7];
             toggleResponse[13] = '\r';
@@ -87,6 +99,35 @@ Status Serial_HandleToggleCommand(Serial *pSelf)
                 
             return Serial_SendResponse(pSelf, toggleResponse);
         }
+
+    return INVALID_FORMAT;
+}
+
+Status Serial_HandleSwitchCommand(Serial *pSelf) 
+{
+    if (pSelf == NULL)
+    {
+        return INVALID_PARAMETERS;
+    }
+
+    // Check if slot parameter is correct
+    if (pSelf->command[7] == CHANNEL_A || pSelf->command[7] == CHANNEL_B)
+    {
+        Status status = Interface_SwitchChannel(pSelf->command[7]);
+        
+        if (status != OK)
+        {
+            return status;
+        }
+        
+        char switchResponse[16] = { 0 };
+        memcpy(switchResponse, SWITCH_OUTPUT, sizeof(SWITCH_OUTPUT));
+        switchResponse[12] = pSelf->command[7];
+        switchResponse[13] = '\r';
+        switchResponse[14] = '\n';
+
+        return Serial_SendResponse(pSelf, switchResponse);
+    }
 
     return INVALID_FORMAT;
 }

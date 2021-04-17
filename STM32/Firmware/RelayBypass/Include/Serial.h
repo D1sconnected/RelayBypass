@@ -17,6 +17,9 @@
 #define TOGGLE_OUTPUT \
 "Toggle Slot "
 
+#define SWITCH_OUTPUT \
+"Switch Slot "
+
 typedef struct SerialStruct Serial;
 
 Serial *Serial_Create(void);

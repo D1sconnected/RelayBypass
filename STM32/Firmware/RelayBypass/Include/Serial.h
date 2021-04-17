@@ -20,6 +20,9 @@
 #define SWITCH_OUTPUT \
 "Switch Slot "
 
+#define GET_OUTPUT \
+"Slot "
+
 typedef struct SerialStruct Serial;
 
 Serial *Serial_Create(void);
@@ -49,6 +52,22 @@ Status Serial_HandleHelpCommand(Serial* pSelf);
 //  OK Ц in case of success
 //  OUT_OF_BOUNDS - in case of response len > txBuffer
 Status Serial_HandleToggleCommand(Serial* pSelf);
+
+// Handler for <switch> command
+// pSelf Ц pointer to object with Serial type
+//
+// Returns:
+//  OK Ц in case of success
+//  OUT_OF_BOUNDS - in case of response len > txBuffer
+Status Serial_HandleSwitchCommand(Serial* pSelf);
+
+// Handler for <get> command
+// pSelf Ц pointer to object with Serial type
+//
+// Returns:
+//  OK Ц in case of success
+//  OUT_OF_BOUNDS - in case of response len > txBuffer
+Status Serial_HandleGetCommand(Serial* pSelf);
 
 // ѕроверка наличи€ данных в буфере приема UART
 //  pSelf Ц указатель на объект типа Serial

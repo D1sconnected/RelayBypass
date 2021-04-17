@@ -8,6 +8,7 @@ typedef struct SerialStruct
     char command[SERIAL_RX_BUFFER_SIZE];
 } SerialStruct;
 
+static const char getCommand[] = "get";
 static const char helpCommand[] = "help";
 static const char toggleCommand[] = "toggle";
 static const char switchCommand[] = "switch";
@@ -58,6 +59,11 @@ Status Serial_Handler(Serial *pSelf)
     else if (strstr(pSelf->command, switchCommand) != NULL)
     {
         return Serial_HandleSwitchCommand(pSelf);
+    }
+
+    else if (strstr(pSelf->command, getCommand) != NULL)
+    {
+        return Serial_HandleGetCommand(pSelf);
     }
 
     return status;
@@ -127,6 +133,45 @@ Status Serial_HandleSwitchCommand(Serial *pSelf)
         switchResponse[14] = '\n';
 
         return Serial_SendResponse(pSelf, switchResponse);
+    }
+
+    return INVALID_FORMAT;
+}
+
+Status Serial_HandleGetCommand(Serial *pSelf) 
+{
+    if (pSelf == NULL)
+    {
+        return INVALID_PARAMETERS;
+    }
+
+    // Check if slot parameter is correct
+    if (pSelf->command[4] == CHANNEL_A || pSelf->command[4] == CHANNEL_B)
+    {
+        LedColour colour;
+        colour = Interface_GetChannel(pSelf->command[4]);
+
+        char getResponse[16] = { 0 };
+        memcpy(getResponse, GET_OUTPUT, sizeof(GET_OUTPUT));
+        getResponse[5] = pSelf->command[4];
+        getResponse[6] = ':';
+        getResponse[7] = ' ';
+        switch (colour) 
+        {
+            case RED:
+                memcpy(getResponse+8, "RED", sizeof("RED"));
+                break;
+            case GREEN:
+                memcpy(getResponse+8, "GREEN", sizeof("GREEN"));
+                break;
+            case BLUE:
+                memcpy(getResponse+8, "BLUE", sizeof("BLUE"));
+                break;
+        }
+        getResponse[11] = '\r';
+        getResponse[12] = '\n';
+
+        return Serial_SendResponse(pSelf, getResponse);
     }
 
     return INVALID_FORMAT;

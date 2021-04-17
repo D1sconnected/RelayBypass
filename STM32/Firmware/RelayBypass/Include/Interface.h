@@ -10,6 +10,16 @@
 #define CHANNEL_A 'A'
 #define CHANNEL_B 'B'
 
+#define ADC_MIN_GREEN_BOUND 3723
+#define ADC_MIN_RED_BOUND	2482
+#define ADC_MIN_BLUE_BOUND	1241
+
+typedef enum 
+{
+	RED,
+	GREEN,
+	BLUE
+} LedColour;
 /*
 typedef struct InterfaceStruct Interface;
 
@@ -33,5 +43,7 @@ Status Interface_SwitchChannel(char channel);
 // OK – in case of success
 // INVALID_FORMAT - in case of incorrect or lack of arguments
 Status Interface_ToggleChannel(char channel);
+
+LedColour Interface_GetChannel(char channel);
 
 #endif

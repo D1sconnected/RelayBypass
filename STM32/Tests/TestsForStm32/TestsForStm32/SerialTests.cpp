@@ -4,6 +4,7 @@ extern "C"
 {
 #include "Serial.h"
 #include "SerialSpy.h"
+#include "InterfaceSpy.h"
 }
 
 TEST_GROUP(Serial)
@@ -79,5 +80,26 @@ TEST(Serial, ShouldHandleSwitchCommand)
     char str[16] = { 0 };
     strcat_s(str, SWITCH_OUTPUT);
     strcat_s(str, "B\r\n");
+    STRCMP_EQUAL(str, pTxBuffer);
+}
+
+TEST(Serial, ShouldHandleGetCommand) 
+{
+    // Arrange – set command from PC tu UART Rx Buffer
+    char getCmd[] = "get A\r\n";
+    LONGS_EQUAL(OK, SerialSpy_SetRxBuffer(pSerial, getCmd, sizeof(getCmd)));
+
+    // Act – Call to Handler for command processing
+    Status status = Serial_Handler(pSerial);
+
+    // Assert – Check returned status
+    LONGS_EQUAL(OK, status);
+    // Check response sended from UART to PC
+    char* pTxBuffer = NULL;
+    LONGS_EQUAL(OK, SerialSpy_GetTxBuffer(pSerial, &pTxBuffer));
+    char str[16] = { 0 };
+    strcat_s(str, GET_OUTPUT);
+    strcat_s(str, "A: ");
+    strcat_s(str, "RED\r\n");
     STRCMP_EQUAL(str, pTxBuffer);
 }

@@ -66,7 +66,7 @@ Status Serial_Handler(Serial *pSelf)
         return Serial_HandleGetCommand(pSelf);
     }
 
-    return status;
+    return UNSUPPORTED;
 }
 
 Status Serial_HandleHelpCommand(Serial *pSelf)

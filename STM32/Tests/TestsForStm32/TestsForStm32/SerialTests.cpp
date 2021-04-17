@@ -103,3 +103,17 @@ TEST(Serial, ShouldHandleGetCommand)
     strcat_s(str, "RED\r\n");
     STRCMP_EQUAL(str, pTxBuffer);
 }
+
+TEST(Serial, ShouldHandleUnknownCommand)
+{
+    // Arrange – set command from PC tu UART Rx Buffer
+    char unknowCmd[] = "unknown command\r\n";
+    LONGS_EQUAL(OK, SerialSpy_SetRxBuffer(pSerial, unknowCmd, sizeof(unknowCmd)));
+
+    // Act – Call to Handler for command processing
+    Status status = Serial_Handler(pSerial);
+
+    // Assert – Check returned status
+    LONGS_EQUAL(UNSUPPORTED, status);
+}
+

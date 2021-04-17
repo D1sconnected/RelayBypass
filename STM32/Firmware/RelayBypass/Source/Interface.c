@@ -1,16 +1,13 @@
 #include "Interface.h"
+//#include gpio.h
+//#include adc.h
 
-Status Interface_SwitchChannel(Interface *pSelf, char channel, uint8_t amount) 
+Status Interface_SwitchChannel(char channel) 
 {
-    if (pSelf == NULL)
-    {
-        return INVALID_PARAMETERS;
-    }
-
     static uint8_t stateA = FX_OFF;
     static uint8_t stateB = FX_OFF;
 	
-    if ((channel != CHANNEL_A) && (channel != CHANNEL_B) || amount == 0) 
+    if ((channel != CHANNEL_A) && (channel != CHANNEL_B)) 
     {
         return INVALID_FORMAT;
     }
@@ -74,5 +71,31 @@ Status Interface_SwitchChannel(Interface *pSelf, char channel, uint8_t amount)
         }
     }
 
+    return OK;
+}
+
+Status Interface_ToggleChannel(char channel)
+{
+    switch (channel) 
+    {
+        case CHANNEL_A:
+            // read adc
+            // toggle 1
+            // delay 1
+            // toggle 2
+            // delay 2
+            // toggle 3
+            // delay 3
+            break;
+        case CHANNEL_B:
+            // read adc
+            // toggle 1
+            // delay 1
+            // toggle 2
+            // delay 2
+            // toggle 3
+            // delay 3
+            break;
+    }
     return OK;
 }

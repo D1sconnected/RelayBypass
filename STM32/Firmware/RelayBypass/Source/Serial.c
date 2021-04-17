@@ -1,4 +1,5 @@
 #include "Serial.h"
+#include "Interface.h"
 
 typedef struct SerialStruct
 {
@@ -74,23 +75,17 @@ Status Serial_HandleToggleCommand(Serial *pSelf)
         return INVALID_PARAMETERS;
     }
     // Check if slot parameter is correct
-    if (pSelf->command[7] == 'A' ||
-        pSelf->command[7] == 'a' ||
-        pSelf->command[7] == 'B' ||
-        pSelf->command[7] == 'b') 
+    if (pSelf->command[7] == CHANNEL_A || pSelf->command[7] == CHANNEL_B) 
         {
-            // Check if amount of "toggles" is more than 0
-            if (pSelf->command[9] > 0) 
-            {
-                // ToDo: Call Interface_SwitchChannel function to switch specific channel exact amount of times
-                // return status of Interface_SwitchChannel if not OK
-                char toggleResponse[32] = { 0 };
-                memcpy(toggleResponse, TOGGLE_OUTPUT, sizeof(TOGGLE_OUTPUT));
-                toggleResponse[12] = pSelf->command[7];
-                toggleResponse[14] = pSelf->command[9];
+            Status status = Interface_ToggleChannel(pSelf->command[7]);
+
+            char toggleResponse[16] = { 0 };
+            memcpy(toggleResponse, TOGGLE_OUTPUT, sizeof(TOGGLE_OUTPUT));
+            toggleResponse[12] = pSelf->command[7];
+            toggleResponse[13] = '\r';
+            toggleResponse[14] = '\n';
                 
-                return Serial_SendResponse(pSelf, toggleResponse);
-            }
+            return Serial_SendResponse(pSelf, toggleResponse);
         }
 
     return INVALID_FORMAT;

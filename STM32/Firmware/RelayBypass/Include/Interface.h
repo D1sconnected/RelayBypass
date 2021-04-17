@@ -10,18 +10,28 @@
 #define CHANNEL_A 'A'
 #define CHANNEL_B 'B'
 
+/*
 typedef struct InterfaceStruct Interface;
 
 Interface * Interface_Create(void);
 void Interface_Destroy(Interface *pSelf);
+*/
 
-
-// Switching selected channel exact amount of times
-// pSelf – pointer to object with Interface type
+// Switch selected channel ON/OFF
+// channel - specify FX slot to switch
 //
 // Returns:
 // OK – in case of success
 // INVALID_FORMAT - in case of incorrect or lack of arguments
-Status Interface_SwitchChannel(Interface *pSelf, char channel, uint8_t amount);
+Status Interface_SwitchChannel(char channel);
+
+// Toggle RGB LED on selected channel
+// pSelf – pointer to object with Interface type
+// channel - specify FX slot to toggle
+// 
+// Returns:
+// OK – in case of success
+// INVALID_FORMAT - in case of incorrect or lack of arguments
+Status Interface_ToggleChannel(char channel);
 
 #endif

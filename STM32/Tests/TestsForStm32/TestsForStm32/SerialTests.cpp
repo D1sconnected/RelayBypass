@@ -45,7 +45,7 @@ TEST(Serial, ShouldHandleHelpCommand)
 TEST(Serial, ShouldHandleToogleCommand)
 {
     // Arrange – set command from PC tu UART Rx Buffer
-    char toggleCmd[] = "toggle a 3\r\n";
+    char toggleCmd[] = "toggle A\r\n";
     LONGS_EQUAL(OK, SerialSpy_SetRxBuffer(pSerial, toggleCmd, sizeof(toggleCmd)));
 
     // Act – Call to Handler for command processing
@@ -56,5 +56,8 @@ TEST(Serial, ShouldHandleToogleCommand)
     // Check response sended from UART to PC
     char* pTxBuffer = NULL;
     LONGS_EQUAL(OK, SerialSpy_GetTxBuffer(pSerial, &pTxBuffer));
-    STRCMP_EQUAL(TOGGLE_OUTPUT, pTxBuffer);
+    char str[16] = {0};
+    strcat_s(str, TOGGLE_OUTPUT);
+    strcat_s(str, "A\r\n");
+    STRCMP_EQUAL(str, pTxBuffer);
 }

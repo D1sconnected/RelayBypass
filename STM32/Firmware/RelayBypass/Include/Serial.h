@@ -12,10 +12,10 @@
     - help\r\n \
     - get: <slot>\r\n \
     - enable: <slot>\r\n \
-    - toogle: <slot> <count>\r\n"
+    - toogle: <slot>\r\n"
 
 #define TOGGLE_OUTPUT \
-"Toggle Slot a 3 times\r\n"
+"Toggle Slot "
 
 typedef struct SerialStruct Serial;
 

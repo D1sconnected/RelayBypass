@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ExecutorTests.cpp" />
     <ClCompile Include="InterfaceSpy.c" />
     <ClCompile Include="SerialSpy.c" />
     <ClCompile Include="SerialTests.cpp" />

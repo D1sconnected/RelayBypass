@@ -27,6 +27,9 @@
     <ClCompile Include="InterfaceSpy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ExecutorTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SerialSpy.h">

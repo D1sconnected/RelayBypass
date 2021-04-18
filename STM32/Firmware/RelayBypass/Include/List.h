@@ -6,7 +6,7 @@
 
 typedef struct
 {
-	char state;
+	ExecutorState state;
 	char channel;
 	char specificator;
 } StateStruct;

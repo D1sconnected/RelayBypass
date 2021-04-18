@@ -7,6 +7,7 @@ extern "C"
 #include "Serial.h"
 #include "SerialSpy.h"
 #include "InterfaceSpy.h"
+#include "InterruptSpy.h"
 }
 
 TEST_GROUP(Executor)
@@ -31,13 +32,23 @@ TEST(Executor, ShouldNotBeNull)
 TEST(Executor, ShouldHandleUpdateListState)
 {
     // Arrange
-    // 1. Create executorList
-    // 2. Create *pExecutorList
-    // 3. Create LocalList  
-    // 4. Push new command to LocalList
+    // 1. Create *pExecutorList
+    Node *pExecutorList = NULL;
+    pExecutor->ExecutorList = pExecutorList;
+
+    Node *pLocalList = NULL;
+
+    StateStruct localCmdBlock;
+    localCmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
+    localCmdBlock.channel = CHANNEL_A;
+    localCmdBlock.specificator = NULL;
+
+    // Call InterruptSpy_PushCommand to insert command to pLocalList
+    Status status = InterruptSpy_PushCommand(pLocalList, &localCmdBlock);
 
     // Act
     // Call Executor_Handler with pointer to executorList
+    status = Executor_Handler(pExecutor);
 
     // Assert
     // Check executorList filled with command from LocalList

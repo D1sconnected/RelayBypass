@@ -1,8 +1,10 @@
 #include "Executor.h"
+#include "List.h"
 
 typedef struct ExecutorStruct
 {
-	Serial *pSerial;
+	Node	*ExecutorList;
+	Serial	*pSerial;
 } ExecutorStruct;
 
 Executor * Executor_Create(void)

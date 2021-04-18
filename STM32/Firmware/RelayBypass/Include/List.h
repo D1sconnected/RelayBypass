@@ -17,9 +17,9 @@ typedef struct Node
     struct Node *pNext;
 } Node;
 
-void List_Push(Node** ppHead, StateStruct command);
-StateStruct List_Pop(Node** ppHead);
-Node* List_GetLast(Node* pHead);
-void List_PushBack(Node* pHead, StateStruct command);
+void List_Push(Node **ppHead, StateStruct command);
+StateStruct List_Pop(Node **ppHead);
+Node * List_GetLast(Node *pHead);
+void List_PushBack(Node *pHead, StateStruct command);
 
 #endif

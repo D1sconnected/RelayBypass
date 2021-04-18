@@ -11,7 +11,7 @@ Executor * Executor_Create(void)
 	return pSelf;
 }
 
-void Executor_Destroy(Serial *pSelf)
+void Executor_Destroy(Executor *pSelf)
 {
 	if (pSelf == NULL)
 	{
@@ -20,4 +20,23 @@ void Executor_Destroy(Serial *pSelf)
 
 	free(pSelf);
 	pSelf = NULL;
+}
+
+Status Executor_Handler(Executor *pSelf) 
+{
+	if (pSelf == NULL)
+	{
+		return INVALID_PARAMETERS;
+	}
+
+	static ExecutorState state = EXECUTOR_STATE_UPDATE_LIST;
+
+	switch (state) 
+	{
+		case EXECUTOR_STATE_UPDATE_LIST:
+			return;
+			break;
+	}
+
+	return;
 }

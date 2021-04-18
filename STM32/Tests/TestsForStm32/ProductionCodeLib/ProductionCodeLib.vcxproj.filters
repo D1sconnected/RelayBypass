@@ -24,12 +24,24 @@
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Executor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\List.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\Serial.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\Interface.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\Executor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\List.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

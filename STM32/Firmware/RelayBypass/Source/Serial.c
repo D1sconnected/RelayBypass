@@ -13,7 +13,7 @@ static const char helpCommand[] = "help";
 static const char toggleCommand[] = "toggle";
 static const char switchCommand[] = "switch";
 
-Serial *Serial_Create(void)
+Serial * Serial_Create(void)
 {
 	Serial *pSelf = (Serial*)calloc(1, sizeof(SerialStruct));
 	return pSelf;

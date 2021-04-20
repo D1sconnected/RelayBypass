@@ -14,17 +14,15 @@ Status InterruptSpy_PushCommand(StateStruct *pCmd)
 	return OK;
 }
 
-Node * InterruptSpy_HandOverLocalList(Node *pMasterList)
+Status InterruptSpy_HandOverLocalList(Node **pMasterList)
 {
 	StateStruct temp;
 
 	while (pLocalList != NULL) 
 	{
 	temp = List_Pop(&pLocalList);
-	List_PushBack(&pMasterList, temp);
+	List_PushBack(pMasterList, temp);
 	}
 
-	Node *pTestList = NULL;
-	pTestList = pMasterList;
-	return pTestList;
+	return OK;
 }

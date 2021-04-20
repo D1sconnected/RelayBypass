@@ -47,7 +47,7 @@ Status Executor_Handler(Executor *pSelf)
 Status Executor_UpdateList(Executor *pSelf)
 {
 	// Call UpdateList for each peripheral
-	pSelf->pExecutorList = InterruptSpy_HandOverLocalList(pSelf->pExecutorList);
+	InterruptSpy_HandOverLocalList(&pSelf->pExecutorList);
 
 	return OK;
 }

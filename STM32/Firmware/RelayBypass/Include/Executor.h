@@ -11,4 +11,6 @@ typedef struct ExecutorStruct Executor;
 Executor * Executor_Create(void);
 void Executor_Destroy(Executor *pSelf);
 
+Status Executor_Handler(Executor *pSelf);
+
 #endif

@@ -42,11 +42,21 @@ Node * List_GetLast(Node *pHead)
     return pHead;
 }
 
-void List_PushBack(Node *pHead, StateStruct command) 
+void List_PushBack(Node **pHead, StateStruct command) 
 {
-    Node *lastNode = List_GetLast(pHead);
-    Node *newNode = (Node*)malloc(sizeof(Node));
-    newNode->cmdBlock = command;
-    newNode->pNext = NULL;
-    lastNode->pNext = newNode;
+    Node *lastNode = List_GetLast(*pHead);
+
+    if (lastNode == NULL)
+    {
+        List_Push(pHead, command);
+    }
+
+    else if (lastNode != NULL) 
+    {
+        Node* newNode = (Node*)malloc(sizeof(Node));
+        newNode->cmdBlock = command;
+        newNode->pNext = NULL;
+        lastNode->pNext = newNode;
+    }
+
 }

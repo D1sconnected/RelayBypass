@@ -3,8 +3,8 @@
 
 typedef struct ExecutorStruct
 {
-	Node	*ExecutorList;
-	Serial	*pSerial;
+	Node	*pExecutorList;
+	//Serial	*pSerial;
 } ExecutorStruct;
 
 Executor * Executor_Create(void)
@@ -32,13 +32,22 @@ Status Executor_Handler(Executor *pSelf)
 	}
 
 	static ExecutorState state = EXECUTOR_STATE_UPDATE_LIST;
+	Status status = FAIL;
 
 	switch (state) 
 	{
 		case EXECUTOR_STATE_UPDATE_LIST:
-			return;
+			status = Executor_UpdateList(pSelf);
 			break;
 	}
 
-	return;
+	return status;
+}
+
+Status Executor_UpdateList(Executor *pSelf)
+{
+	// Call UpdateList for each peripheral
+	InterruptSpy_HandOverLocalList(pSelf->pExecutorList);
+
+	return OK;
 }

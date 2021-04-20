@@ -46,5 +46,5 @@ TEST(Executor, ShouldHandleUpdateListState)
 
     // Assert
     // Check executorList filled with command from LocalList
-
+    CHECK_EQUAL(localCmdBlock.state, pExecutor->pExecutorList->cmdBlock.state);
 }

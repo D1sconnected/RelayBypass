@@ -16,6 +16,7 @@ typedef enum
     NO_DATA = -6,
     NO_COMMAND = -7,
     INVALID_FORMAT = -8,
+	NO_NEW_COMMANDS = -9,
 } Status;
 
 typedef enum

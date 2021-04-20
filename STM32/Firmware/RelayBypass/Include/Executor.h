@@ -7,7 +7,11 @@
 #include "Serial.h"
 #include "InterruptSpy.h"
 
-typedef struct ExecutorStruct Executor;
+typedef struct ExecutorStruct
+{
+	Node* pExecutorList;
+	//Serial	*pSerial;
+} Executor;
 
 Executor * Executor_Create(void);
 void Executor_Destroy(Executor *pSelf);

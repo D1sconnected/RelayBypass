@@ -18,6 +18,11 @@ Status InterruptSpy_HandOverLocalList(Node **pMasterList)
 {
 	StateStruct temp;
 
+	if (pLocalList == NULL) 
+	{
+		return NO_NEW_COMMANDS;
+	}
+
 	while (pLocalList != NULL) 
 	{
 	temp = List_Pop(&pLocalList);

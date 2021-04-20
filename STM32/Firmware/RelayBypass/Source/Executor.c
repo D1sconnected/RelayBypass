@@ -1,15 +1,10 @@
 #include "Executor.h"
 #include "List.h"
 
-typedef struct ExecutorStruct
-{
-	Node	*pExecutorList;
-	//Serial	*pSerial;
-} ExecutorStruct;
 
 Executor * Executor_Create(void)
 {
-	Executor *pSelf = (Executor*)calloc(1, sizeof(ExecutorStruct));
+	Executor *pSelf = (Executor*)calloc(1, sizeof(Executor));
 	return pSelf;
 }
 
@@ -47,7 +42,5 @@ Status Executor_Handler(Executor *pSelf)
 Status Executor_UpdateList(Executor *pSelf)
 {
 	// Call UpdateList for each peripheral
-	InterruptSpy_HandOverLocalList(&pSelf->pExecutorList);
-
-	return OK;
+	return InterruptSpy_HandOverLocalList(&pSelf->pExecutorList);
 }

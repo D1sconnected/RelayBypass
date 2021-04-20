@@ -7,6 +7,6 @@
 #include "Interface.h"
 
 Status InterruptSpy_PushCommand(StateStruct *pCmd);
-Status InterruptSpy_HandOverLocalList(Node* pMasterList);
+Node * InterruptSpy_HandOverLocalList(Node* pMasterList);
 
 #endif

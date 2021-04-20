@@ -5,6 +5,7 @@
 
 #include "Common.h"
 #include "Serial.h"
+#include "InterruptSpy.h"
 
 typedef struct ExecutorStruct Executor;
 

@@ -33,6 +33,10 @@ Status Executor_Handler(Executor *pSelf)
 	{
 		case EXECUTOR_STATE_UPDATE_LIST:
 			status = Executor_UpdateList(pSelf);
+			state = EXECUTOR_STATE_GET_CMD;
+			break;
+		case EXECUTOR_STATE_GET_CMD:
+			return;
 			break;
 	}
 
@@ -41,6 +45,6 @@ Status Executor_Handler(Executor *pSelf)
 
 Status Executor_UpdateList(Executor *pSelf)
 {
-	// Call UpdateList for each peripheral
+	// Call _UpdateList for each peripheral
 	return InterruptSpy_HandOverLocalList(&pSelf->pExecutorList);
 }

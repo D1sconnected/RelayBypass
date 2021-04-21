@@ -26,18 +26,25 @@ Status Executor_Handler(Executor *pSelf)
 		return INVALID_PARAMETERS;
 	}
 
-	static ExecutorState state = EXECUTOR_STATE_UPDATE_LIST;
+	static ExecutorState state = EXECUTOR_STATE_PREPARE;
+	static StateStruct currentCmdBlock = {0};
 	Status status = FAIL;
 
 	switch (state) 
 	{
-		case EXECUTOR_STATE_UPDATE_LIST:
+		case EXECUTOR_STATE_PREPARE:
 			status = Executor_UpdateList(pSelf);
-			state = EXECUTOR_STATE_GET_CMD;
-			break;
-		case EXECUTOR_STATE_GET_CMD:
-			return;
-			break;
+
+			if (status != OK) 
+			{
+				return status;
+			}
+
+			currentCmdBlock = List_Pop(&pSelf->pExecutorList);
+			state = currentCmdBlock.state;
+
+		case EXECUTOR_STATE_REPORT:
+			return REPORT;
 	}
 
 	return status;

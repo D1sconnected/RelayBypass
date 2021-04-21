@@ -29,11 +29,12 @@ TEST(Executor, ShouldNotBeNull)
     CHECK_TRUE(pExecutor);
 }
 
-TEST(Executor, ShouldHandleUpdateListState)
+TEST(Executor, ShouldHandlePrepareState)
 {
     // Arrange
+    // Set command with special REPORT state
     StateStruct localCmdBlock;
-    localCmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
+    localCmdBlock.state = EXECUTOR_STATE_REPORT;
     localCmdBlock.channel = CHANNEL_A;
     localCmdBlock.specificator = NULL;
 
@@ -45,6 +46,6 @@ TEST(Executor, ShouldHandleUpdateListState)
     status = Executor_Handler(pExecutor);
 
     // Assert
-    // Check executorList filled with command from LocalList
-    CHECK_EQUAL(localCmdBlock.state, pExecutor->pExecutorList->cmdBlock.state);
+    // Check FSM returned special REPORT status
+    LONGS_EQUAL(REPORT, status);
 }

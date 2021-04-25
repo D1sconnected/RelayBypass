@@ -27,12 +27,21 @@
     <ClCompile Include="InterfaceSpy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ExecutorTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InterruptSpy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SerialSpy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InterfaceSpy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InterruptSpy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

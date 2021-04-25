@@ -105,6 +105,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,6 +138,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,13 +149,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ExecutorTests.cpp" />
     <ClCompile Include="InterfaceSpy.c" />
+    <ClCompile Include="InterruptSpy.c" />
     <ClCompile Include="SerialSpy.c" />
     <ClCompile Include="SerialTests.cpp" />
     <ClCompile Include="TestsForStm32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InterfaceSpy.h" />
+    <ClInclude Include="InterruptSpy.h" />
     <ClInclude Include="SerialSpy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

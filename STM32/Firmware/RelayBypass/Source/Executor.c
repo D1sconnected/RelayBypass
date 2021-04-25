@@ -32,11 +32,6 @@ Status Executor_Handler(Executor *pSelf)
 
     status = Executor_UpdateList(pSelf);
 
-    if (status != OK)
-    {
-        return status;
-    }
-
     currentCmdBlock = List_Pop(&pSelf->pExecutorList);
     state = currentCmdBlock.state;
 
@@ -64,7 +59,7 @@ Status Executor_Handler(Executor *pSelf)
         break;
     }
 
-     return FAIL;
+     return status;
 }
 
 Status Executor_UpdateList(Executor *pSelf)

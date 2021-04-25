@@ -41,54 +41,56 @@ Status Serial_Handler(Serial *pSelf);
 // pSelf Ц pointer to object with Serial type
 //
 // Returns:
-//  OK Ц in case of success
-//  OUT_OF_BOUNDS - in case of response len > txBuffer
+// OK Ц in case of success
+// OUT_OF_BOUNDS - in case of response len > txBuffer
 Status Serial_HandleHelpCommand(Serial* pSelf);
 
 // Handler for <toogle> command
 // pSelf Ц pointer to object with Serial type
 //
 // Returns:
-//  OK Ц in case of success
-//  OUT_OF_BOUNDS - in case of response len > txBuffer
+// OK Ц in case of success
+// OUT_OF_BOUNDS - in case of response len > txBuffer
 Status Serial_HandleToggleCommand(Serial* pSelf);
 
 // Handler for <switch> command
 // pSelf Ц pointer to object with Serial type
 //
 // Returns:
-//  OK Ц in case of success
-//  OUT_OF_BOUNDS - in case of response len > txBuffer
+// OK Ц in case of success
+// OUT_OF_BOUNDS - in case of response len > txBuffer
 Status Serial_HandleSwitchCommand(Serial* pSelf);
 
 // Handler for <get> command
 // pSelf Ц pointer to object with Serial type
 //
 // Returns:
-//  OK Ц in case of success
-//  OUT_OF_BOUNDS - in case of response len > txBuffer
+// OK Ц in case of success
+// OUT_OF_BOUNDS - in case of response len > txBuffer
 Status Serial_HandleGetCommand(Serial* pSelf);
 
-// ѕроверка наличи€ данных в буфере приема UART
-//  pSelf Ц указатель на объект типа Serial
+// Checks that data occured in rxBuffer
+// pSelf Ц pointer to object with Serial type
 // 
-// ¬озвращаемые значени€:
-//  OK Ц в случае наличи€ данных в буфере приема
-//  NO_DATA Ц при отсутствии данных в буфере приема
+// Returns:
+// OK - in case of data occured in rxBuffer
+// NO_DATA Ц in case there is no data in rxBuffer
 Status Serial_ReceiveCmd(Serial *pSelf);
 
-// ќтправка данных по UART
-//  pSelf Ц указатель на объект типа Serial
-//  pRes Ц указатель на данные дл€ отправки
+// Send response with UART
+// pSelf Ц pointer to object with Serial type
+// pRes Ц pointer for data to send in response
 // 
-// ¬озвращаемые значени€:
-//  OK Ц в случае успешной отправки, иначе Ц FAIL
+// Returns:
+// OK - in case of data has been successfuly transmitted
+// OUT_OF_BOUNDS - in case of response len > txBuffer
 Status Serial_SendResponse(Serial *pSelf, char *pRes);
 
-// ќчистка буфера приема UART
-//  pSelf Ц указатель на объект типа Serial
-// ¬озвращаемые значени€:
-//  OK Ц в случае успешного выполнени€, иначе Ц FAIL
+// Clears UART rxBuffer
+// pSelf Ц pointer to object with Serial type
+// 
+// Returns:
+// OK Ц in case of success
 Status Serial_Clear(Serial *pSelf);
 
 #endif

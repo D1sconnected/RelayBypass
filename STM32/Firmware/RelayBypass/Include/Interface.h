@@ -36,7 +36,6 @@ void Interface_Destroy(Interface *pSelf);
 Status Interface_SwitchChannel(char channel);
 
 // Toggle RGB LED on selected channel
-// pSelf – pointer to object with Interface type
 // channel - specify FX slot to toggle
 // 
 // Returns:
@@ -44,6 +43,12 @@ Status Interface_SwitchChannel(char channel);
 // INVALID_FORMAT - in case of incorrect or lack of arguments
 Status Interface_ToggleChannel(char channel);
 
+
+// Reads ADC on scpecified channel and identifies LED colour
+// channel - specify FX slot to get
+// 
+// Returns:
+// LedColour enum, which can be RED, GREEN or BLUE
 LedColour Interface_GetChannel(char channel);
 
 // Change signal path route

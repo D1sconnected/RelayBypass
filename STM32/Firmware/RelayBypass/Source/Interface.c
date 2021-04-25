@@ -6,7 +6,7 @@ Status Interface_SwitchChannel(char channel)
 {
     static uint8_t stateA = FX_OFF;
     static uint8_t stateB = FX_OFF;
-	
+    
     if ((channel != CHANNEL_A) && (channel != CHANNEL_B)) 
     {
         return INVALID_FORMAT;
@@ -41,6 +41,7 @@ Status Interface_SwitchChannel(char channel)
                     break;
             }
         }
+        break;
     
         case CHANNEL_B:
         {
@@ -69,6 +70,7 @@ Status Interface_SwitchChannel(char channel)
                 break;
             }
         }
+        break;
     }
 
     return OK;

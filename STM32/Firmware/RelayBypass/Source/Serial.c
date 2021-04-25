@@ -3,8 +3,8 @@
 
 typedef struct SerialStruct
 {
-	char rxBuffer[SERIAL_RX_BUFFER_SIZE];
-	char txBuffer[SERIAL_TX_BUFFER_SIZE];
+    char rxBuffer[SERIAL_RX_BUFFER_SIZE];
+    char txBuffer[SERIAL_TX_BUFFER_SIZE];
     char command[SERIAL_RX_BUFFER_SIZE];
 } SerialStruct;
 
@@ -15,19 +15,19 @@ static const char switchCommand[] = "switch";
 
 Serial * Serial_Create(void)
 {
-	Serial *pSelf = (Serial*)calloc(1, sizeof(SerialStruct));
-	return pSelf;
+    Serial *pSelf = (Serial*)calloc(1, sizeof(SerialStruct));
+    return pSelf;
 }
 
 void Serial_Destroy(Serial *pSelf)
 {
-	if (pSelf == NULL)
-	{
-		return;
-	}
+    if (pSelf == NULL)
+    {
+        return;
+    }
 
-	free(pSelf);
-	pSelf = NULL;
+    free(pSelf);
+    pSelf = NULL;
 }
 
 Status Serial_Handler(Serial *pSelf)

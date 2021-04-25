@@ -85,29 +85,64 @@ Status Interface_SwitchChannel(char channel)
 
 Status Interface_ToggleChannel(char channel)
 {
+    if ((channel != CHANNEL_A) && (channel != CHANNEL_B))
+    {
+        return INVALID_FORMAT;
+    }
+
     switch (channel) 
     {
         case CHANNEL_A:
         {
-            // read adc
-            // toggle 1
-            // delay 1
-            // toggle 2
-            // delay 2
-            // toggle 3
-            // delay 3
+            // Call HAL_ADC_GetValue and save result to adcResult
+            // Identify LedColour based on adcResult
+            // for cicle
+            // Call HAL_GPIO_TogglePin to toggle specified LED
+            // Call HAL_Delay to wait for LED to change state
         }
         break;
 
         case CHANNEL_B:
         {
-            // read adc
-            // toggle 1
-            // delay 1
-            // toggle 2
-            // delay 2
-            // toggle 3
-            // delay 3
+            // Call HAL_ADC_GetValue and save result to adcResult
+            // Identify LedColour based on adcResult
+            // for cicle
+            // Call HAL_GPIO_TogglePin to toggle specified LED
+            // Call HAL_Delay to wait for LED to change state
+        }
+        break;
+    }
+    return OK;
+}
+
+Status Interface_ChangeRoute(char channel) 
+{
+    if ((channel != CHANNEL_A) && (channel != CHANNEL_B))
+    {
+        return INVALID_FORMAT;
+    }
+
+    switch (channel)
+    {
+        case CHANNEL_A:
+        {
+            // Call HAL_GPIO_WritePin to turn PHET ON
+            // Call HAL_Delay to wait for PHET activation
+            // Call HAL_GPIO_WritePin to turn OFF #1 DIRECTION_RELAY
+            // Call HAL_GPIO_WritePin to turn OFF #2 DIRECTION_RELAY
+            // Call HAL_Delay to suppress pop noise
+            // Call HAL_GPIO_WritePin to turn PHET OFF
+        }
+        break;
+
+        case CHANNEL_B:
+        {
+            // Call HAL_GPIO_WritePin to turn PHET ON
+            // Call HAL_Delay to wait for PHET activation
+            // Call HAL_GPIO_WritePin to turn ON #1 DIRECTION_RELAY
+            // Call HAL_GPIO_WritePin to turn ON #2 DIRECTION_RELAY
+            // Call HAL_Delay to suppress pop noise
+            // Call HAL_GPIO_WritePin to turn PHET OFF
         }
         break;
     }

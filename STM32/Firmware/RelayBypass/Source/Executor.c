@@ -57,6 +57,13 @@ Status Executor_Handler(Executor *pSelf)
             return status;
         }
         break;
+
+        case EXECUTOR_STATE_CHANGE_ROUTE:
+        {
+            status = Interface_ChangeRoute(currentCmdBlock.channel);
+            return status;
+        }
+        break;
     }
 
      return status;

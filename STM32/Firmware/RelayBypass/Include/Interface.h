@@ -46,4 +46,12 @@ Status Interface_ToggleChannel(char channel);
 
 LedColour Interface_GetChannel(char channel);
 
+// Change signal path route
+// channel - specify wich FX slot will be first
+//
+// Returns:
+// OK – in case of success
+// INVALID_FORMAT - in case of incorrect or lack of arguments
+Status Interface_ChangeRoute(char channel);
+
 #endif

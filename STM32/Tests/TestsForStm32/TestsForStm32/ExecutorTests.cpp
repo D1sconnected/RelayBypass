@@ -29,6 +29,27 @@ TEST(Executor, ShouldNotBeNull)
     CHECK_TRUE(pExecutor);
 }
 
+TEST(Executor, ShouldHandleChangeRouteState)
+{
+    // Arrange
+    // Set command with SWITCH_CHANNEL state
+    StateStruct localCmdBlock;
+    localCmdBlock.state = EXECUTOR_STATE_CHANGE_ROUTE;
+    localCmdBlock.channel = CHANNEL_B;
+    localCmdBlock.specificator = NULL;
+
+    // Call InterruptSpy_PushCommand to insert command to pLocalList
+    Status status = InterruptSpy_PushCommand(&localCmdBlock);
+
+    // Act
+    // Call Executor_Handler with pointer to Executor's List
+    status = Executor_Handler(pExecutor);
+
+    // Assert
+    // Check FSM returned OK status
+    LONGS_EQUAL(OK, status);
+}
+
 TEST(Executor, ShouldHandleSequenceOfStates)
 {
     // Arrange

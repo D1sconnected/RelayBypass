@@ -22,6 +22,7 @@ Status Interface_SwitchChannel(char channel)
             switch (stateA)
             {
                 case FX_OFF:
+                {
                     // read adc
                     // turn rgb led on
                     // turn phet on
@@ -29,16 +30,19 @@ Status Interface_SwitchChannel(char channel)
                     // turn relay on
                     // hal_delay
                     // turn phet off
-                    break;
+                }
+                break;
 
                 case FX_ON:
+                {
                     // turn all rgb led off
                     // turn phet on
                     // hal_delay
                     // turn relay off
                     // hal_delay
                     // turn phet off
-                    break;
+                }
+                break;
             }
         }
         break;
@@ -50,29 +54,32 @@ Status Interface_SwitchChannel(char channel)
 
             switch (stateB)
             {
-            case FX_OFF:
-                // read adc
-                // turn rgb led on
-                // turn phet on
-                // hal_delay
-                // turn relay on
-                // hal_delay
-                // turn phet off
+                case FX_OFF:
+                {
+                    // read adc
+                    // turn rgb led on
+                    // turn phet on
+                    // hal_delay
+                    // turn relay on
+                    // hal_delay
+                    // turn phet off
+                }
                 break;
 
-            case FX_ON:
-                // turn all rgb led off
-                // turn phet on
-                // hal_delay
-                // turn relay off
-                // hal_delay
-                // turn phet off
+                case FX_ON:
+                {
+                    // turn all rgb led off
+                    // turn phet on
+                    // hal_delay
+                    // turn relay off
+                    // hal_delay
+                    // turn phet off
+                }
                 break;
             }
         }
         break;
     }
-
     return OK;
 }
 
@@ -81,6 +88,7 @@ Status Interface_ToggleChannel(char channel)
     switch (channel) 
     {
         case CHANNEL_A:
+        {
             // read adc
             // toggle 1
             // delay 1
@@ -88,8 +96,11 @@ Status Interface_ToggleChannel(char channel)
             // delay 2
             // toggle 3
             // delay 3
-            break;
+        }
+        break;
+
         case CHANNEL_B:
+        {
             // read adc
             // toggle 1
             // delay 1
@@ -97,7 +108,8 @@ Status Interface_ToggleChannel(char channel)
             // delay 2
             // toggle 3
             // delay 3
-            break;
+        }
+        break;
     }
     return OK;
 }

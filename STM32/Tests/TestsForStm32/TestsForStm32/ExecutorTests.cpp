@@ -29,6 +29,28 @@ TEST(Executor, ShouldNotBeNull)
     CHECK_TRUE(pExecutor);
 }
 
+TEST(Executor, ShouldHandleToggleChannelState)
+{
+    // Arrange
+    // Set command with SWITCH_CHANNEL state
+    StateStruct localCmdBlock;
+    localCmdBlock.state = EXECUTOR_STATE_TOGGLE_CHANNEL;
+    localCmdBlock.channel = CHANNEL_B;
+    localCmdBlock.specificator = NULL;
+
+    // Call InterruptSpy_PushCommand to insert command to pLocalList
+    Status status = InterruptSpy_PushCommand(&localCmdBlock);
+
+    // Act
+    // Call Executor_Handler with pointer to Executor's List
+    status = Executor_Handler(pExecutor);
+
+    // Assert
+    // Check FSM returned OK status
+    LONGS_EQUAL(OK, status);
+}
+
+
 TEST(Executor, ShouldHandleSwitchChannelState)
 {
     // Arrange
@@ -42,11 +64,11 @@ TEST(Executor, ShouldHandleSwitchChannelState)
     Status status = InterruptSpy_PushCommand(&localCmdBlock);
 
     // Act
-    // Call Executor_Handler with pointer to executorList
+    // Call Executor_Handler with pointer to Executor's List
     status = Executor_Handler(pExecutor);
 
     // Assert
-    // Check FSM returned special OK status
+    // Check FSM returned OK status
     LONGS_EQUAL(OK, status);
 }
 
@@ -63,7 +85,7 @@ TEST(Executor, ShouldHandlePreparationRoutine)
     Status status = InterruptSpy_PushCommand(&localCmdBlock);
 
     // Act
-    // Call Executor_Handler with pointer to executorList
+    // Call Executor_Handler with pointer to Executor's List
     status = Executor_Handler(pExecutor);
 
     // Assert

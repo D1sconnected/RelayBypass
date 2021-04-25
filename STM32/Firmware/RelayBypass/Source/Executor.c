@@ -50,15 +50,21 @@ Status Executor_Handler(Executor *pSelf)
     switch (state) 
     {
         case EXECUTOR_STATE_SWITCH_CHANNEL:
-            {
-                status = Interface_SwitchChannel(currentCmdBlock.channel);
-                return status;
-            }
-            break;
+        {
+            status = Interface_SwitchChannel(currentCmdBlock.channel);
+            return status;
+        }
+        break;
 
+        case EXECUTOR_STATE_TOGGLE_CHANNEL:
+        {
+            status = Interface_ToggleChannel(currentCmdBlock.channel);
+            return status;
+        }
+        break;
     }
 
-     return status;
+     return FAIL;
 }
 
 Status Executor_UpdateList(Executor *pSelf)

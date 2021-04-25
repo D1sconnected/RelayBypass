@@ -26,7 +26,7 @@ Status Executor_Handler(Executor *pSelf)
 		return INVALID_PARAMETERS;
 	}
 
-	static ExecutorState state = EXECUTOR_STATE_PREPARE;
+	static ExecutorState state = -1;
 	static StateStruct currentCmdBlock = {0};
 	Status status = FAIL;
 
@@ -39,13 +39,20 @@ Status Executor_Handler(Executor *pSelf)
 
 	currentCmdBlock = List_Pop(&pSelf->pExecutorList);
 	state = currentCmdBlock.state;
-	status = REPORT;
+
+#ifdef TESTS_ON
+	if (state == EXECUTOR_STATE_PREPARE)
+	{
+		return IN_PREPARE_STATE;
+	}
+#endif
 
 	switch (state) 
 	{
 		case EXECUTOR_STATE_SWITCH_CHANNEL:
 			return OK;
 			break;
+
 	}
 
  	return status;

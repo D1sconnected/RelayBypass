@@ -55,7 +55,7 @@ TEST(Executor, ShouldHandlePreparationRoutine)
     // Arrange
     // Set command with special REPORT state
     StateStruct localCmdBlock;
-    localCmdBlock.state = EXECUTOR_STATE_REPORT;
+    localCmdBlock.state = EXECUTOR_STATE_PREPARE;
     localCmdBlock.channel = CHANNEL_A;
     localCmdBlock.specificator = NULL;
 
@@ -68,5 +68,5 @@ TEST(Executor, ShouldHandlePreparationRoutine)
 
     // Assert
     // Check FSM returned special REPORT status
-    LONGS_EQUAL(REPORT, status);
+    LONGS_EQUAL(IN_PREPARE_STATE, status);
 }

@@ -150,15 +150,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ExecutorTests.cpp" />
+    <ClCompile Include="gpio.c" />
     <ClCompile Include="InterfaceSpy.c" />
-    <ClCompile Include="InterruptSpy.c" />
     <ClCompile Include="SerialSpy.c" />
     <ClCompile Include="SerialTests.cpp" />
     <ClCompile Include="TestsForStm32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InterfaceSpy.h" />
-    <ClInclude Include="InterruptSpy.h" />
     <ClInclude Include="SerialSpy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

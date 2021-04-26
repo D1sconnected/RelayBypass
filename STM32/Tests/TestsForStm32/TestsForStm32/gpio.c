@@ -1,8 +1,8 @@
-#include "InterruptSpy.h"
+#include "gpio.h"
 
 static Node *pLocalList = NULL;
 
-Status InterruptSpy_PushCommand(StateStruct *pCmd)
+Status USER_GPIO_PushCommand(StateStruct *pCmd)
 {
 	if (pCmd == NULL) 
 	{
@@ -14,7 +14,7 @@ Status InterruptSpy_PushCommand(StateStruct *pCmd)
 	return OK;
 }
 
-Status InterruptSpy_HandOverLocalList(Node **pMasterList)
+Status USER_GPIO_HandOverLocalList(Node **pMasterList)
 {
 	StateStruct temp;
 

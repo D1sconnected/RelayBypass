@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\gpio.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\main.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Common.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Executor.h" />

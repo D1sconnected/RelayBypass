@@ -8,7 +8,6 @@ extern "C"
 #include "Serial.h"
 #include "SerialSpy.h"
 #include "InterfaceSpy.h"
-#include "InterruptSpy.h"
 }
 
 TEST_GROUP(Executor)
@@ -40,7 +39,7 @@ TEST(Executor, ShouldHandleChangeRouteState)
     localCmdBlock.specificator = NULL;
 
     // Call InterruptSpy_PushCommand to insert command to pLocalList
-    Status status = InterruptSpy_PushCommand(&localCmdBlock);
+    Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Act
     // Call Executor_Handler with pointer to Executor's List
@@ -61,7 +60,7 @@ TEST(Executor, ShouldHandleSequenceOfStates)
     localCmdBlock.specificator = NULL;
 
     // Call InterruptSpy_PushCommand to insert command to pLocalList
-    Status status = InterruptSpy_PushCommand(&localCmdBlock);
+    Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Set command with SWITCH_CHANNEL state
     localCmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
@@ -69,7 +68,7 @@ TEST(Executor, ShouldHandleSequenceOfStates)
     localCmdBlock.specificator = NULL;
 
     // Call InterruptSpy_PushCommand to insert command to pLocalList
-    status = InterruptSpy_PushCommand(&localCmdBlock);
+    status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Act #1
     // Call Executor_Handler with pointer to Executor's List
@@ -99,7 +98,7 @@ TEST(Executor, ShouldHandleToggleChannelState)
     localCmdBlock.specificator = NULL;
 
     // Call InterruptSpy_PushCommand to insert command to pLocalList
-    Status status = InterruptSpy_PushCommand(&localCmdBlock);
+    Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Act
     // Call Executor_Handler with pointer to Executor's List
@@ -121,7 +120,7 @@ TEST(Executor, ShouldHandleSwitchChannelState)
     localCmdBlock.specificator = NULL;
 
     // Call InterruptSpy_PushCommand to insert command to pLocalList
-    Status status = InterruptSpy_PushCommand(&localCmdBlock);
+    Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Act
     // Call Executor_Handler with pointer to Executor's List
@@ -142,7 +141,7 @@ TEST(Executor, ShouldHandlePreparationRoutine)
     localCmdBlock.specificator = NULL;
 
     // Call InterruptSpy_PushCommand to insert command to pLocalList
-    Status status = InterruptSpy_PushCommand(&localCmdBlock);
+    Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Act
     // Call Executor_Handler with pointer to Executor's List

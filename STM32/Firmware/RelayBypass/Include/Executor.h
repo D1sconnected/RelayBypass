@@ -6,6 +6,7 @@
 #include "Common.h"
 #include "List.h"
 #include "Serial.h"
+#include "Interface.h"
 
 #include "../Core/Inc/gpio.h"
 typedef struct ExecutorStruct

@@ -149,16 +149,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="adc.c" />
     <ClCompile Include="ExecutorTests.cpp" />
     <ClCompile Include="gpio.c" />
-    <ClCompile Include="InterfaceSpy.c" />
     <ClCompile Include="SerialSpy.c" />
     <ClCompile Include="SerialTests.cpp" />
     <ClCompile Include="TestsForStm32.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="InterfaceSpy.h" />
+    <ClInclude Include="adcSpy.h" />
     <ClInclude Include="SerialSpy.h" />
+    <ClInclude Include="stm32f1xx_hal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,6 +3,7 @@
 #define INTERFACE_HEADER_FILE_H
 
 #include "Common.h"
+#include "../Core/Inc/adc.h"
 
 #define FX_OFF false
 #define FX_ON  true
@@ -20,6 +21,7 @@ typedef enum
 	GREEN,
 	BLUE
 } LedColour;
+
 /*
 typedef struct InterfaceStruct Interface;
 

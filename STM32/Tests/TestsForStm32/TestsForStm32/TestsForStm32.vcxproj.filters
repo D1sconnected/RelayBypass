@@ -27,13 +27,13 @@
     <ClCompile Include="SerialTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InterfaceSpy.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ExecutorTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gpio.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
+    <ClCompile Include="adc.c">
       <Filter>HAL Spies</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,8 +41,11 @@
     <ClInclude Include="SerialSpy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InterfaceSpy.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="stm32f1xx_hal.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="adcSpy.h">
+      <Filter>HAL Spies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

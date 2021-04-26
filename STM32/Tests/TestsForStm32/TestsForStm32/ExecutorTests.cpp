@@ -7,7 +7,6 @@ extern "C"
 #include "List.h"
 #include "Serial.h"
 #include "SerialSpy.h"
-#include "InterfaceSpy.h"
 }
 
 TEST_GROUP(Executor)

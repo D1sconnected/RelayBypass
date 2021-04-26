@@ -32,9 +32,7 @@ extern "C" {
 /* USER CODE END Includes */
 
 /* Includes ------------------------------------------------------------------*/
-#ifndef TESTS_ON
 #include "stm32f1xx_hal.h"
-#endif
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */

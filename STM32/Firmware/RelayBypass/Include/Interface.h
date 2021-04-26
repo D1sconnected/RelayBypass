@@ -4,6 +4,7 @@
 
 #include "Common.h"
 #include "../Core/Inc/adc.h"
+#include "../Core/Inc/gpio.h"
 
 #define FX_OFF false
 #define FX_ON  true

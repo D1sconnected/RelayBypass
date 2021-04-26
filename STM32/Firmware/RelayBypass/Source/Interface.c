@@ -23,6 +23,7 @@ Status Interface_SwitchChannel(char channel)
                 case FX_OFF:
                 {
                     // read adc
+                    //LedColour channelColour = Interface_GetChannel();
                     // turn rgb led on
                     // turn phet on
                     // hal_delay

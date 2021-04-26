@@ -26,13 +26,14 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f1xx_hal.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "../../Include/Common.h"
 /* USER CODE END Includes */
-
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f1xx_hal.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */

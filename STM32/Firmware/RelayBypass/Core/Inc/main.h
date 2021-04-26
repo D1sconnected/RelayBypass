@@ -42,7 +42,7 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
+extern uint32_t adcValue[NUMBER_OF_SLOTS];
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

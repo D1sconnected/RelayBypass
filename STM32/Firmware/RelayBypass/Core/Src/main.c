@@ -100,6 +100,8 @@ int main(void)
   {
       Error_Handler();
   }
+
+  HAL_ADC_Start_DMA(&hadc1, adcValue, NUMBER_OF_SLOTS);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -107,7 +109,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

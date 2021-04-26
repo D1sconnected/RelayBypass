@@ -21,7 +21,7 @@
 #include "adc.h"
 
 /* USER CODE BEGIN 0 */
-
+uint32_t adcValue[NUMBER_OF_SLOTS];
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;

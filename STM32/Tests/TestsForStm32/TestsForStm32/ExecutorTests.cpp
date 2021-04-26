@@ -2,6 +2,7 @@
 
 extern "C"
 {
+#include "main.h"
 #include "Executor.h"
 #include "List.h"
 #include "Serial.h"

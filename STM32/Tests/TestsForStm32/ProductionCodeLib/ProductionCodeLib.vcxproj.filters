@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="HAL Header Files">
+      <UniqueIdentifier>{41510e7d-96f1-4449-92a3-5ac365e92de9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Common.h">
@@ -29,6 +32,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\List.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\main.h">
+      <Filter>HAL Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

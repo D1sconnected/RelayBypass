@@ -21,8 +21,14 @@ void Executor_Destroy(Executor *pSelf);
 // pSelf � pointer to object with Executor type
 // 
 // Returns:
-// OK � in case of success
+// OK - in case of success
 // INVALID_PARAMETERS - in case pSelf is NULL
 Status Executor_Handler(Executor *pSelf);
 
+// Calls all peripheral _UpdateList functions and updating Executor's List
+// pSelf � pointer to object with Executor type
+//
+// Returns:
+// OK - in case of success
+Status Executor_UpdateList(Executor *pSelf);
 #endif

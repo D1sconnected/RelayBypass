@@ -21,7 +21,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
-
+static Node *pLocalList = NULL;
 /* USER CODE END 0 */
 
 /*----------------------------------------------------------------------------*/
@@ -104,6 +104,36 @@ void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 2 */
+
+Status USER_GPIO_PushCommand(StateStruct *pCmd)
+{
+	if (pCmd == NULL)
+	{
+		return INVALID_PARAMETERS;
+	}
+
+	List_PushBack(&pLocalList, *pCmd);
+
+	return OK;
+}
+
+Status USER_GPIO_HandOverLocalList(Node **pMasterList)
+{
+	StateStruct temp;
+
+	if (pLocalList == NULL)
+	{
+		return NO_NEW_COMMANDS;
+	}
+
+	while (pLocalList != NULL)
+	{
+	temp = List_Pop(&pLocalList);
+	List_PushBack(pMasterList, temp);
+	}
+
+	return OK;
+}
 
 /* USER CODE END 2 */
 

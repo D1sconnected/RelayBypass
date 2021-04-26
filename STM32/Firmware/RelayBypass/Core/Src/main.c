@@ -90,7 +90,14 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  Status status = FAIL;
 
+  Executor *pExecutor = Executor_Create();
+
+  if(pExecutor == NULL)
+  {
+      Error_Handler();
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -98,7 +105,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	status = Executor_Handler(pExecutor);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

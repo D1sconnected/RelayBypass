@@ -38,7 +38,7 @@ TEST(Executor, ShouldHandleChangeRouteState)
     localCmdBlock.channel = CHANNEL_B;
     localCmdBlock.specificator = NULL;
 
-    // Call InterruptSpy_PushCommand to insert command to pLocalList
+    // Call USER_GPIO_PushCommand to insert command to pLocalList
     Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Act
@@ -59,7 +59,7 @@ TEST(Executor, ShouldHandleSequenceOfStates)
     localCmdBlock.channel = CHANNEL_A;
     localCmdBlock.specificator = NULL;
 
-    // Call InterruptSpy_PushCommand to insert command to pLocalList
+    // Call USER_GPIO_PushCommand to insert command to pLocalList
     Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Set command with SWITCH_CHANNEL state
@@ -67,7 +67,7 @@ TEST(Executor, ShouldHandleSequenceOfStates)
     localCmdBlock.channel = CHANNEL_B;
     localCmdBlock.specificator = NULL;
 
-    // Call InterruptSpy_PushCommand to insert command to pLocalList
+    // Call USER_GPIO_PushCommand to insert command to pLocalList
     status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Act #1
@@ -97,7 +97,7 @@ TEST(Executor, ShouldHandleToggleChannelState)
     localCmdBlock.channel = CHANNEL_B;
     localCmdBlock.specificator = NULL;
 
-    // Call InterruptSpy_PushCommand to insert command to pLocalList
+    // Call USER_GPIO_PushCommand to insert command to pLocalList
     Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Act
@@ -119,7 +119,7 @@ TEST(Executor, ShouldHandleSwitchChannelState)
     localCmdBlock.channel = CHANNEL_A;
     localCmdBlock.specificator = NULL;
 
-    // Call InterruptSpy_PushCommand to insert command to pLocalList
+    // Call USER_GPIO_PushCommand to insert command to pLocalList
     Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Act
@@ -140,7 +140,7 @@ TEST(Executor, ShouldHandlePreparationRoutine)
     localCmdBlock.channel = CHANNEL_A;
     localCmdBlock.specificator = NULL;
 
-    // Call InterruptSpy_PushCommand to insert command to pLocalList
+    // Call USER_GPIO_PushCommand to insert command to pLocalList
     Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
     // Act

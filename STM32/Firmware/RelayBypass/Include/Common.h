@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define TESTS_ON
+//#define TESTS_ON
 
 typedef enum
 {

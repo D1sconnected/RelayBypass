@@ -17,3 +17,14 @@ uint32_t HAL_ADC_GetValue(ADC_HandleTypeDef *pHadc)
             break;
     }
 }
+
+void ADC_Select_CH2(void) 
+{
+    return;
+}
+void ADC_Select_CH8(void) 
+{
+    return;
+}
+
+

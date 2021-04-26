@@ -99,26 +99,14 @@ int main(void)
       Error_Handler();
   }
 
-  ADC_Select_CH2();
-  HAL_ADC_Start(&hadc1);
-  HAL_ADC_PollForConversion(&hadc1, 1000);
-  uint32_t result = 0;
-  result = HAL_ADC_GetValue(&hadc1);
-  HAL_ADC_Stop(&hadc1);
-
-
-  ADC_Select_CH8();
-  HAL_ADC_Start(&hadc1);
-  HAL_ADC_PollForConversion(&hadc1, 1000);
-  result = HAL_ADC_GetValue(&hadc1);
-  HAL_ADC_Stop(&hadc1);
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+    status = Executor_Handler(pExecutor);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

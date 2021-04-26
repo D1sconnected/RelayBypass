@@ -23,7 +23,7 @@ Status Interface_SwitchChannel(char channel)
                 case FX_OFF:
                 {
                     // read adc
-                    //LedColour channelColour = Interface_GetChannel();
+                    LedColour channelColour = Interface_GetChannel(channel);
                     // turn rgb led on
                     // turn phet on
                     // hal_delay
@@ -156,12 +156,20 @@ LedColour Interface_GetChannel(char channel)
     switch (channel)
     {
     case CHANNEL_A:
-        // read ADC with HAL_ADC_GetValue(adc1);
+        // read ADC on ADC1 CH2 (A_ADC)
+        ADC_Select_CH2();
+        HAL_ADC_Start(&hadc1);
+        HAL_ADC_PollForConversion(&hadc1, 1000);
         adcResult = HAL_ADC_GetValue(&hadc1);
+        HAL_ADC_Stop(&hadc1);
         break;
     case CHANNEL_B:
-        // read ADC with HAL_ADC_GetValue(adc2);
+        // read ADC on ADC1 CH8 (B_ADC)
+        ADC_Select_CH8();
+        HAL_ADC_Start(&hadc1);
+        HAL_ADC_PollForConversion(&hadc1, 1000);
         adcResult = HAL_ADC_GetValue(&hadc1);
+        HAL_ADC_Stop(&hadc1);
         break;
     }
 

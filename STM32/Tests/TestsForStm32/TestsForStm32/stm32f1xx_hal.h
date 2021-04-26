@@ -9,6 +9,14 @@ typedef enum
   GPIO_PIN_SET
 } GPIO_PinState;
 
+typedef enum
+{
+    HAL_OK,
+    HAL_ERROR,
+    HAL_BUSY,
+    HAL_TIMEOUT
+} HAL_StatusTypeDef;
+
 typedef struct ADC_HandleTypeDef
 {
     uint8_t colour;

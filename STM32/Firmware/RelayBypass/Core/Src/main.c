@@ -30,7 +30,6 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -105,7 +104,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
     status = Executor_Handler(pExecutor);
     /* USER CODE END WHILE */
 

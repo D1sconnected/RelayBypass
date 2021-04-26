@@ -149,7 +149,7 @@ Status Serial_HandleGetCommand(Serial *pSelf)
     if (pSelf->command[4] == CHANNEL_A || pSelf->command[4] == CHANNEL_B)
     {
         LedColour colour;
-        colour = Interface_GetChannel(pSelf->command[4]);
+        Interface_GetColour(pSelf->command[4], &colour);
 
         char getResponse[16] = { 0 };
         memcpy(getResponse, GET_OUTPUT, sizeof(GET_OUTPUT));

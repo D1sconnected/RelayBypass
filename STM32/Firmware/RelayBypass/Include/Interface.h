@@ -3,6 +3,7 @@
 #define INTERFACE_HEADER_FILE_H
 
 #include "Common.h"
+#include "../Core/Inc/main.h"
 #include "../Core/Inc/adc.h"
 #include "../Core/Inc/gpio.h"
 
@@ -11,6 +12,9 @@
 
 #define CHANNEL_A 'A'
 #define CHANNEL_B 'B'
+
+// Delay time between PHET & RELAY switching in ms
+#define BYPASS_DELAY 7
 
 #define ADC_MIN_GREEN_BOUND 3723
 #define ADC_MIN_RED_BOUND	2482
@@ -52,14 +56,30 @@ Status Interface_ToggleChannel(char channel);
 // 
 // Returns:
 // LedColour enum, which can be RED, GREEN or BLUE
-LedColour Interface_GetChannel(char channel);
+Status Interface_GetColour(char channel, LedColour* pColour);
 
 // Change signal path route
-// channel - specify wich FX slot will be first
+// channel - specify which FX slot will be first
 //
 // Returns:
 // OK – in case of success
 // INVALID_FORMAT - in case of incorrect or lack of arguments
 Status Interface_ChangeRoute(char channel);
+
+// Updating LED & RELAY state with HAL_GPIO_WritePin
+// channel - specify FX slot to update
+// colour - specify LED colour of FX slot
+// state - specify GPIO_PIN_SET (ON) or GPIO_PIN_RESET (OFF)
+//
+// Returns:
+// None
+void Interface_UpdateGpioForSwitch(char channel, LedColour colour, GPIO_PinState state);
+
+// Updating DIR RELAY state with HAL_GPIO_WritePin
+// state - specify GPIO_PIN_SET (ON) or GPIO_PIN_RESET (OFF)
+//
+// Returns:
+// None
+void Interface_UpdateGpioForChange(GPIO_PinState state);
 
 #endif

@@ -58,26 +58,28 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define B_RELE_CTRL_Pin GPIO_PIN_13
-#define B_RELE_CTRL_GPIO_Port GPIOC
-#define DIR0_CTRL_Pin GPIO_PIN_14
-#define DIR0_CTRL_GPIO_Port GPIOC
+#define B_RELE_Pin GPIO_PIN_13
+#define B_RELE_GPIO_Port GPIOC
+#define DIR0_RELE_Pin GPIO_PIN_14
+#define DIR0_RELE_GPIO_Port GPIOC
 #define B_LED_BLUE_Pin GPIO_PIN_15
 #define B_LED_BLUE_GPIO_Port GPIOC
 #define B_ADC_Pin GPIO_PIN_2
 #define B_ADC_GPIO_Port GPIOA
 #define B_BTN_Pin GPIO_PIN_3
 #define B_BTN_GPIO_Port GPIOA
-#define A_RELE_CTRL_Pin GPIO_PIN_4
-#define A_RELE_CTRL_GPIO_Port GPIOA
+#define B_BTN_EXTI_IRQn EXTI3_IRQn
+#define A_RELE_Pin GPIO_PIN_4
+#define A_RELE_GPIO_Port GPIOA
 #define A_ADC_Pin GPIO_PIN_0
 #define A_ADC_GPIO_Port GPIOB
 #define A_BTN_Pin GPIO_PIN_11
 #define A_BTN_GPIO_Port GPIOB
-#define PHET_CTRL_Pin GPIO_PIN_12
-#define PHET_CTRL_GPIO_Port GPIOB
-#define DIR1_CTRL_Pin GPIO_PIN_13
-#define DIR1_CTRL_GPIO_Port GPIOB
+#define A_BTN_EXTI_IRQn EXTI15_10_IRQn
+#define PHET_Pin GPIO_PIN_12
+#define PHET_GPIO_Port GPIOB
+#define DIR1_RELE_Pin GPIO_PIN_13
+#define DIR1_RELE_GPIO_Port GPIOB
 #define A_LED_GREEN_Pin GPIO_PIN_14
 #define A_LED_GREEN_GPIO_Port GPIOB
 #define A_LED_BLUE_Pin GPIO_PIN_15

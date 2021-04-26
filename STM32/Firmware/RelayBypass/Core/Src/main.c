@@ -20,7 +20,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
-#include "dma.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -88,7 +87,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_ADC1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
@@ -101,7 +99,20 @@ int main(void)
       Error_Handler();
   }
 
-  HAL_ADC_Start_DMA(&hadc1, adcValue, NUMBER_OF_SLOTS);
+  ADC_Select_CH2();
+  HAL_ADC_Start(&hadc1);
+  HAL_ADC_PollForConversion(&hadc1, 1000);
+  uint32_t result = 0;
+  result = HAL_ADC_GetValue(&hadc1);
+  HAL_ADC_Stop(&hadc1);
+
+
+  ADC_Select_CH8();
+  HAL_ADC_Start(&hadc1);
+  HAL_ADC_PollForConversion(&hadc1, 1000);
+  result = HAL_ADC_GetValue(&hadc1);
+  HAL_ADC_Stop(&hadc1);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -109,6 +120,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

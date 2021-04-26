@@ -8,6 +8,8 @@
 
 #define TESTS_ON
 
+#define NUMBER_OF_SLOTS 2
+
 typedef enum
 {
     OK = 0,

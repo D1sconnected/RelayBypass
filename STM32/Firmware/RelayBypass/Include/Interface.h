@@ -10,9 +10,6 @@
 #define FX_OFF false
 #define FX_ON  true
 
-#define CHANNEL_A 'A'
-#define CHANNEL_B 'B'
-
 // Delay time between PHET & RELAY switching in ms
 #define BYPASS_DELAY 7
 

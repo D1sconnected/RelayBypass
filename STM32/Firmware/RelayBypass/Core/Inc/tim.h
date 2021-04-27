@@ -34,7 +34,8 @@ extern "C" {
 extern TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN Private defines */
-
+#include "../../Include/List.h"
+#include "../../Include/Common.h"
 /* USER CODE END Private defines */
 
 void MX_TIM2_Init(void);

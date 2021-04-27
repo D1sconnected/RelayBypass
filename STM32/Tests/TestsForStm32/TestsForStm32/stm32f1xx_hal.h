@@ -58,4 +58,9 @@ void HAL_Delay(uint32_t Delay);
 extern GPIO_PinState HAL_GPIO_ReadPin(void* pGPIOx, uint16_t GPIO_Pin);
 extern void HAL_GPIO_WritePin(void* pGPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState);
 extern void HAL_GPIO_TogglePin(void* pGPIOx, uint16_t GPIO_Pin);
+extern void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
+
+extern HAL_StatusTypeDef HAL_TIM_Base_Start_IT(TIM_HandleTypeDef *pHtim);
+extern HAL_StatusTypeDef HAL_TIM_Base_Stop_IT(TIM_HandleTypeDef *pHtim);
+extern void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 #endif

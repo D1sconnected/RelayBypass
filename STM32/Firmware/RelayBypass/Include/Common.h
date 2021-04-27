@@ -10,6 +10,9 @@
 
 #define NUMBER_OF_SLOTS 2
 
+#define CHANNEL_A 'A'
+#define CHANNEL_B 'B'
+
 typedef enum
 {
     OK = 0,

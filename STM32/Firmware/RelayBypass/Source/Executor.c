@@ -64,11 +64,15 @@ Status Executor_Handler(Executor *pSelf)
         break;
     }
 
-     return status;
+     return NO_COMMAND;
 }
 
 Status Executor_UpdateList(Executor *pSelf)
 {
     // Call _UpdateList for each peripheral
-    return USER_GPIO_HandOverLocalList(&pSelf->pExecutorList);
+    Status status = OK;
+    status += USER_GPIO_HandOverLocalList(&pSelf->pExecutorList);
+    status += USER_TIM_HandOverLocalList(&pSelf->pExecutorList);
+
+    return status;
 }

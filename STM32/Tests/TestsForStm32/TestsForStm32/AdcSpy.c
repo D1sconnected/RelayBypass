@@ -1,4 +1,4 @@
-#include "adcSpy.h"
+#include "AdcSpy.h"
 
 ADC_HandleTypeDef hadc1;
 

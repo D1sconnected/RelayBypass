@@ -149,7 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="adc.c" />
+    <ClCompile Include="AdcSpy.c" />
     <ClCompile Include="ExecutorTests.cpp" />
     <ClCompile Include="GpioSpy.c" />
     <ClCompile Include="SerialSpy.c" />
@@ -158,7 +158,7 @@
     <ClCompile Include="TimSpy.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="adcSpy.h" />
+    <ClInclude Include="AdcSpy.h" />
     <ClInclude Include="GpioSpy.h" />
     <ClInclude Include="SerialSpy.h" />
     <ClInclude Include="stm32f1xx_hal.h" />

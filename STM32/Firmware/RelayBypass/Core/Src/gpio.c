@@ -21,6 +21,9 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
+bool aBtnState = true;
+bool bBtnState = true;
+
 static Node *pLocalList = NULL;
 /* USER CODE END 0 */
 
@@ -104,6 +107,15 @@ void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 2 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    if((GPIO_Pin == (A_BTN_Pin | B_BTN_Pin)) && ((aBtnState == true) || (bBtnState == true)))
+    {
+        HAL_TIM_Base_Start_IT(&htim2);
+        //
+    }
+}
+
 
 Status USER_GPIO_PushCommand(StateStruct *pCmd)
 {

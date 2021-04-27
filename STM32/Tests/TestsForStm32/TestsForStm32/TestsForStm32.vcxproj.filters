@@ -30,10 +30,13 @@
     <ClCompile Include="ExecutorTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gpio.c">
+    <ClCompile Include="adc.c">
       <Filter>HAL Spies</Filter>
     </ClCompile>
-    <ClCompile Include="adc.c">
+    <ClCompile Include="TimSpy.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
+    <ClCompile Include="GpioSpy.c">
       <Filter>HAL Spies</Filter>
     </ClCompile>
   </ItemGroup>
@@ -45,6 +48,12 @@
       <Filter>HAL Spies</Filter>
     </ClInclude>
     <ClInclude Include="adcSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="TimSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="GpioSpy.h">
       <Filter>HAL Spies</Filter>
     </ClInclude>
   </ItemGroup>

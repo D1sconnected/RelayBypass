@@ -47,9 +47,15 @@ typedef struct ADC_HandleTypeDef
     uint8_t colour;
 } ADC_HandleTypeDef;
 
+typedef struct TIM_HandleTypeDef
+{
+    uint8_t timeMs;
+} TIM_HandleTypeDef;
+
 // ToDo: Place to different files
-void HAL_GPIO_WritePin(void *pGPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState);
-void HAL_GPIO_TogglePin(void *pGPIOx, uint16_t GPIO_Pin);
 void HAL_Delay(uint32_t Delay);
 
+extern GPIO_PinState HAL_GPIO_ReadPin(void* pGPIOx, uint16_t GPIO_Pin);
+extern void HAL_GPIO_WritePin(void* pGPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState);
+extern void HAL_GPIO_TogglePin(void* pGPIOx, uint16_t GPIO_Pin);
 #endif

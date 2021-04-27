@@ -28,6 +28,19 @@ TEST(Executor, ShouldNotBeNull)
     CHECK_TRUE(pExecutor);
 }
 
+TEST(Executor, ShouldHandleSwitchChannelFromIRQ)
+{
+    // Arange 
+    // Call HAL_GPIO_EXTI_Callback
+    // Call HAL_TIM_PeriodElapsedCallback
+
+    // Act
+    // Call Executor_Handler with pointer to Executor's List
+
+    // Assert
+    // Check FSM returned OK status
+}
+
 TEST(Executor, ShouldHandleChangeRouteState)
 {
     // Arrange

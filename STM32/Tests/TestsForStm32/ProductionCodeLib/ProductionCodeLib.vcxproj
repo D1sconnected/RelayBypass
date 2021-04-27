@@ -158,6 +158,7 @@
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\adc.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\gpio.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\main.h" />
+    <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\tim.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Common.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Executor.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Interface.h" />

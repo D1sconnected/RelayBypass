@@ -42,6 +42,9 @@
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\adc.h">
       <Filter>HAL Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\tim.h">
+      <Filter>HAL Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\Serial.c">

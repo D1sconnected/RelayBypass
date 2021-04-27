@@ -34,6 +34,8 @@ extern "C" {
 /* USER CODE BEGIN Private defines */
 #include "../../Include/List.h"
 #include "../../Include/Common.h"
+
+extern TIM_HandleTypeDef htim2;
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);

@@ -21,7 +21,10 @@
 #include "tim.h"
 
 /* USER CODE BEGIN 0 */
+extern bool aBtnState;
+extern bool bBtnState;
 
+static Node* pLocalTimList = NULL;
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim2;
@@ -107,7 +110,59 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 }
 
 /* USER CODE BEGIN 1 */
+Status USER_TIM_PushCommand(StateStruct* pCmd)
+{
+    if (pCmd == NULL)
+    {
+        return INVALID_PARAMETERS;
+    }
 
+    List_PushBack(&pLocalTimList, *pCmd);
+
+    return OK;
+}
+
+Status USER_TIM_HandOverLocalList(Node** pMasterList)
+{
+    StateStruct temp;
+
+    if (pLocalTimList == NULL)
+    {
+        return NO_NEW_COMMANDS;
+    }
+
+    while (pLocalTimList != NULL)
+    {
+        temp = List_Pop(&pLocalTimList);
+        List_PushBack(pMasterList, temp);
+    }
+
+    return OK;
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    StateStruct cmdBlock = { 0 };
+
+    if (HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin) == GPIO_PIN_RESET)
+    {
+        cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
+        cmdBlock.channel = CHANNEL_A;
+        cmdBlock.specificator = 0;
+        Status status = USER_TIM_PushCommand(&cmdBlock);
+        aBtnState = true;
+    }
+
+    else if (HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin) == GPIO_PIN_RESET)
+    {
+        cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
+        cmdBlock.channel = CHANNEL_B;
+        cmdBlock.specificator = 0;
+        Status status = USER_TIM_PushCommand(&cmdBlock);
+        bBtnState = true;
+    }
+    HAL_TIM_Base_Stop_IT(&htim2);
+}
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

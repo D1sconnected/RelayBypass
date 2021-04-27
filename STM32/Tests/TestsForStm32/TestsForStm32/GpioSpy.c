@@ -3,7 +3,7 @@
 bool aBtnState = true;
 bool bBtnState = true;
 
-static Node *pLocalList = NULL;
+static Node *pGpioList = NULL;
 
 EmulatedGpioStatesStruct emulatedGpio = {0};
 
@@ -14,7 +14,7 @@ Status USER_GPIO_PushCommand(StateStruct *pCmd)
 		return INVALID_PARAMETERS;
 	}
 
-	List_PushBack(&pLocalList, *pCmd);
+	List_PushBack(&pGpioList, *pCmd);
 
 	return OK;
 }
@@ -23,14 +23,14 @@ Status USER_GPIO_HandOverLocalList(Node **pMasterList)
 {
 	StateStruct temp;
 
-	if (pLocalList == NULL) 
+	if (pGpioList == NULL)
 	{
 		return NO_NEW_COMMANDS;
 	}
 
-	while (pLocalList != NULL) 
+	while (pGpioList != NULL)
 	{
-	temp = List_Pop(&pLocalList);
+	temp = List_Pop(&pGpioList);
 	List_PushBack(pMasterList, temp);
 	}
 

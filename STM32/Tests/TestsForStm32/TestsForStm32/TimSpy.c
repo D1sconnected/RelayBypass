@@ -5,7 +5,7 @@ TIM_HandleTypeDef htim2;
 extern bool aBtnState;
 extern bool bBtnState;
 
-static Node* pLocalTimList = NULL;
+static Node *pTimList = NULL;
 
 Status USER_TIM_PushCommand(StateStruct* pCmd)
 {
@@ -14,7 +14,7 @@ Status USER_TIM_PushCommand(StateStruct* pCmd)
 		return INVALID_PARAMETERS;
 	}
 
-	List_PushBack(&pLocalTimList, *pCmd);
+	List_PushBack(&pTimList, *pCmd);
 
 	return OK;
 }
@@ -23,14 +23,14 @@ Status USER_TIM_HandOverLocalList(Node** pMasterList)
 {
 	StateStruct temp;
 
-	if (pLocalTimList == NULL)
+	if (pTimList == NULL)
 	{
 		return NO_NEW_COMMANDS;
 	}
 
-	while (pLocalTimList != NULL)
+	while (pTimList != NULL)
 	{
-		temp = List_Pop(&pLocalTimList);
+		temp = List_Pop(&pTimList);
 		List_PushBack(pMasterList, temp);
 	}
 

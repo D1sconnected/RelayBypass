@@ -3,6 +3,7 @@
 Executor * Executor_Create(void)
 {
     Executor *pSelf = (Executor*)calloc(1, sizeof(Executor));
+    pSelf->pExecutorList = NULL;
     return pSelf;
 }
 

@@ -13,7 +13,7 @@ StateStruct List_Pop(Node **ppHead)
     Node *previousNode = NULL;
     StateStruct command;
 
-    if (ppHead == NULL)
+    if (*ppHead == NULL)
     {
         return;
     }

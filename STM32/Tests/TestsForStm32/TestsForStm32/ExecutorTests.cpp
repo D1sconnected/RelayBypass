@@ -31,6 +31,60 @@ TEST(Executor, ShouldNotBeNull)
     CHECK_TRUE(pExecutor);
 }
 
+TEST(Executor, ShouldHandleSequenceOfSwitchChannelFromButtons)
+{
+    // Arange 
+    // Call HAL_GPIO_EXTI_Callback
+    emulatedGpio.buttonA = GPIO_PIN_RESET;
+    emulatedGpio.buttonB = GPIO_PIN_SET;
+    HAL_GPIO_EXTI_Callback(A_BTN_Pin);
+
+    // Call HAL_TIM_PeriodElapsedCallback
+    HAL_TIM_PeriodElapsedCallback(&htim2);
+
+    // Act
+    // Call Executor_Handler with pointer to Executor's List
+    Status status = Executor_Handler(pExecutor);
+
+    // Assert
+    // Check FSM returned OK status
+    LONGS_EQUAL(OK, status);
+
+    // Arange 
+    // Call HAL_GPIO_EXTI_Callback
+    emulatedGpio.buttonA = GPIO_PIN_SET;
+    emulatedGpio.buttonB = GPIO_PIN_RESET;
+    HAL_GPIO_EXTI_Callback(B_BTN_Pin);
+
+    // Call HAL_TIM_PeriodElapsedCallback
+    HAL_TIM_PeriodElapsedCallback(&htim2);
+
+    // Act
+    // Call Executor_Handler with pointer to Executor's List
+    status = Executor_Handler(pExecutor);
+
+    // Assert
+    // Check FSM returned OK status
+    LONGS_EQUAL(OK, status);
+
+    // Arange 
+    // Call HAL_GPIO_EXTI_Callback
+    emulatedGpio.buttonA = GPIO_PIN_RESET;
+    emulatedGpio.buttonB = GPIO_PIN_SET;
+    HAL_GPIO_EXTI_Callback(A_BTN_Pin);
+
+    // Call HAL_TIM_PeriodElapsedCallback
+    HAL_TIM_PeriodElapsedCallback(&htim2);
+
+    // Act
+    // Call Executor_Handler with pointer to Executor's List
+    status = Executor_Handler(pExecutor);
+
+    // Assert
+    // Check FSM returned OK status
+    LONGS_EQUAL(OK, status);
+}
+
 TEST(Executor, ShouldHandleSwitchChannelFromButtonB)
 {
     // Arange 

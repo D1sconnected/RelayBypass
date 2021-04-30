@@ -143,6 +143,7 @@ Status USER_TIM_HandOverLocalList(Node** pMasterList)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     StateStruct cmdBlock = { 0 };
+    HAL_TIM_Base_Stop_IT(&htim2);
 
     if (HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin) == GPIO_PIN_RESET)
     {
@@ -161,7 +162,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         Status status = USER_TIM_PushCommand(&cmdBlock);
         bBtnState = true;
     }
-    HAL_TIM_Base_Stop_IT(&htim2);
 }
 /* USER CODE END 1 */
 

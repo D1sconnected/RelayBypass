@@ -119,14 +119,14 @@ Status Interface_SwitchChannel(char channel)
 
             switch (stateA)
             {
-                case FX_OFF:
+                case FX_ON:
                 {
                     status = Interface_GetColour(channel, &colour);
                     Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_SET);
                 }
                 break;
 
-                case FX_ON:
+                case FX_OFF:
                 {
                     status = Interface_GetColour(channel, &colour);
                     Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_RESET);
@@ -143,14 +143,14 @@ Status Interface_SwitchChannel(char channel)
 
             switch (stateB)
             {
-                case FX_OFF:
+                case FX_ON:
                 {
                     status = Interface_GetColour(channel, &colour);
                     Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_SET);
                 }
                 break;
 
-                case FX_ON:
+                case FX_OFF:
                 {
                     status = Interface_GetColour(channel, &colour);
                     Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_RESET);

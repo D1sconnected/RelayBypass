@@ -76,6 +76,8 @@ void Error_Handler(void);
 #define A_CODE_0_GPIO_Port GPIOB
 #define A_CODE_1_Pin GPIO_PIN_1
 #define A_CODE_1_GPIO_Port GPIOB
+#define MCU_PROG_Pin GPIO_PIN_2
+#define MCU_PROG_GPIO_Port GPIOB
 #define A_BTN_Pin GPIO_PIN_11
 #define A_BTN_GPIO_Port GPIOB
 #define A_BTN_EXTI_IRQn EXTI15_10_IRQn

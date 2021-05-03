@@ -6,8 +6,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-//#define TESTS_ON
-
 #define NUMBER_OF_SLOTS 2
 
 #define CHANNEL_A 'A'
@@ -24,12 +22,10 @@ typedef enum
     NO_COMMAND = -7,
     INVALID_FORMAT = -8,
 	NO_NEW_COMMANDS = -9,
-	IN_PREPARE_STATE = -10,
 } Status;
 
 typedef enum
 {
-	EXECUTOR_STATE_PREPARE,
 	EXECUTOR_STATE_SWITCH_CHANNEL,
 	EXECUTOR_STATE_CHANGE_ROUTE,
 	EXECUTOR_STATE_SAVE_ROUTE,

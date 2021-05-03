@@ -34,13 +34,6 @@ Status Executor_Handler(Executor *pSelf)
     currentCmdBlock = List_Pop(&pSelf->pExecutorList);
     state = currentCmdBlock.state;
 
-#ifdef TESTS_ON
-    if (state == EXECUTOR_STATE_PREPARE)
-    {
-        return IN_PREPARE_STATE;
-    }
-#endif
-
     switch (state) 
     {
         case EXECUTOR_STATE_SWITCH_CHANNEL:

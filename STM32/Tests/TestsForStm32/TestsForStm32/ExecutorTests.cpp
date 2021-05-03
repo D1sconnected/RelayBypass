@@ -226,24 +226,3 @@ TEST(Executor, ShouldHandleSwitchChannelState)
     // Check FSM returned OK status
     LONGS_EQUAL(OK, status);
 }
-
-TEST(Executor, ShouldHandlePreparationRoutine)
-{
-    // Arrange
-    // Set command with special REPORT state
-    StateStruct localCmdBlock;
-    localCmdBlock.state = EXECUTOR_STATE_PREPARE;
-    localCmdBlock.channel = CHANNEL_A;
-    localCmdBlock.specificator = NULL;
-
-    // Call USER_GPIO_PushCommand to insert command to pLocalList
-    Status status = USER_GPIO_PushCommand(&localCmdBlock);
-
-    // Act
-    // Call Executor_Handler with pointer to Executor's List
-    status = Executor_Handler(pExecutor);
-
-    // Assert
-    // Check FSM returned special REPORT status
-    LONGS_EQUAL(IN_PREPARE_STATE, status);
-}

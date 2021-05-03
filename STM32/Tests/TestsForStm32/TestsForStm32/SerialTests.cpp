@@ -4,6 +4,7 @@ extern "C"
 {
 #include "Serial.h"
 #include "SerialSpy.h"
+#include "GpioSpy.h"
 }
 
 TEST_GROUP(Serial)
@@ -61,7 +62,7 @@ TEST(Serial, ShouldHandleToogleCommand)
     strcat_s(str, "A\r\n");
     STRCMP_EQUAL(str, pTxBuffer);
 }
-/*
+
 TEST(Serial, ShouldHandleSwitchCommand)
 {
     // Arrange – set command from PC tu UART Rx Buffer
@@ -81,13 +82,13 @@ TEST(Serial, ShouldHandleSwitchCommand)
     strcat_s(str, "B\r\n");
     STRCMP_EQUAL(str, pTxBuffer);
 }
-*/
-/*
+
 TEST(Serial, ShouldHandleGetCommand) 
 {
     // Arrange – set command from PC tu UART Rx Buffer
     char getCmd[] = "get A\r\n";
-    hadc1.colour = RED;
+    emulatedGpio.codeA0 = GPIO_PIN_RESET;
+    emulatedGpio.codeA1 = GPIO_PIN_SET;
     LONGS_EQUAL(OK, SerialSpy_SetRxBuffer(pSerial, getCmd, sizeof(getCmd)));
 
     // Act – Call to Handler for command processing
@@ -104,7 +105,6 @@ TEST(Serial, ShouldHandleGetCommand)
     strcat_s(str, "RED\r\n");
     STRCMP_EQUAL(str, pTxBuffer);
 }
-*/
 
 TEST(Serial, ShouldHandleUnknownCommand)
 {

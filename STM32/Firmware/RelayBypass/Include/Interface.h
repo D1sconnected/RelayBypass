@@ -31,7 +31,7 @@ void Interface_Destroy(Interface *pSelf);
 // channel - specify FX slot to switch
 //
 // Returns:
-// OK – in case of success
+// OK ï¿½ in case of success
 // INVALID_FORMAT - in case of incorrect or lack of arguments
 Status Interface_SwitchChannel(char channel);
 
@@ -39,7 +39,7 @@ Status Interface_SwitchChannel(char channel);
 // channel - specify FX slot to toggle
 // 
 // Returns:
-// OK – in case of success
+// OK ï¿½ in case of success
 // INVALID_FORMAT - in case of incorrect or lack of arguments
 Status Interface_ToggleChannel(char channel);
 
@@ -55,7 +55,7 @@ LedColour Interface_GetColour(char channel);
 // channel - specify which FX slot will be first
 //
 // Returns:
-// OK – in case of success
+// OK ï¿½ in case of success
 // INVALID_FORMAT - in case of incorrect or lack of arguments
 Status Interface_ChangeRoute(char channel);
 
@@ -74,5 +74,7 @@ void Interface_UpdateGpioForSwitch(char channel, LedColour colour, GPIO_PinState
 // Returns:
 // None
 void Interface_UpdateGpioForChange(GPIO_PinState state);
+
+void Interface_UpdateGpioForToggle(char channel, LedColour colour);
 
 #endif

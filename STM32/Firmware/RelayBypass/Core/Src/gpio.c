@@ -21,8 +21,8 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
-bool aBtnState = true;
-bool bBtnState = true;
+bool aBtnState = false;
+bool bBtnState = false;
 
 static Node *pGpioList = NULL;
 /* USER CODE END 0 */
@@ -123,17 +123,17 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 
     HAL_TIM_Base_Start_IT(&htim2);
-    if ((GPIO_Pin & (A_BTN_Pin | B_BTN_Pin)) && ((aBtnState == true) || (bBtnState == true)))
+    if ((GPIO_Pin & (A_BTN_Pin | B_BTN_Pin)) && ((aBtnState == false) || (bBtnState == false)))
     {
 
         if (GPIO_Pin & A_BTN_Pin)
         {
-            aBtnState = false;
+            aBtnState = true;
         }
 
         if (GPIO_Pin & B_BTN_Pin)
         {
-            bBtnState = false;
+            bBtnState = true;
         }
     }
 }

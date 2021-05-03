@@ -1,5 +1,51 @@
 #include "../Include/Interface.h"
 
+void Interface_UpdateGpioForToggle(char channel, LedColour colour)
+{
+    switch (channel)
+    {
+        case CHANNEL_A:
+        {
+            // Update LED state
+            if (colour == RED)
+            {
+                HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+            }
+
+            else if (colour == GREEN)
+            {
+                HAL_GPIO_TogglePin(A_LED_GREEN_GPIO_Port, A_LED_GREEN_Pin);
+            }
+
+            else if (colour == BLUE)
+            {
+                HAL_GPIO_TogglePin(A_LED_BLUE_GPIO_Port, A_LED_BLUE_Pin);
+            }
+        }
+        break;
+
+        case CHANNEL_B:
+        {
+            // Update LED state
+            if (colour == RED)
+            {
+                HAL_GPIO_TogglePin(B_LED_RED_GPIO_Port, B_LED_RED_Pin);
+            }
+
+            else if (colour == GREEN)
+            {
+                HAL_GPIO_TogglePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin);
+            }
+
+            else if (colour == BLUE)
+            {
+                HAL_GPIO_TogglePin(B_LED_BLUE_GPIO_Port, B_LED_BLUE_Pin);
+            }
+        }
+        break;
+    }
+}
+
 void Interface_UpdateGpioForSwitch(char channel, LedColour colour, GPIO_PinState state)
 {
     switch (channel)
@@ -170,13 +216,12 @@ Status Interface_ToggleChannel(char channel)
         return INVALID_FORMAT;
     }
 
-    GPIO_PinState state = GPIO_PIN_RESET;
     LedColour colour = Interface_GetColour(channel);
 
     for (uint8_t i = 0; i <= 3; i++)
     {
-        Interface_UpdateGpioForSwitch(channel, colour, state);
-        state = !state;
+        Interface_UpdateGpioForToggle(channel, colour);
+        HAL_Delay(300);
     }
 
     return OK;

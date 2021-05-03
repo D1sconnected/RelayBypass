@@ -155,22 +155,22 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         changeRouteCounter++;
     }
 
-    if (aBtnGpioState == GPIO_PIN_RESET && aBtnState == false)
+    if (aBtnGpioState == GPIO_PIN_RESET && aBtnState == true)
     {
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.specificator = 0;
         Status status = USER_TIM_PushCommand(&cmdBlock);
-        aBtnState = true;
+        aBtnState = false;
     }
 
-    if (bBtnGpioState == GPIO_PIN_RESET && bBtnState == false)
+    if (bBtnGpioState == GPIO_PIN_RESET && bBtnState == true)
     {
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.specificator = 0;
         Status status = USER_TIM_PushCommand(&cmdBlock);
-        bBtnState = true;
+        bBtnState = false;
     }
 
     if (changeRouteCounter == 100)
@@ -186,11 +186,18 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         }
 
         HAL_GPIO_TogglePin(MCU_PROG_GPIO_Port, MCU_PROG_Pin);
+
         cmdBlock.state = EXECUTOR_STATE_CHANGE_ROUTE;
         cmdBlock.channel = changeRouteChannel;
         cmdBlock.specificator = 0;
         Status status = USER_TIM_PushCommand(&cmdBlock);
         changeRouteCounter = 0;
+
+        cmdBlock.state = EXECUTOR_STATE_TOGGLE_CHANNEL;
+        cmdBlock.channel = changeRouteChannel;
+        cmdBlock.specificator = 0;
+        status = USER_TIM_PushCommand(&cmdBlock);
+
     }
 
 }

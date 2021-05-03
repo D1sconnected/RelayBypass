@@ -142,10 +142,11 @@ Status USER_TIM_HandOverLocalList(Node** pMasterList)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+
     StateStruct cmdBlock = { 0 };
     HAL_TIM_Base_Stop_IT(&htim2);
 
-    if (HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin) == GPIO_PIN_RESET)
+    if (HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin) == GPIO_PIN_RESET && aBtnState == false)
     {
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_A;
@@ -154,7 +155,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         aBtnState = true;
     }
 
-    else if (HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin) == GPIO_PIN_RESET)
+    else if (HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin) == GPIO_PIN_RESET && bBtnState == false)
     {
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_B;

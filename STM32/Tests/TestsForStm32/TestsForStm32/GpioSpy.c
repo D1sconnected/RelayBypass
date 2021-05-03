@@ -66,6 +66,26 @@ GPIO_PinState HAL_GPIO_ReadPin(void *pGPIOx, uint16_t GPIO_Pin)
 	{
 		return emulatedGpio.buttonB;
 	}
+
+	else if (GPIO_Pin == A_CODE_0_Pin)
+	{
+		return emulatedGpio.codeA0;
+	}
+
+	else if (GPIO_Pin == A_CODE_1_Pin)
+	{
+		return emulatedGpio.codeA1;
+	}
+
+	else if (GPIO_Pin == B_CODE_0_Pin)
+	{
+		return emulatedGpio.codeB0;
+	}
+
+	else if (GPIO_Pin == B_CODE_1_Pin)
+	{
+		return emulatedGpio.codeB1;
+	}
 }
 
 void HAL_GPIO_WritePin(void* pGPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState) 

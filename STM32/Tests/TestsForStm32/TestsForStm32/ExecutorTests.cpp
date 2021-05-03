@@ -210,6 +210,9 @@ TEST(Executor, ShouldHandleSwitchChannelState)
 {
     // Arrange
     // Set command with SWITCH_CHANNEL state
+    emulatedGpio.codeA0 = GPIO_PIN_SET;
+    emulatedGpio.codeA1 = GPIO_PIN_SET;
+
     StateStruct localCmdBlock;
     localCmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
     localCmdBlock.channel = CHANNEL_A;

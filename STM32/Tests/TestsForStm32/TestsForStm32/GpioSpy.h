@@ -8,6 +8,10 @@ typedef struct
 {
     GPIO_PinState buttonA;
     GPIO_PinState buttonB;
+    GPIO_PinState codeA0;
+    GPIO_PinState codeA1;
+    GPIO_PinState codeB0;
+    GPIO_PinState codeB1;
 } EmulatedGpioStatesStruct;
 
 extern EmulatedGpioStatesStruct emulatedGpio;

@@ -4,7 +4,6 @@
 
 #include "Common.h"
 #include "../Core/Inc/main.h"
-#include "../Core/Inc/adc.h"
 #include "../Core/Inc/gpio.h"
 
 #define FX_OFF false
@@ -13,15 +12,12 @@
 // Delay time between PHET & RELAY switching in ms
 #define BYPASS_DELAY 7
 
-#define ADC_MIN_GREEN_BOUND 3723
-#define ADC_MIN_RED_BOUND	2482
-#define ADC_MIN_BLUE_BOUND	1241
-
 typedef enum 
 {
 	RED,
 	GREEN,
-	BLUE
+	BLUE,
+	NONE
 } LedColour;
 
 /*
@@ -48,12 +44,12 @@ Status Interface_SwitchChannel(char channel);
 Status Interface_ToggleChannel(char channel);
 
 
-// Reads ADC on scpecified channel and identifies LED colour
+// Reads GPIOs on scpecified channel and identifies LED colour
 // channel - specify FX slot to get
 // 
 // Returns:
-// LedColour enum, which can be RED, GREEN or BLUE
-Status Interface_GetColour(char channel, LedColour* pColour);
+// LedColour enum, which can be RED, GREEN, BLUE or NONE
+LedColour Interface_GetColour(char channel);
 
 // Change signal path route
 // channel - specify which FX slot will be first

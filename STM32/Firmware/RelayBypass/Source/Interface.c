@@ -121,14 +121,14 @@ Status Interface_SwitchChannel(char channel)
             {
                 case FX_ON:
                 {
-                    status = Interface_GetColour(channel, &colour);
+                    colour = Interface_GetColour(channel);
                     Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_SET);
                 }
                 break;
 
                 case FX_OFF:
                 {
-                    status = Interface_GetColour(channel, &colour);
+                    colour = Interface_GetColour(channel);
                     Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_RESET);
                 }
                 break;
@@ -145,14 +145,14 @@ Status Interface_SwitchChannel(char channel)
             {
                 case FX_ON:
                 {
-                    status = Interface_GetColour(channel, &colour);
+                    colour = Interface_GetColour(channel);
                     Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_SET);
                 }
                 break;
 
                 case FX_OFF:
                 {
-                    status = Interface_GetColour(channel, &colour);
+                    colour = Interface_GetColour(channel);
                     Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_RESET);
                 }
                 break;
@@ -170,16 +170,8 @@ Status Interface_ToggleChannel(char channel)
         return INVALID_FORMAT;
     }
 
-    LedColour colour = -1;
-    Status status = OK;
     GPIO_PinState state = GPIO_PIN_RESET;
-
-    status = Interface_GetColour(channel, &colour);
-
-    if (status != OK) 
-    {
-        return status;
-    }
+    LedColour colour = Interface_GetColour(channel);
 
     for (uint8_t i = 0; i <= 3; i++)
     {
@@ -214,43 +206,39 @@ Status Interface_ChangeRoute(char channel)
     return OK;
 }
 
-Status Interface_GetColour(char channel, LedColour *pColour)
+LedColour Interface_GetColour(char channel)
 {
     Status   status = OK;
-    uint32_t adcResult = 0;
+
+    GPIO_PinState code0 = GPIO_PIN_RESET;
+    GPIO_PinState code1 = GPIO_PIN_RESET;
 
     switch (channel)
     {
     case CHANNEL_A:
-        // read ADC on ADC1 CH2 (A_ADC)
-        ADC_Select_CH2();
-        status += HAL_ADC_Start(&hadc1);
-        status += HAL_ADC_PollForConversion(&hadc1, 1000);
-        adcResult = HAL_ADC_GetValue(&hadc1);
-        status += HAL_ADC_Stop(&hadc1);
+        // Read A_CODE_0 & A_CODE_1
+        code0 = HAL_GPIO_ReadPin(A_CODE_0_GPIO_Port, A_CODE_0_Pin);
+        code1 = HAL_GPIO_ReadPin(A_CODE_1_GPIO_Port, A_CODE_1_Pin);
         break;
     case CHANNEL_B:
-        // read ADC on ADC1 CH8 (B_ADC)
-        ADC_Select_CH8();
-        status += HAL_ADC_Start(&hadc1);
-        status += HAL_ADC_PollForConversion(&hadc1, 1000);
-        adcResult = HAL_ADC_GetValue(&hadc1);
-        status += HAL_ADC_Stop(&hadc1);
+        // Read B_CODE_0 & B_CODE_1
+        code0 = HAL_GPIO_ReadPin(B_CODE_0_GPIO_Port, B_CODE_0_Pin);
+        code1 = HAL_GPIO_ReadPin(B_CODE_1_GPIO_Port, B_CODE_1_Pin);
         break;
     }
 
-    if (ADC_MIN_GREEN_BOUND <= adcResult) 
+    if (code0 == GPIO_PIN_SET && code1 == GPIO_PIN_SET)
     {
-        *pColour = GREEN;
+        return GREEN;
     }
-    else if (ADC_MIN_RED_BOUND <= adcResult < ADC_MIN_GREEN_BOUND) 
+    else if (code0 == GPIO_PIN_RESET && code1 == GPIO_PIN_SET)
     {
-        *pColour = RED;
+        return RED;
     }
-    else if (ADC_MIN_BLUE_BOUND <= adcResult < ADC_MIN_RED_BOUND) 
+    else if (code0 == GPIO_PIN_SET && code1 == GPIO_PIN_RESET)
     {
-        *pColour = BLUE;
+        return BLUE;
     }
 
-    return status;
+    return NONE;
 }

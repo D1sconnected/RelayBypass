@@ -6,7 +6,7 @@
 #define ADC_SPY_RED_VALUE   2500
 #define ADC_SPY_BLUE_VALUE  1300
 
-#include "adc.h"
+//#include "adc.h"
 #include "Common.h"
 #include "Interface.h"
 

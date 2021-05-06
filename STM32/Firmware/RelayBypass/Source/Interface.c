@@ -252,32 +252,31 @@ Status Interface_ChangeRoute(char channel)
 
 LedColour Interface_GetColour(char channel)
 {
-    GPIO_PinState code0 = GPIO_PIN_RESET;
-    GPIO_PinState code1 = GPIO_PIN_RESET;
+    GPIO_PinState code[2] = {GPIO_PIN_RESET, GPIO_PIN_RESET};
 
     switch (channel)
     {
     case CHANNEL_A:
         // Read A_CODE_0 & A_CODE_1
-        code0 = HAL_GPIO_ReadPin(A_CODE_0_GPIO_Port, A_CODE_0_Pin);
-        code1 = HAL_GPIO_ReadPin(A_CODE_1_GPIO_Port, A_CODE_1_Pin);
+        code[0] = HAL_GPIO_ReadPin(A_CODE_0_GPIO_Port, A_CODE_0_Pin);
+        code[1] = HAL_GPIO_ReadPin(A_CODE_1_GPIO_Port, A_CODE_1_Pin);
         break;
     case CHANNEL_B:
         // Read B_CODE_0 & B_CODE_1
-        code0 = HAL_GPIO_ReadPin(B_CODE_0_GPIO_Port, B_CODE_0_Pin);
-        code1 = HAL_GPIO_ReadPin(B_CODE_1_GPIO_Port, B_CODE_1_Pin);
+        code[0] = HAL_GPIO_ReadPin(B_CODE_0_GPIO_Port, B_CODE_0_Pin);
+        code[1] = HAL_GPIO_ReadPin(B_CODE_1_GPIO_Port, B_CODE_1_Pin);
         break;
     }
 
-    if (code0 == GPIO_PIN_SET && code1 == GPIO_PIN_SET)
+    if (code[0] == GPIO_PIN_SET && code[1] == GPIO_PIN_SET)
     {
         return GREEN;
     }
-    else if (code0 == GPIO_PIN_RESET && code1 == GPIO_PIN_SET)
+    else if (code[0] == GPIO_PIN_RESET && code[1] == GPIO_PIN_SET)
     {
         return RED;
     }
-    else if (code0 == GPIO_PIN_SET && code1 == GPIO_PIN_RESET)
+    else if (code[0] == GPIO_PIN_SET && code[1] == GPIO_PIN_RESET)
     {
         return BLUE;
     }

@@ -153,12 +153,12 @@ Status USER_GPIO_PushCommand(StateStruct *pCmd)
 
 Status USER_GPIO_HandOverLocalList(Node **pMasterList)
 {
-	StateStruct temp;
+    if (pMasterList == NULL)
+    {
+        return INVALID_PARAMETERS;
+    }
 
-	if (pGpioList == NULL)
-	{
-		return NO_NEW_COMMANDS;
-	}
+	StateStruct temp;
 
 	while (pGpioList != NULL)
 	{

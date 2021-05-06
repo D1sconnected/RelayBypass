@@ -87,7 +87,7 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  Status status = FAIL;
+  Status status = OK;
 
   Executor *pExecutor = Executor_Create();
 
@@ -103,6 +103,11 @@ int main(void)
   while (1)
   {
     status = Executor_Handler(pExecutor);
+
+    if (status == INVALID_PARAMETERS)
+    {
+        Error_Handler();
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -161,9 +166,9 @@ void Error_Handler(void)
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
-  while (1)
-  {
-  }
+  Interface_ToggleChannel(CHANNEL_A);
+  Interface_ToggleChannel(CHANNEL_B);
+  NVIC_SystemReset();
   /* USER CODE END Error_Handler_Debug */
 }
 

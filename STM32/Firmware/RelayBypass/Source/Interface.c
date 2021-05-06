@@ -153,8 +153,7 @@ Status Interface_SwitchChannel(char channel)
         return INVALID_FORMAT;
     }
 
-    LedColour colour = -1;
-    Status status = OK;
+    LedColour colour = NONE;
 
     switch (channel) 
     {
@@ -206,7 +205,7 @@ Status Interface_SwitchChannel(char channel)
         }
         break;
     }
-    return status;
+    return OK;
 }
 
 Status Interface_ToggleChannel(char channel)
@@ -253,8 +252,6 @@ Status Interface_ChangeRoute(char channel)
 
 LedColour Interface_GetColour(char channel)
 {
-    Status   status = OK;
-
     GPIO_PinState code0 = GPIO_PIN_RESET;
     GPIO_PinState code1 = GPIO_PIN_RESET;
 

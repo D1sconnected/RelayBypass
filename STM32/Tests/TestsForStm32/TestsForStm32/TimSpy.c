@@ -21,12 +21,12 @@ Status USER_TIM_PushCommand(StateStruct* pCmd)
 
 Status USER_TIM_HandOverLocalList(Node** pMasterList)
 {
-	StateStruct temp;
-
-	if (pTimList == NULL)
+	if (pMasterList == NULL)
 	{
-		return NO_NEW_COMMANDS;
+		return INVALID_PARAMETERS;
 	}
+
+	StateStruct temp;
 
 	while (pTimList != NULL)
 	{

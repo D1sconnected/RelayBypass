@@ -41,7 +41,7 @@ extern TIM_HandleTypeDef htim2;
 void MX_TIM2_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+Status USER_TIM_HandOverLocalList(Node** pMasterList);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

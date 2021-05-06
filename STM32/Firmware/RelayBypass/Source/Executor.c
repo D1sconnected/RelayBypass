@@ -27,9 +27,12 @@ Status Executor_Handler(Executor *pSelf)
 
     static ExecutorState state = -1;
     static StateStruct currentCmdBlock = {0};
-    Status status = FAIL;
+    Status status = Executor_UpdateList(pSelf);
 
-    status = Executor_UpdateList(pSelf);
+    if (status != OK)
+    {
+        return status;
+    }
 
     currentCmdBlock = List_Pop(&pSelf->pExecutorList);
     state = currentCmdBlock.state;
@@ -63,7 +66,12 @@ Status Executor_Handler(Executor *pSelf)
 
 Status Executor_UpdateList(Executor *pSelf)
 {
-    // Call _UpdateList for each peripheral
+    if (pSelf == NULL)
+    {
+        return INVALID_PARAMETERS;
+    }
+
+    // Call HandOverLocalList for each peripheral
     Status status = OK;
     status += USER_GPIO_HandOverLocalList(&pSelf->pExecutorList);
     status += USER_TIM_HandOverLocalList(&pSelf->pExecutorList);

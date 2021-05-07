@@ -3,23 +3,26 @@
 #define INTERFACE_HEADER_FILE_H
 
 #include "Common.h"
+#include "../Core/Inc/main.h"
+#include "../Core/Inc/gpio.h"
 
 #define FX_OFF false
 #define FX_ON  true
 
-#define CHANNEL_A 'A'
-#define CHANNEL_B 'B'
-
-#define ADC_MIN_GREEN_BOUND 3723
-#define ADC_MIN_RED_BOUND	2482
-#define ADC_MIN_BLUE_BOUND	1241
+// Delay time between PHET & RELAY switching in ms
+#define BYPASS_DELAY 7
 
 typedef enum 
 {
 	RED,
 	GREEN,
-	BLUE
+	BLUE,
+	NONE
 } LedColour;
+
+extern uint8_t gFxStateA;
+extern uint8_t gFxStateB;
+
 /*
 typedef struct InterfaceStruct Interface;
 
@@ -31,7 +34,7 @@ void Interface_Destroy(Interface *pSelf);
 // channel - specify FX slot to switch
 //
 // Returns:
-// OK – in case of success
+// OK ï¿½ in case of success
 // INVALID_FORMAT - in case of incorrect or lack of arguments
 Status Interface_SwitchChannel(char channel);
 
@@ -39,24 +42,42 @@ Status Interface_SwitchChannel(char channel);
 // channel - specify FX slot to toggle
 // 
 // Returns:
-// OK – in case of success
+// OK ï¿½ in case of success
 // INVALID_FORMAT - in case of incorrect or lack of arguments
 Status Interface_ToggleChannel(char channel);
 
 
-// Reads ADC on scpecified channel and identifies LED colour
+// Reads GPIOs on scpecified channel and identifies LED colour
 // channel - specify FX slot to get
 // 
 // Returns:
-// LedColour enum, which can be RED, GREEN or BLUE
-LedColour Interface_GetChannel(char channel);
+// LedColour enum, which can be RED, GREEN, BLUE or NONE
+LedColour Interface_GetColour(char channel);
 
 // Change signal path route
-// channel - specify wich FX slot will be first
+// channel - specify which FX slot will be first
 //
 // Returns:
-// OK – in case of success
+// OK ï¿½ in case of success
 // INVALID_FORMAT - in case of incorrect or lack of arguments
 Status Interface_ChangeRoute(char channel);
+
+// Updating LED & RELAY state with HAL_GPIO_WritePin
+// channel - specify FX slot to update
+// colour - specify LED colour of FX slot
+// state - specify GPIO_PIN_SET (ON) or GPIO_PIN_RESET (OFF)
+//
+// Returns:
+// None
+void Interface_UpdateGpioForSwitch(char channel, LedColour colour, GPIO_PinState state);
+
+// Updating DIR RELAY state with HAL_GPIO_WritePin
+// state - specify GPIO_PIN_SET (ON) or GPIO_PIN_RESET (OFF)
+//
+// Returns:
+// None
+void Interface_UpdateGpioForChange(GPIO_PinState state);
+
+void Interface_UpdateGpioForToggle(char channel, LedColour colour);
 
 #endif

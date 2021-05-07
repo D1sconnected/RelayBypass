@@ -4,7 +4,7 @@ extern "C"
 {
 #include "Serial.h"
 #include "SerialSpy.h"
-#include "InterfaceSpy.h"
+#include "GpioSpy.h"
 }
 
 TEST_GROUP(Serial)
@@ -87,6 +87,8 @@ TEST(Serial, ShouldHandleGetCommand)
 {
     // Arrange – set command from PC tu UART Rx Buffer
     char getCmd[] = "get A\r\n";
+    emulatedGpio.codeA0 = GPIO_PIN_RESET;
+    emulatedGpio.codeA1 = GPIO_PIN_SET;
     LONGS_EQUAL(OK, SerialSpy_SetRxBuffer(pSerial, getCmd, sizeof(getCmd)));
 
     // Act – Call to Handler for command processing

@@ -1,46 +1,181 @@
-#include "Interface.h"
-//#include gpio.h
-//#include adc.h
+#include "../Include/Interface.h"
+
+uint8_t gFxStateA = FX_OFF;
+uint8_t gFxStateB = FX_OFF;
+
+void Interface_UpdateGpioForToggle(char channel, LedColour colour)
+{
+    switch (channel)
+    {
+        case CHANNEL_A:
+        {
+            // Update LED state
+            if (colour == RED)
+            {
+                HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+            }
+
+            else if (colour == GREEN)
+            {
+                HAL_GPIO_TogglePin(A_LED_GREEN_GPIO_Port, A_LED_GREEN_Pin);
+            }
+
+            else if (colour == BLUE)
+            {
+                HAL_GPIO_TogglePin(A_LED_BLUE_GPIO_Port, A_LED_BLUE_Pin);
+            }
+        }
+        break;
+
+        case CHANNEL_B:
+        {
+            // Update LED state
+            if (colour == RED)
+            {
+                HAL_GPIO_TogglePin(B_LED_RED_GPIO_Port, B_LED_RED_Pin);
+            }
+
+            else if (colour == GREEN)
+            {
+                HAL_GPIO_TogglePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin);
+            }
+
+            else if (colour == BLUE)
+            {
+                HAL_GPIO_TogglePin(B_LED_BLUE_GPIO_Port, B_LED_BLUE_Pin);
+            }
+        }
+        break;
+    }
+}
+
+void Interface_UpdateGpioForSwitch(char channel, LedColour colour, GPIO_PinState state)
+{
+    switch (channel)
+    {
+        case CHANNEL_A:
+        {
+            // Update LED state
+            if (colour == RED) 
+            {
+                HAL_GPIO_WritePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin, state);
+            }
+
+            else if (colour == GREEN) 
+            {
+                HAL_GPIO_WritePin(A_LED_GREEN_GPIO_Port, A_LED_GREEN_Pin, state);
+            }
+
+            else if (colour == BLUE)
+            {
+                HAL_GPIO_WritePin(A_LED_BLUE_GPIO_Port, A_LED_BLUE_Pin, state);
+            }
+
+            // Turn PHET ON
+            HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_SET);
+
+            // Wait for PHET to turn ON
+            HAL_Delay(BYPASS_DELAY);
+
+            // Update RELAY state
+            HAL_GPIO_WritePin(A_RELE_GPIO_Port, A_RELE_Pin, state);
+
+            // Wait for RELAY to switch state
+            HAL_Delay(BYPASS_DELAY);
+
+            // Turn PHET OFF
+            HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_RESET);
+        }
+        break;
+
+        case CHANNEL_B:
+        {
+            // Update LED state
+            if (colour == RED)
+            {
+                HAL_GPIO_WritePin(B_LED_RED_GPIO_Port, B_LED_RED_Pin, state);
+            }
+
+            else if (colour == GREEN)
+            {
+                HAL_GPIO_WritePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin, state);
+            }
+
+            else if (colour == BLUE)
+            {
+                HAL_GPIO_WritePin(B_LED_BLUE_GPIO_Port, B_LED_BLUE_Pin, state);
+            }
+
+            // Turn PHET ON
+            HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_SET);
+
+            // Wait for PHET to turn ON
+            HAL_Delay(BYPASS_DELAY);
+
+            // Update RELAY state
+            HAL_GPIO_WritePin(B_RELE_GPIO_Port, B_RELE_Pin, state);
+
+            // Wait for RELAY to switch state
+            HAL_Delay(BYPASS_DELAY);
+
+            // Turn PHET OFF
+            HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_RESET);
+        }
+        break;
+    }
+}
+
+void Interface_UpdateGpioForChange(GPIO_PinState state)
+{
+    // Turn PHET ON
+    HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_SET);
+
+    // Wait for PHET to turn ON
+    HAL_Delay(BYPASS_DELAY);
+
+    // Update DIR 0 RELAY state
+    HAL_GPIO_WritePin(DIR0_RELE_GPIO_Port, DIR0_RELE_Pin, state);
+
+    // Update DIR 1 RELAY state
+    HAL_GPIO_WritePin(DIR1_RELE_GPIO_Port, DIR1_RELE_Pin, state);
+
+    // Wait for RELAYs to switch state
+    HAL_Delay(BYPASS_DELAY);
+
+    // Turn PHET OFF
+    HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_RESET);
+}
 
 Status Interface_SwitchChannel(char channel) 
 {
-    static uint8_t stateA = FX_OFF;
-    static uint8_t stateB = FX_OFF;
     
     if ((channel != CHANNEL_A) && (channel != CHANNEL_B)) 
     {
         return INVALID_FORMAT;
     }
 
+    LedColour colour = NONE;
+
     switch (channel) 
     {
         case CHANNEL_A:
         {
-            uint8_t temp = (stateA == FX_OFF) ? FX_ON : FX_OFF;
-            stateA = temp;
+            uint8_t temp = (gFxStateA == FX_OFF) ? FX_ON : FX_OFF;
+            gFxStateA = temp;
 
-            switch (stateA)
+            switch (gFxStateA)
             {
-                case FX_OFF:
+                case FX_ON:
                 {
-                    // read adc
-                    // turn rgb led on
-                    // turn phet on
-                    // hal_delay
-                    // turn relay on
-                    // hal_delay
-                    // turn phet off
+                    colour = Interface_GetColour(channel);
+                    Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_SET);
                 }
                 break;
 
-                case FX_ON:
+                case FX_OFF:
                 {
-                    // turn all rgb led off
-                    // turn phet on
-                    // hal_delay
-                    // turn relay off
-                    // hal_delay
-                    // turn phet off
+                    colour = Interface_GetColour(channel);
+                    Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_RESET);
                 }
                 break;
             }
@@ -49,31 +184,22 @@ Status Interface_SwitchChannel(char channel)
     
         case CHANNEL_B:
         {
-            uint8_t temp = (stateB == FX_OFF) ? FX_ON : FX_OFF;
-            stateB = temp;
+            uint8_t temp = (gFxStateB == FX_OFF) ? FX_ON : FX_OFF;
+            gFxStateB = temp;
 
-            switch (stateB)
+            switch (gFxStateB)
             {
-                case FX_OFF:
+                case FX_ON:
                 {
-                    // read adc
-                    // turn rgb led on
-                    // turn phet on
-                    // hal_delay
-                    // turn relay on
-                    // hal_delay
-                    // turn phet off
+                    colour = Interface_GetColour(channel);
+                    Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_SET);
                 }
                 break;
 
-                case FX_ON:
+                case FX_OFF:
                 {
-                    // turn all rgb led off
-                    // turn phet on
-                    // hal_delay
-                    // turn relay off
-                    // hal_delay
-                    // turn phet off
+                    colour = Interface_GetColour(channel);
+                    Interface_UpdateGpioForSwitch(channel, colour, GPIO_PIN_RESET);
                 }
                 break;
             }
@@ -90,28 +216,14 @@ Status Interface_ToggleChannel(char channel)
         return INVALID_FORMAT;
     }
 
-    switch (channel) 
-    {
-        case CHANNEL_A:
-        {
-            // Call HAL_ADC_GetValue and save result to adcResult
-            // Identify LedColour based on adcResult
-            // for cicle
-            // Call HAL_GPIO_TogglePin to toggle specified LED
-            // Call HAL_Delay to wait for LED to change state
-        }
-        break;
+    LedColour colour = Interface_GetColour(channel);
 
-        case CHANNEL_B:
-        {
-            // Call HAL_ADC_GetValue and save result to adcResult
-            // Identify LedColour based on adcResult
-            // for cicle
-            // Call HAL_GPIO_TogglePin to toggle specified LED
-            // Call HAL_Delay to wait for LED to change state
-        }
-        break;
+    for (uint8_t i = 0; i <= 3; i++)
+    {
+        Interface_UpdateGpioForToggle(channel, colour);
+        HAL_Delay(300);
     }
+
     return OK;
 }
 
@@ -126,25 +238,49 @@ Status Interface_ChangeRoute(char channel)
     {
         case CHANNEL_A:
         {
-            // Call HAL_GPIO_WritePin to turn PHET ON
-            // Call HAL_Delay to wait for PHET activation
-            // Call HAL_GPIO_WritePin to turn OFF #1 DIRECTION_RELAY
-            // Call HAL_GPIO_WritePin to turn OFF #2 DIRECTION_RELAY
-            // Call HAL_Delay to suppress pop noise
-            // Call HAL_GPIO_WritePin to turn PHET OFF
+            Interface_UpdateGpioForChange(GPIO_PIN_RESET);
         }
         break;
 
         case CHANNEL_B:
         {
-            // Call HAL_GPIO_WritePin to turn PHET ON
-            // Call HAL_Delay to wait for PHET activation
-            // Call HAL_GPIO_WritePin to turn ON #1 DIRECTION_RELAY
-            // Call HAL_GPIO_WritePin to turn ON #2 DIRECTION_RELAY
-            // Call HAL_Delay to suppress pop noise
-            // Call HAL_GPIO_WritePin to turn PHET OFF
+            Interface_UpdateGpioForChange(GPIO_PIN_SET);
         }
         break;
     }
     return OK;
+}
+
+LedColour Interface_GetColour(char channel)
+{
+    GPIO_PinState code[2] = {GPIO_PIN_RESET, GPIO_PIN_RESET};
+
+    switch (channel)
+    {
+    case CHANNEL_A:
+        // Read A_CODE_0 & A_CODE_1
+        code[0] = HAL_GPIO_ReadPin(A_CODE_0_GPIO_Port, A_CODE_0_Pin);
+        code[1] = HAL_GPIO_ReadPin(A_CODE_1_GPIO_Port, A_CODE_1_Pin);
+        break;
+    case CHANNEL_B:
+        // Read B_CODE_0 & B_CODE_1
+        code[0] = HAL_GPIO_ReadPin(B_CODE_0_GPIO_Port, B_CODE_0_Pin);
+        code[1] = HAL_GPIO_ReadPin(B_CODE_1_GPIO_Port, B_CODE_1_Pin);
+        break;
+    }
+
+    if (code[0] == GPIO_PIN_SET && code[1] == GPIO_PIN_SET)
+    {
+        return GREEN;
+    }
+    else if (code[0] == GPIO_PIN_RESET && code[1] == GPIO_PIN_SET)
+    {
+        return RED;
+    }
+    else if (code[0] == GPIO_PIN_SET && code[1] == GPIO_PIN_RESET)
+    {
+        return BLUE;
+    }
+
+    return NONE;
 }

@@ -1,5 +1,5 @@
-#include "Serial.h"
-#include "Interface.h"
+#include "../Include/Serial.h"
+#include "../Include/Interface.h"
 
 typedef struct SerialStruct
 {
@@ -148,8 +148,7 @@ Status Serial_HandleGetCommand(Serial *pSelf)
     // Check if slot parameter is correct
     if (pSelf->command[4] == CHANNEL_A || pSelf->command[4] == CHANNEL_B)
     {
-        LedColour colour;
-        colour = Interface_GetChannel(pSelf->command[4]);
+        LedColour colour = Interface_GetColour(pSelf->command[4]);
 
         char getResponse[16] = { 0 };
         memcpy(getResponse, GET_OUTPUT, sizeof(GET_OUTPUT));

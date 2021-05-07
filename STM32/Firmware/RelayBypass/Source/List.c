@@ -1,4 +1,4 @@
-#include "List.h"
+#include "../Include/List.h"
 
 void List_Push(Node **ppHead, StateStruct command)
 {
@@ -13,7 +13,7 @@ StateStruct List_Pop(Node **ppHead)
     Node *previousNode = NULL;
     StateStruct command;
 
-    if (ppHead == NULL)
+    if (*ppHead == NULL)
     {
         return;
     }

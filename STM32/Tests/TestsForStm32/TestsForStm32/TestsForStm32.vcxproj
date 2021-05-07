@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Core\Inc;$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Core\Inc;$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Core\Inc;$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,7 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Core\Inc;$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -149,17 +149,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AdcSpy.c" />
     <ClCompile Include="ExecutorTests.cpp" />
-    <ClCompile Include="InterfaceSpy.c" />
-    <ClCompile Include="InterruptSpy.c" />
+    <ClCompile Include="GpioSpy.c" />
     <ClCompile Include="SerialSpy.c" />
     <ClCompile Include="SerialTests.cpp" />
     <ClCompile Include="TestsForStm32.cpp" />
+    <ClCompile Include="TimSpy.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="InterfaceSpy.h" />
-    <ClInclude Include="InterruptSpy.h" />
+    <ClInclude Include="AdcSpy.h" />
+    <ClInclude Include="GpioSpy.h" />
     <ClInclude Include="SerialSpy.h" />
+    <ClInclude Include="stm32f1xx_hal.h" />
+    <ClInclude Include="TimSpy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

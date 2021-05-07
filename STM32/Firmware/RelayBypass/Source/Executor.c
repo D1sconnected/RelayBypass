@@ -1,8 +1,9 @@
-#include "Executor.h"
+#include "../Include/Executor.h"
 
 Executor * Executor_Create(void)
 {
     Executor *pSelf = (Executor*)calloc(1, sizeof(Executor));
+    pSelf->pExecutorList = NULL;
     return pSelf;
 }
 
@@ -26,19 +27,15 @@ Status Executor_Handler(Executor *pSelf)
 
     static ExecutorState state = -1;
     static StateStruct currentCmdBlock = {0};
-    Status status = FAIL;
+    Status status = Executor_UpdateList(pSelf);
 
-    status = Executor_UpdateList(pSelf);
+    if (status != OK)
+    {
+        return status;
+    }
 
     currentCmdBlock = List_Pop(&pSelf->pExecutorList);
     state = currentCmdBlock.state;
-
-#ifdef TESTS_ON
-    if (state == EXECUTOR_STATE_PREPARE)
-    {
-        return IN_PREPARE_STATE;
-    }
-#endif
 
     switch (state) 
     {
@@ -64,11 +61,20 @@ Status Executor_Handler(Executor *pSelf)
         break;
     }
 
-     return status;
+     return NO_COMMAND;
 }
 
 Status Executor_UpdateList(Executor *pSelf)
 {
-    // Call _UpdateList for each peripheral
-    return InterruptSpy_HandOverLocalList(&pSelf->pExecutorList);
+    if (pSelf == NULL)
+    {
+        return INVALID_PARAMETERS;
+    }
+
+    // Call HandOverLocalList for each peripheral
+    Status status = OK;
+    status += USER_GPIO_HandOverLocalList(&pSelf->pExecutorList);
+    status += USER_TIM_HandOverLocalList(&pSelf->pExecutorList);
+
+    return status;
 }

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="HAL Spies">
+      <UniqueIdentifier>{0c35c069-5d55-4c40-8f04-d7c65a567770}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestsForStm32.cpp">
@@ -24,25 +27,34 @@
     <ClCompile Include="SerialTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InterfaceSpy.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ExecutorTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InterruptSpy.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="TimSpy.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
+    <ClCompile Include="GpioSpy.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
+    <ClCompile Include="AdcSpy.c">
+      <Filter>HAL Spies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SerialSpy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InterfaceSpy.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="stm32f1xx_hal.h">
+      <Filter>HAL Spies</Filter>
     </ClInclude>
-    <ClInclude Include="InterruptSpy.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="TimSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="GpioSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="AdcSpy.h">
+      <Filter>HAL Spies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

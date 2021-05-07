@@ -20,10 +20,9 @@
 #define GPIO_PIN_14    ((uint16_t)0x4000)
 #define GPIO_PIN_15    ((uint16_t)0x8000)
 
-#define GPIOA   NULL
-#define GPIOB   NULL
-#define GPIOC   NULL
-#define GPIOD   NULL
+#define GPIOA   0x0A
+#define GPIOB   0x0B
+#define GPIOC   0x0C
 
 #define EXTI3_IRQn
 #define EXTI15_10_IRQn
@@ -55,9 +54,9 @@ typedef struct TIM_HandleTypeDef
 // ToDo: Place to different files
 void HAL_Delay(uint32_t Delay);
 
-extern GPIO_PinState HAL_GPIO_ReadPin(void* pGPIOx, uint16_t GPIO_Pin);
-extern void HAL_GPIO_WritePin(void* pGPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState);
-extern void HAL_GPIO_TogglePin(void* pGPIOx, uint16_t GPIO_Pin);
+extern GPIO_PinState HAL_GPIO_ReadPin(uint8_t GPIOx, uint16_t GPIO_Pin);
+extern void HAL_GPIO_WritePin(uint8_t GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState);
+extern void HAL_GPIO_TogglePin(uint8_t GPIOx, uint16_t GPIO_Pin);
 extern void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 
 extern HAL_StatusTypeDef HAL_TIM_Base_Start_IT(TIM_HandleTypeDef *pHtim);

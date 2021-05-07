@@ -9,6 +9,7 @@
 #include "Interface.h"
 
 #include "../Core/Inc/gpio.h"
+#include "../Core/Inc/tim.h"
 typedef struct ExecutorStruct
 {
 	Node* pExecutorList;

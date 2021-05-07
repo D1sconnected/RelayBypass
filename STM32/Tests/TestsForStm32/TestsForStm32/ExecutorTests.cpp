@@ -148,15 +148,26 @@ TEST(Executor, ShouldHandleChangeRouteState)
 
 TEST(Executor, ShouldHandleSequenceOfStates)
 {
-    // Arrange
+    //----------Arrange----------//
+    // Set all emulatedGpio to GPIO_PIN_RESET
+    memset(&emulatedGpio, GPIO_PIN_RESET, sizeof(EmulatedGpioStatesStruct));
+    // Set DISTORTION/FUZZ code for Channel A
+    emulatedGpio.codeA0 = GPIO_PIN_RESET;
+    emulatedGpio.codeA1 = GPIO_PIN_SET;
+    // Set OTHER code for Channel B
+    emulatedGpio.codeB0 = GPIO_PIN_SET;
+    emulatedGpio.codeB1 = GPIO_PIN_RESET;
+
     // Set command with SWITCH_CHANNEL state
     StateStruct localCmdBlock;
-    localCmdBlock.state = EXECUTOR_STATE_TOGGLE_CHANNEL;
+    localCmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
     localCmdBlock.channel = CHANNEL_A;
     localCmdBlock.specificator = NULL;
 
     // Call USER_GPIO_PushCommand to insert command to pLocalList
     Status status = USER_GPIO_PushCommand(&localCmdBlock);
+
+    LONGS_EQUAL(OK, status);
 
     // Set command with SWITCH_CHANNEL state
     localCmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
@@ -166,6 +177,8 @@ TEST(Executor, ShouldHandleSequenceOfStates)
     // Call USER_GPIO_PushCommand to insert command to pLocalList
     status = USER_GPIO_PushCommand(&localCmdBlock);
 
+    LONGS_EQUAL(OK, status);
+
     // Act #1
     // Call Executor_Handler with pointer to Executor's List
     status = Executor_Handler(pExecutor);
@@ -173,6 +186,18 @@ TEST(Executor, ShouldHandleSequenceOfStates)
     // Assert #1
     // Check FSM returned OK status
     LONGS_EQUAL(OK, status);
+    // Check other Emulated GPIOs not changed - in case of EXECUTOR_STATE_SWITCH_CHANNEL, we can't verify GPIOs because of static stateA and stateB
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir0);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir1);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledGreenA);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledBlueA);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledRedB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledGreenB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledBlueB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.phet);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.mcuProg);
+
 
     // Act #2
     // Call Executor_Handler with pointer to Executor's List
@@ -181,12 +206,27 @@ TEST(Executor, ShouldHandleSequenceOfStates)
     // Assert #2
     // Check FSM returned OK status
     LONGS_EQUAL(OK, status);
+    // Check other Emulated GPIOs not changed - in case of EXECUTOR_STATE_SWITCH_CHANNEL, we can't verify GPIOs because of static stateA and stateB
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir0);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir1);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledGreenA);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledBlueA);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledRedB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledGreenB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.phet);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.mcuProg);
 
 }
 
 TEST(Executor, ShouldHandleToggleChannelState)
 {
-    // Arrange
+    //----------Arrange----------//
+    // Set all emulatedGpio to GPIO_PIN_RESET
+    memset(&emulatedGpio, GPIO_PIN_RESET, sizeof(EmulatedGpioStatesStruct));
+
+    // Set DISTORTION/FUZZ code for Channel B
+    emulatedGpio.codeB0 = GPIO_PIN_RESET;
+    emulatedGpio.codeB1 = GPIO_PIN_SET;
     // Set command with SWITCH_CHANNEL state
     StateStruct localCmdBlock;
     localCmdBlock.state = EXECUTOR_STATE_TOGGLE_CHANNEL;
@@ -196,23 +236,43 @@ TEST(Executor, ShouldHandleToggleChannelState)
     // Call USER_GPIO_PushCommand to insert command to pLocalList
     Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
-    // Act
+    LONGS_EQUAL(OK, status);
+
+    //----------Act----------//
     // Call Executor_Handler with pointer to Executor's List
     status = Executor_Handler(pExecutor);
 
-    // Assert
+    //----------Assert----------//
     // Check FSM returned OK status
     LONGS_EQUAL(OK, status);
+
+    // Check Emulated GPIOs changed correctly
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releA);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir0);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir1);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledRedA);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledGreenA);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledBlueA);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledRedB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledGreenB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledBlueB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.phet);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.mcuProg);
 }
 
 
 TEST(Executor, ShouldHandleSwitchChannelState)
 {
-    // Arrange
-    // Set command with SWITCH_CHANNEL state
+    //----------Arrange----------//
+    // Set all emulatedGpio to GPIO_PIN_RESET
+    memset(&emulatedGpio, GPIO_PIN_RESET, sizeof(EmulatedGpioStatesStruct));
+
+    // Set BOOSTER/OVERDRIVE code for Channel A
     emulatedGpio.codeA0 = GPIO_PIN_SET;
     emulatedGpio.codeA1 = GPIO_PIN_SET;
 
+    // Set command with SWITCH_CHANNEL state
     StateStruct localCmdBlock;
     localCmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
     localCmdBlock.channel = CHANNEL_A;
@@ -221,11 +281,25 @@ TEST(Executor, ShouldHandleSwitchChannelState)
     // Call USER_GPIO_PushCommand to insert command to pLocalList
     Status status = USER_GPIO_PushCommand(&localCmdBlock);
 
-    // Act
+    LONGS_EQUAL(OK, status);
+
+    //----------Act----------//
     // Call Executor_Handler with pointer to Executor's List
     status = Executor_Handler(pExecutor);
 
-    // Assert
+    //----------Assert----------//
     // Check FSM returned OK status
     LONGS_EQUAL(OK, status);
+
+    // Check other Emulated GPIOs not changed - in case of EXECUTOR_STATE_SWITCH_CHANNEL, we can't verify GPIOs because of static stateA and stateB
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir0);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir1);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledRedA);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledBlueA);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledRedB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledGreenB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledBlueB);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.phet);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.mcuProg);
 }

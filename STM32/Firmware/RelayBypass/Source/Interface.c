@@ -1,5 +1,8 @@
 #include "../Include/Interface.h"
 
+uint8_t gFxStateA = FX_OFF;
+uint8_t gFxStateB = FX_OFF;
+
 void Interface_UpdateGpioForToggle(char channel, LedColour colour)
 {
     switch (channel)
@@ -145,8 +148,6 @@ void Interface_UpdateGpioForChange(GPIO_PinState state)
 
 Status Interface_SwitchChannel(char channel) 
 {
-    static uint8_t stateA = FX_OFF;
-    static uint8_t stateB = FX_OFF;
     
     if ((channel != CHANNEL_A) && (channel != CHANNEL_B)) 
     {
@@ -159,10 +160,10 @@ Status Interface_SwitchChannel(char channel)
     {
         case CHANNEL_A:
         {
-            uint8_t temp = (stateA == FX_OFF) ? FX_ON : FX_OFF;
-            stateA = temp;
+            uint8_t temp = (gFxStateA == FX_OFF) ? FX_ON : FX_OFF;
+            gFxStateA = temp;
 
-            switch (stateA)
+            switch (gFxStateA)
             {
                 case FX_ON:
                 {
@@ -183,10 +184,10 @@ Status Interface_SwitchChannel(char channel)
     
         case CHANNEL_B:
         {
-            uint8_t temp = (stateB == FX_OFF) ? FX_ON : FX_OFF;
-            stateB = temp;
+            uint8_t temp = (gFxStateB == FX_OFF) ? FX_ON : FX_OFF;
+            gFxStateB = temp;
 
-            switch (stateB)
+            switch (gFxStateB)
             {
                 case FX_ON:
                 {

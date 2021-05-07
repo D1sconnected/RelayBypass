@@ -20,6 +20,9 @@ typedef enum
 	NONE
 } LedColour;
 
+extern uint8_t gFxStateA;
+extern uint8_t gFxStateB;
+
 /*
 typedef struct InterfaceStruct Interface;
 

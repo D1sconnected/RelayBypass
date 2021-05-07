@@ -57,32 +57,32 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 GPIO_PinState HAL_GPIO_ReadPin(uint8_t GPIOx, uint16_t GPIO_Pin)
 {
-	if (GPIO_Pin == A_BTN_Pin) 
+	if (GPIOx == A_BTN_GPIO_Port && GPIO_Pin == A_BTN_Pin)
 	{
 		return emulatedGpio.buttonA;
 	}
 
-	else if (GPIO_Pin == B_BTN_Pin)
+	else if (GPIOx == B_BTN_GPIO_Port && GPIO_Pin == B_BTN_Pin)
 	{
 		return emulatedGpio.buttonB;
 	}
 
-	else if (GPIO_Pin == A_CODE_0_Pin)
+	else if (GPIOx == A_CODE_0_GPIO_Port && GPIO_Pin == A_CODE_0_Pin)
 	{
 		return emulatedGpio.codeA0;
 	}
 
-	else if (GPIO_Pin == A_CODE_1_Pin)
+	else if (GPIOx == A_CODE_1_GPIO_Port && GPIO_Pin == A_CODE_1_Pin)
 	{
 		return emulatedGpio.codeA1;
 	}
 
-	else if (GPIO_Pin == B_CODE_0_Pin)
+	else if (GPIOx == B_CODE_0_GPIO_Port && GPIO_Pin == B_CODE_0_Pin)
 	{
 		return emulatedGpio.codeB0;
 	}
 
-	else if (GPIO_Pin == B_CODE_1_Pin)
+	else if (GPIOx == B_CODE_1_GPIO_Port && GPIO_Pin == B_CODE_1_Pin)
 	{
 		return emulatedGpio.codeB1;
 	}

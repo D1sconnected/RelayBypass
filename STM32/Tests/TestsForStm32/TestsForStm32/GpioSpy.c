@@ -188,7 +188,100 @@ void HAL_GPIO_WritePin(uint8_t GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState)
 
 void HAL_GPIO_TogglePin(uint8_t GPIOx, uint16_t GPIO_Pin)
 {
-	return;
+	switch (GPIOx)
+	{
+	case GPIOA:
+	{
+		switch (GPIO_Pin)
+		{
+		case A_RELE_Pin:
+		{
+			emulatedGpio.releA = !emulatedGpio.releA;
+		}
+		break;
+
+		case A_LED_RED_Pin:
+		{
+			emulatedGpio.ledRedA = !emulatedGpio.ledRedA;
+		}
+		break;
+		}
+	}
+	break;
+
+	case GPIOB:
+	{
+		switch (GPIO_Pin)
+		{
+		case PHET_Pin:
+		{
+			emulatedGpio.phet = !emulatedGpio.phet;
+		}
+		break;
+
+		case DIR1_RELE_Pin:
+		{
+			emulatedGpio.releDir1 = !emulatedGpio.releDir1;
+		}
+		break;
+
+		case A_LED_GREEN_Pin:
+		{
+			emulatedGpio.ledGreenA = !emulatedGpio.ledGreenA;
+		}
+		break;
+
+		case A_LED_BLUE_Pin:
+		{
+			emulatedGpio.ledBlueA = !emulatedGpio.ledBlueA;
+		}
+		break;
+
+		case B_LED_GREEN_Pin:
+		{
+			emulatedGpio.ledGreenB = !emulatedGpio.ledGreenB;
+		}
+		break;
+
+		case B_LED_RED_Pin:
+		{
+			emulatedGpio.ledRedB = !emulatedGpio.ledRedB;
+		}
+		break;
+
+		case MCU_PROG_Pin:
+		{
+			emulatedGpio.mcuProg = !emulatedGpio.mcuProg;
+		}
+		break;
+		}
+	}
+	break;
+	case GPIOC:
+	{
+		switch (GPIO_Pin)
+		{
+		case B_RELE_Pin:
+		{
+			emulatedGpio.releB = !emulatedGpio.releB;
+		}
+		break;
+
+		case DIR0_RELE_Pin:
+		{
+			emulatedGpio.releDir0 = !emulatedGpio.releDir0;
+		}
+		break;
+
+		case B_LED_BLUE_Pin:
+		{
+			emulatedGpio.ledBlueB = !emulatedGpio.ledBlueB;
+		}
+		break;
+		}
+	}
+	break;
+	}
 }
 
 //ToDo: Place in different location

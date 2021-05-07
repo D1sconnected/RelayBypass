@@ -1,7 +1,7 @@
 #include "GpioSpy.h"
 
-bool aBtnState = true;
-bool bBtnState = true;
+bool aBtnState = false;
+bool bBtnState = false;
 
 static Node *pGpioList = NULL;
 
@@ -39,18 +39,18 @@ Status USER_GPIO_HandOverLocalList(Node **pMasterList)
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	if ((GPIO_Pin & (A_BTN_Pin | B_BTN_Pin)) && ((aBtnState == true) || (bBtnState == true)))
+	HAL_TIM_Base_Start_IT(&htim2);
+	if ((GPIO_Pin & (A_BTN_Pin | B_BTN_Pin)) && ((aBtnState == false) || (bBtnState == false)))
 	{
-		HAL_TIM_Base_Start_IT(&htim2);
-		
-		if (GPIO_Pin & A_BTN_Pin) 
+
+		if (GPIO_Pin & A_BTN_Pin)
 		{
-			aBtnState = false;
+			aBtnState = true;
 		}
 
-		else if (GPIO_Pin & B_BTN_Pin)
+		if (GPIO_Pin & B_BTN_Pin)
 		{
-			bBtnState = false;
+			bBtnState = true;
 		}
 	}
 }

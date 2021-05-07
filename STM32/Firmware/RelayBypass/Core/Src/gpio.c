@@ -121,7 +121,6 @@ void MX_GPIO_Init(void)
 /* USER CODE BEGIN 2 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-
     HAL_TIM_Base_Start_IT(&htim2);
     if ((GPIO_Pin & (A_BTN_Pin | B_BTN_Pin)) && ((aBtnState == false) || (bBtnState == false)))
     {

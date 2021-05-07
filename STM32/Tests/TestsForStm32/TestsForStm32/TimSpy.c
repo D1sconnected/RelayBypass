@@ -2,8 +2,8 @@
 
 TIM_HandleTypeDef htim2;
 
-extern bool aBtnState;
-extern bool bBtnState;
+extern bool gBtnStateA;
+extern bool gBtnStateB;
 
 static Node *pTimList = NULL;
 
@@ -47,40 +47,40 @@ HAL_StatusTypeDef HAL_TIM_Base_Stop_IT(TIM_HandleTypeDef *pHtim)
 	return HAL_OK;
 }
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
     StateStruct cmdBlock = { 0 };
 
     static uint8_t changeRouteCounter = 0;
     static char changeRouteChannel = CHANNEL_A;
 
-    GPIO_PinState aBtnGpioState = HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin);
-    GPIO_PinState bBtnGpioState = HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin);
+    GPIO_PinState gpioBtnStateA = HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin);
+    GPIO_PinState gpioBtnStateB = HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin);
 
-    if (aBtnGpioState == GPIO_PIN_RESET && bBtnGpioState == GPIO_PIN_RESET)
+    if (gpioBtnStateA == GPIO_PIN_RESET && gpioBtnStateB == GPIO_PIN_RESET)
     {
         changeRouteCounter++;
     }
 
-    if (aBtnGpioState == GPIO_PIN_RESET && aBtnState == true)
+    if (gpioBtnStateA == GPIO_PIN_RESET && gBtnStateA == true)
     {
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.specificator = 0;
         Status status = USER_TIM_PushCommand(&cmdBlock);
-        aBtnState = false;
+        gBtnStateA = false;
     }
 
-    if (bBtnGpioState == GPIO_PIN_RESET && bBtnState == true)
+    if (gpioBtnStateB == GPIO_PIN_RESET && gBtnStateB == true)
     {
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.specificator = 0;
         Status status = USER_TIM_PushCommand(&cmdBlock);
-        bBtnState = false;
+        gBtnStateB = false;
     }
 
-    if (changeRouteCounter == 100)
+    if (changeRouteCounter == COUNTS_FOR_CHANGE_ROUTE)
     {
         if (changeRouteChannel == CHANNEL_B)
         {

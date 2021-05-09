@@ -50,9 +50,8 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-void MicroSd_Init(void);
 /* USER CODE BEGIN PFP */
-
+void MicroSd_Init(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/

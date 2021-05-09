@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "../../sdcard/sdcard.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,12 +50,115 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MicroSd_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+void MicroSd_Init(void)
+{
+    int code;
+    //UART_Printf("Ready!\r\n");
+
+    code = SDCARD_Init();
+    if(code < 0) {
+        //UART_Printf("SDCARD_Init() failed: code = %d\r\n", code);
+        return;
+    }
+
+    //UART_Printf("SDCARD_Init() done!\r\n");
+
+    uint32_t blocksNum;
+    code = SDCARD_GetBlocksNumber(&blocksNum);
+    if(code < 0) {
+        //UART_Printf("SDCARD_GetBlocksNumber() failed: code = %d\r\n", code);
+        return;
+    }
+
+    //UART_Printf("SDCARD_GetBlocksNumber() done! blocksNum = %u (or %u Mb)\r\n",
+        //blocksNum, blocksNum/2000 /* same as * 512 / 1000 / 1000 */);
+
+    uint32_t startBlockAddr = 0x00ABCD;
+    uint32_t blockAddr = startBlockAddr;
+    uint8_t block[512];
+
+    snprintf((char*)block, sizeof(block), "0x%08X", (int)blockAddr);
+
+    code = SDCARD_WriteSingleBlock(blockAddr, block);
+    if(code < 0) {
+        //UART_Printf("SDCARD_WriteSingleBlock() failed: code = %d\r\n", code);
+        return;
+    }
+    //UART_Printf("SDCARD_WriteSingleBlock(0x%08X, ...) done!\r\n", blockAddr);
+
+    memset(block, 0, sizeof(block));
+
+    code = SDCARD_ReadSingleBlock(blockAddr, block);
+    if(code < 0) {
+        //UART_Printf("SDCARD_ReadSingleBlock() failed: code = %d\r\n", code);
+        return;
+    }
+
+    //UART_Printf("SDCARD_ReadSingleBlock(0x%08X, ...) done! block = \"%c%c%c%c%c%c%c%c%c%c...\"\r\n",
+        //blockAddr, block[0], block[1], block[2], block[3], block[4], block[5], block[6], block[7], block[8], block[9]);
+
+    blockAddr = startBlockAddr + 1;
+    code = SDCARD_WriteBegin(blockAddr);
+    if(code < 0) {
+        //UART_Printf("SDCARD_WriteBegin() failed: code = %d\r\n", code);
+        return;
+    }
+    //UART_Printf("SDCARD_WriteBegin(0x%08X, ...) done!\r\n", blockAddr);
+
+    for(int i = 0; i < 3; i++) {
+        snprintf((char*)block, sizeof(block), "0x%08X", (int)blockAddr);
+
+        code = SDCARD_WriteData(block);
+        if(code < 0) {
+            //UART_Printf("SDCARD_WriteData() failed: code = %d\r\n", code);
+            return;
+        }
+
+        //UART_Printf("SDCARD_WriteData() done! blockAddr = %08X\r\n", blockAddr);
+        blockAddr++;
+    }
+
+    code = SDCARD_WriteEnd();
+    if(code < 0) {
+        //UART_Printf("SDCARD_WriteEnd() failed: code = %d\r\n", code);
+        return;
+    }
+    //UART_Printf("SDCARD_WriteEnd() done!\r\n");
+
+    blockAddr = startBlockAddr + 1;
+    code = SDCARD_ReadBegin(blockAddr);
+    if(code < 0) {
+        //UART_Printf("SDCARD_ReadBegin() failed: code = %d\r\n", code);
+        return;
+    }
+    //UART_Printf("SDCARD_ReadBegin(0x%08X, ...) done!\r\n", blockAddr);
+
+    for(int i = 0; i < 3; i++) {
+        code = SDCARD_ReadData(block);
+        if(code < 0) {
+            //UART_Printf("SDCARD_ReadData() failed: code = %d\r\n", code);
+            return;
+        }
+
+        //UART_Printf("SDCARD_ReadData() done! block = \"%c%c%c%c%c%c%c%c%c%c...\"\r\n",
+            //block[0], block[1], block[2], block[3], block[4], block[5], block[6], block[7], block[8], block[9]);
+    }
+
+    code = SDCARD_ReadEnd();
+    if(code < 0) {
+        //UART_Printf("SDCARD_ReadEnd() failed: code = %d\r\n", code);
+        return;
+    }
+    //UART_Printf("SDCARD_ReadEnd() done!\r\n");
+}
 
 /* USER CODE END 0 */
 
@@ -90,7 +193,7 @@ int main(void)
   MX_SPI1_Init();
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
-
+  MicroSd_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */

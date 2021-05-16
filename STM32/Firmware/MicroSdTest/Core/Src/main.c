@@ -85,19 +85,19 @@ void MicroSd_Init(void)
     //UART_Printf("SDCARD_GetBlocksNumber() done! blocksNum = %u (or %u Mb)\r\n",
         //blocksNum, blocksNum/2000 /* same as * 512 / 1000 / 1000 */);
 
-    uint32_t startBlockAddr = 0x00ABCD;
+    uint32_t startBlockAddr = 0x00;
     uint32_t blockAddr = startBlockAddr;
     uint8_t block[512];
 
-    snprintf((char*)block, sizeof(block), "0x%08X", (int)blockAddr);
-
+    //snprintf((char*)block, sizeof(block), "0x%08X", (int)blockAddr);
+    /*
     code = SDCARD_WriteSingleBlock(blockAddr, block);
     if(code < 0) {
         //UART_Printf("SDCARD_WriteSingleBlock() failed: code = %d\r\n", code);
         return;
     }
     //UART_Printf("SDCARD_WriteSingleBlock(0x%08X, ...) done!\r\n", blockAddr);
-
+    */
     memset(block, 0, sizeof(block));
 
     code = SDCARD_ReadSingleBlock(blockAddr, block);
@@ -108,6 +108,8 @@ void MicroSd_Init(void)
 
     //UART_Printf("SDCARD_ReadSingleBlock(0x%08X, ...) done! block = \"%c%c%c%c%c%c%c%c%c%c...\"\r\n",
         //blockAddr, block[0], block[1], block[2], block[3], block[4], block[5], block[6], block[7], block[8], block[9]);
+
+    return;
 
     blockAddr = startBlockAddr + 1;
     code = SDCARD_WriteBegin(blockAddr);

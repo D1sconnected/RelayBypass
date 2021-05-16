@@ -58,14 +58,20 @@ void MicroSd_Init(void);
 
 void MicroSd_Init(void)
 {
-    int code;
+    int code = 0;
     //UART_Printf("Ready!\r\n");
 
+    do
+    {
+        code = SDCARD_Init();
+    } while (code != 0);
+    /*
     code = SDCARD_Init();
     if(code < 0) {
         //UART_Printf("SDCARD_Init() failed: code = %d\r\n", code);
         return;
     }
+    */
 
     //UART_Printf("SDCARD_Init() done!\r\n");
 
@@ -222,7 +228,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL4;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL3;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -236,7 +242,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
   {
     Error_Handler();
   }

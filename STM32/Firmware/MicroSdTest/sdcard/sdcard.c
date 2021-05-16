@@ -49,11 +49,13 @@ static uint8_t SDCARD_ReadR1() {
     uint8_t r1;
     // make sure FF is transmitted during receive
     uint8_t tx = 0xFF;
-    for(;;) {
+    uint8_t n = 100;
+    do
+    {
         HAL_SPI_TransmitReceive(&SDCARD_SPI_PORT, &tx, &r1, sizeof(r1), HAL_MAX_DELAY);
         if((r1 & 0x80) == 0) // 8th bit alwyas zero, r1 recevied
             break;
-    }
+    } while ((r1 & 0x80) && --n);
     return r1;
 }
 
@@ -82,8 +84,15 @@ static int SDCARD_WaitDataToken(uint8_t token) {
 static int SDCARD_ReadBytes(uint8_t* buff, size_t buff_size) {
     // make sure FF is transmitted during receive
     uint8_t tx = 0xFF;
+    HAL_StatusTypeDef status;
     while(buff_size > 0) {
-        HAL_SPI_TransmitReceive(&SDCARD_SPI_PORT, &tx, buff, 1, HAL_MAX_DELAY);
+        status = HAL_SPI_TransmitReceive(&SDCARD_SPI_PORT, &tx, buff, 1, HAL_MAX_DELAY);
+
+        if (status != HAL_OK)
+        {
+            return -1;
+        }
+
         buff++;
         buff_size--;
     }
@@ -103,6 +112,7 @@ static int SDCARD_WaitNotBusy() {
 }
  
 int SDCARD_Init() {
+    uint8_t r1 = 0;
     /*
     Step 1.
 
@@ -124,6 +134,7 @@ int SDCARD_Init() {
     
     Send CMD0 (GO_IDLE_STATE): Reset the SD card.
     */
+
     if(SDCARD_WaitNotBusy() < 0) { // keep this!
         SDCARD_Unselect();
         return -1;
@@ -135,7 +146,8 @@ int SDCARD_Init() {
         HAL_SPI_Transmit(&SDCARD_SPI_PORT, (uint8_t*)cmd, sizeof(cmd), HAL_MAX_DELAY);
     }
 
-    if(SDCARD_ReadR1() != 0x01) {
+    r1 = SDCARD_ReadR1();
+    if(r1 != 0x01) {
         SDCARD_Unselect();
         return -1;
     }
@@ -151,6 +163,8 @@ int SDCARD_Init() {
     the card is SDC version 2 and it can work at voltage range of 2.7 to 3.6
     volts. If not the case, the card should be rejected.
     */
+
+    //HAL_Delay(1000);
     if(SDCARD_WaitNotBusy() < 0) { // keep this!
         SDCARD_Unselect();
         return -1;
@@ -162,7 +176,9 @@ int SDCARD_Init() {
         HAL_SPI_Transmit(&SDCARD_SPI_PORT, (uint8_t*)cmd, sizeof(cmd), HAL_MAX_DELAY);
     }
 
-    if(SDCARD_ReadR1() != 0x01) {
+
+    r1 = SDCARD_ReadR1();
+    if(r1 != 0x01) {
         SDCARD_Unselect();
         return -2; // not an SDHC/SDXC card (i.e. SDSC, not supported)
     }
@@ -185,7 +201,6 @@ int SDCARD_Init() {
 
     And then initiate initialization with ACMD41 with HCS flag (bit 30).
     */
-
     for(;;) {
         if(SDCARD_WaitNotBusy() < 0) { // keep this!
             SDCARD_Unselect();
@@ -197,8 +212,9 @@ int SDCARD_Init() {
                 { 0x40 | 0x37 /* CMD55 */, 0x00, 0x00, 0x00, 0x00 /* ARG */, (0x7F << 1) | 1 /* CRC7 + end bit */ };
             HAL_SPI_Transmit(&SDCARD_SPI_PORT, (uint8_t*)cmd, sizeof(cmd), HAL_MAX_DELAY);
         }
+        r1 = SDCARD_ReadR1();
 
-        if(SDCARD_ReadR1() != 0x01) {
+        if(r1 != 0x01) {
             SDCARD_Unselect();
             return -5;
         }
@@ -214,7 +230,7 @@ int SDCARD_Init() {
             HAL_SPI_Transmit(&SDCARD_SPI_PORT, (uint8_t*)cmd, sizeof(cmd), HAL_MAX_DELAY);
         }
 
-        uint8_t r1 = SDCARD_ReadR1();
+        r1 = SDCARD_ReadR1();
         if(r1 == 0x00) {
             break;
         }
@@ -223,6 +239,7 @@ int SDCARD_Init() {
             SDCARD_Unselect();
             return -6;
         }
+
     }
 
     /*
@@ -243,7 +260,8 @@ int SDCARD_Init() {
         HAL_SPI_Transmit(&SDCARD_SPI_PORT, (uint8_t*)cmd, sizeof(cmd), HAL_MAX_DELAY);
     }
 
-    if(SDCARD_ReadR1() != 0x00) {
+    r1 = SDCARD_ReadR1();
+    if(r1 != 0x00) {
         SDCARD_Unselect();
         return -7;
     }

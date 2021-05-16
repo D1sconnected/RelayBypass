@@ -28,11 +28,11 @@ SOFTWARE.
 
 #include "main.h"
 
+extern SPI_HandleTypeDef hspi1;
+
 #define SDCARD_SPI_PORT      hspi1
 #define SDCARD_CS_Pin        SPI1_CS2_Pin
 #define SDCARD_CS_GPIO_Port  SPI1_CS2_GPIO_Port
-
-extern SPI_HandleTypeDef SDCARD_SPI_PORT;
 
 // call before initializing any SPI devices
 void SDCARD_Unselect();

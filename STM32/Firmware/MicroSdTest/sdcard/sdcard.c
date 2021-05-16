@@ -185,6 +185,7 @@ int SDCARD_Init() {
 
     And then initiate initialization with ACMD41 with HCS flag (bit 30).
     */
+
     for(;;) {
         if(SDCARD_WaitNotBusy() < 0) { // keep this!
             SDCARD_Unselect();

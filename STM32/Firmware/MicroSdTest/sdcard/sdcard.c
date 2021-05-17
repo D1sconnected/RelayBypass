@@ -202,7 +202,6 @@ int SDCARD_Init() {
     Step 4.
     And then initiate initialization with ACMD41 with HCS flag (bit 30).
     */
-    HAL_Delay(1000);
     for(;;)
     {
         if(SDCARD_WaitNotBusy() < 0) { // keep this!

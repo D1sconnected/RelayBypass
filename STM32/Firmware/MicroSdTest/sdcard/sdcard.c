@@ -49,7 +49,8 @@ static uint8_t SDCARD_ReadR1() {
     uint8_t r1;
     // make sure FF is transmitted during receive
     uint8_t tx = 0xFF;
-    uint8_t n = 100;
+
+    uint8_t n = 10;
     do
     {
         HAL_SPI_TransmitReceive(&SDCARD_SPI_PORT, &tx, &r1, sizeof(r1), HAL_MAX_DELAY);
@@ -134,12 +135,12 @@ int SDCARD_Init() {
     
     Send CMD0 (GO_IDLE_STATE): Reset the SD card.
     */
-
+    /*
     if(SDCARD_WaitNotBusy() < 0) { // keep this!
         SDCARD_Unselect();
         return -1;
     }
-
+    */
     {
         static const uint8_t cmd[] =
             { 0x40 | 0x00 /* CMD0 */, 0x00, 0x00, 0x00, 0x00 /* ARG = 0 */, (0x4A << 1) | 1 /* CRC7 + end bit */ };
@@ -164,7 +165,8 @@ int SDCARD_Init() {
     volts. If not the case, the card should be rejected.
     */
 
-    //HAL_Delay(1000);
+    HAL_Delay(1000);
+
     if(SDCARD_WaitNotBusy() < 0) { // keep this!
         SDCARD_Unselect();
         return -1;
@@ -198,10 +200,11 @@ int SDCARD_Init() {
 
     /*
     Step 4.
-
     And then initiate initialization with ACMD41 with HCS flag (bit 30).
     */
-    for(;;) {
+    HAL_Delay(1000);
+    for(;;)
+    {
         if(SDCARD_WaitNotBusy() < 0) { // keep this!
             SDCARD_Unselect();
             return -1;
@@ -212,6 +215,9 @@ int SDCARD_Init() {
                 { 0x40 | 0x37 /* CMD55 */, 0x00, 0x00, 0x00, 0x00 /* ARG */, (0x7F << 1) | 1 /* CRC7 + end bit */ };
             HAL_SPI_Transmit(&SDCARD_SPI_PORT, (uint8_t*)cmd, sizeof(cmd), HAL_MAX_DELAY);
         }
+
+        HAL_Delay(100);
+
         r1 = SDCARD_ReadR1();
 
         if(r1 != 0x01) {
@@ -249,6 +255,7 @@ int SDCARD_Init() {
     CCS flag (bit 30). When it is set, the card is a high-capacity card known
     as SDHC/SDXC.
     */
+
     if(SDCARD_WaitNotBusy() < 0) { // keep this!
         SDCARD_Unselect();
         return -1;

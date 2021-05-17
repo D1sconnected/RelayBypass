@@ -60,10 +60,11 @@ void MicroSd_Init(void)
 {
     int code = 0;
     //UART_Printf("Ready!\r\n");
-
+    int counter = 0;
     do
     {
         code = SDCARD_Init();
+        counter++;
     } while (code != 0);
     /*
     code = SDCARD_Init();

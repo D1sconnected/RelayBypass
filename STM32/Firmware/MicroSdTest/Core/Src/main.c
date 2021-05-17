@@ -50,28 +50,30 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void MicroSd_Init(void);
+void MicroSd_Test(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-void MicroSd_Init(void)
+void MicroSd_Test(void)
 {
+    // Init microSD in loop
     int code = 0;
-    int counter = 0;
     do
     {
         code = SDCARD_Init();
-        counter++;
     } while (code != 0);
 
+    // Get total number of blocks
     uint32_t blocksNum;
     code = SDCARD_GetBlocksNumber(&blocksNum);
-    if(code < 0) {
+    if(code < 0)
+    {
         return;
     }
 
+    // Write single block filed with counter from 0x00 addr
     uint32_t startBlockAddr = 0x00;
     uint32_t blockAddr = startBlockAddr;
     uint8_t block[512];
@@ -82,56 +84,68 @@ void MicroSd_Init(void)
     }
 
     code = SDCARD_WriteSingleBlock(blockAddr, block);
-    if(code < 0) {
+    if(code < 0)
+    {
         return;
     }
 
+    // Read single block from 0x00 addr
     memset(block, 0, sizeof(block));
     code = SDCARD_ReadSingleBlock(blockAddr, block);
-    if(code < 0) {
-        return;
-    }
-
-    for (int i = 0; i < 512; i++)
+    if(code < 0)
     {
-        block[i] = i + i;
-    }
-
-    //blockAddr = startBlockAddr + 1;
-    code = SDCARD_WriteBegin(blockAddr);
-    if(code < 0) {
         return;
     }
 
-    for(int i = 0; i < 3; i++) {
+    // Write multiple blocks filed with counter from 0x00 addr
+    code = SDCARD_WriteBegin(blockAddr);
+    if(code < 0)
+    {
+        return;
+    }
+
+    for(int i = 0; i < 3; i++)
+    {
+
+        for (int j = 0; j < 512; j++)
+        {
+            block[j] = j*i;
+        }
+
         code = SDCARD_WriteData(block);
-        if(code < 0) {
+        if(code < 0)
+        {
             return;
         }
     }
 
     code = SDCARD_WriteEnd();
-    if(code < 0) {
+    if(code < 0)
+    {
         return;
     }
 
-    //blockAddr = startBlockAddr + 1;
-    code = SDCARD_ReadBegin(blockAddr);
-    if(code < 0) {
-        return;
-    }
-
+    // Read multiple blocks from 0x00 addr
     memset(block, 0, sizeof(block));
 
-    for(int i = 0; i < 3; i++) {
+    code = SDCARD_ReadBegin(blockAddr);
+    if(code < 0)
+    {
+        return;
+    }
+
+    for(int i = 0; i < 3; i++)
+    {
         code = SDCARD_ReadData(block);
-        if(code < 0) {
+        if(code < 0)
+        {
             return;
         }
     }
 
     code = SDCARD_ReadEnd();
-    if(code < 0) {
+    if(code < 0)
+    {
         return;
     }
 }
@@ -168,7 +182,7 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  MicroSd_Init();
+  MicroSd_Test();
   /* USER CODE END 2 */
 
   /* Infinite loop */

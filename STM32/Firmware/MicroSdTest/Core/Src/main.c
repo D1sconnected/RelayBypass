@@ -92,64 +92,48 @@ void MicroSd_Init(void)
         return;
     }
 
-    //UART_Printf("SDCARD_ReadSingleBlock(0x%08X, ...) done! block = \"%c%c%c%c%c%c%c%c%c%c...\"\r\n",
-        //blockAddr, block[0], block[1], block[2], block[3], block[4], block[5], block[6], block[7], block[8], block[9]);
+    for (int i = 0; i < 512; i++)
+    {
+        block[i] = i + i;
+    }
 
-    return;
-
-    blockAddr = startBlockAddr + 1;
+    //blockAddr = startBlockAddr + 1;
     code = SDCARD_WriteBegin(blockAddr);
     if(code < 0) {
-        //UART_Printf("SDCARD_WriteBegin() failed: code = %d\r\n", code);
         return;
     }
-    //UART_Printf("SDCARD_WriteBegin(0x%08X, ...) done!\r\n", blockAddr);
 
     for(int i = 0; i < 3; i++) {
-        snprintf((char*)block, sizeof(block), "0x%08X", (int)blockAddr);
-
         code = SDCARD_WriteData(block);
         if(code < 0) {
-            //UART_Printf("SDCARD_WriteData() failed: code = %d\r\n", code);
             return;
         }
-
-        //UART_Printf("SDCARD_WriteData() done! blockAddr = %08X\r\n", blockAddr);
-        blockAddr++;
     }
 
     code = SDCARD_WriteEnd();
     if(code < 0) {
-        //UART_Printf("SDCARD_WriteEnd() failed: code = %d\r\n", code);
         return;
     }
-    //UART_Printf("SDCARD_WriteEnd() done!\r\n");
 
-    blockAddr = startBlockAddr + 1;
+    //blockAddr = startBlockAddr + 1;
     code = SDCARD_ReadBegin(blockAddr);
     if(code < 0) {
-        //UART_Printf("SDCARD_ReadBegin() failed: code = %d\r\n", code);
         return;
     }
-    //UART_Printf("SDCARD_ReadBegin(0x%08X, ...) done!\r\n", blockAddr);
+
+    memset(block, 0, sizeof(block));
 
     for(int i = 0; i < 3; i++) {
         code = SDCARD_ReadData(block);
         if(code < 0) {
-            //UART_Printf("SDCARD_ReadData() failed: code = %d\r\n", code);
             return;
         }
-
-        //UART_Printf("SDCARD_ReadData() done! block = \"%c%c%c%c%c%c%c%c%c%c...\"\r\n",
-            //block[0], block[1], block[2], block[3], block[4], block[5], block[6], block[7], block[8], block[9]);
     }
 
     code = SDCARD_ReadEnd();
     if(code < 0) {
-        //UART_Printf("SDCARD_ReadEnd() failed: code = %d\r\n", code);
         return;
     }
-    //UART_Printf("SDCARD_ReadEnd() done!\r\n");
 }
 
 /* USER CODE END 0 */

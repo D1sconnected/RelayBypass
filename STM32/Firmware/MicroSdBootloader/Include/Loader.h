@@ -4,4 +4,9 @@
 
 #include "Common.h"
 
+typedef uint8_t Loader;
+
+Loader * Loader_Create(void);
+void Loader_Destroy(Loader* pSelf);
+
 #endif

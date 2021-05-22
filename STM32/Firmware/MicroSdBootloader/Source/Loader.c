@@ -16,3 +16,16 @@ void Loader_Destroy(Loader *pSelf)
     free(pSelf);
     pSelf = NULL;
 }
+
+Status Loader_MainProcess (void) 
+{
+    Status status;
+    uint8_t initCounter = 0;
+
+    do 
+    {
+        status = SDCARD_Init();
+    } while (status != OK || initCounter == 10);
+
+    return status;
+}

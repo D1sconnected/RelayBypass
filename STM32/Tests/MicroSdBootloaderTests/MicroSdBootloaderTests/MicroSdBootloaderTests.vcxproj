@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\MicroSdBootloader\Core\Inc;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\SharedLibs\sdcard;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Core\Inc;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\MicroSdBootloader\Core\Inc;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\SharedLibs\sdcard;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Core\Inc;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\MicroSdBootloader\Core\Inc;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\SharedLibs\sdcard;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Core\Inc;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\MicroSdBootloader\Core\Inc;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\SharedLibs\sdcard;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Core\Inc;$(SolutionDir)..\..\Firmware\MicroSdBootloader\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,6 +149,12 @@
   <ItemGroup>
     <ClCompile Include="LoaderTests.cpp" />
     <ClCompile Include="MicroSdBootloaderTests.cpp" />
+    <ClCompile Include="SdcardSpy.c" />
+    <ClCompile Include="SpiSpy.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SpiSpy.h" />
+    <ClInclude Include="stm32f1xx_hal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

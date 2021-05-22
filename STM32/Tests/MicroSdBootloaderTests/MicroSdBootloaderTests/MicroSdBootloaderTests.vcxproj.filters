@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="HAL Spies">
+      <UniqueIdentifier>{6616074b-9f62-4610-84a4-7bde42e5958a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MicroSdBootloaderTests.cpp">
@@ -21,5 +24,19 @@
     <ClCompile Include="LoaderTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SpiSpy.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
+    <ClCompile Include="SdcardSpy.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stm32f1xx_hal.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="SpiSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

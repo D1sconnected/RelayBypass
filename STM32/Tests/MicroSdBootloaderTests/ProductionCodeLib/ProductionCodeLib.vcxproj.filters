@@ -21,6 +21,12 @@
     <ClInclude Include="..\..\..\Firmware\MicroSdBootloader\Include\Loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\SharedLibs\sdcard\sdcard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Firmware\MicroSdBootloader\Core\Inc\main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Firmware\MicroSdBootloader\Source\Loader.c">

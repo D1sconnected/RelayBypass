@@ -19,8 +19,13 @@ TEST_GROUP(Loader)
     }
 };
 
-
-TEST(Loader, LoaderShouldNotBeNull)
+TEST(Loader, ShouldNotBeNull)
 {
     CHECK_TRUE(pLoader);
+}
+
+TEST(Loader, ShoudHandleMainProcess)
+{
+    Status status = Loader_MainProcess();
+    LONGS_EQUAL(OK, status);
 }

@@ -29,3 +29,9 @@ TEST(Loader, ShoudHandleMainProcess)
     Status status = Loader_MainProcess();
     LONGS_EQUAL(OK, status);
 }
+
+TEST(Loader, ShouldHandleCompareMemory) 
+{
+    Status status = Loader_CompareMemory();
+    LONGS_EQUAL(OK, status);
+}

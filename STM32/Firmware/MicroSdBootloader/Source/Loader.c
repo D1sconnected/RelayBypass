@@ -52,6 +52,13 @@ Status Loader_MainProcess (void)
         // Led Blink, then skip update & go to USER_MEM
     }
 
+    // Unlock FLASH 
+    status = Flash_Init();
+    if (status != OK)
+    {
+        // Led Blink, then skip update & go to USER_MEM
+    }
+
     // Compare USER_MEM to .bin from microSD
 
 

@@ -30,6 +30,9 @@
     <ClCompile Include="SdcardSpy.c">
       <Filter>HAL Spies</Filter>
     </ClCompile>
+    <ClCompile Include="FlashSpy.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stm32f1xx_hal.h">

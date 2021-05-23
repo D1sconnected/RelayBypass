@@ -19,20 +19,24 @@ void Loader_Destroy(Loader *pSelf)
 
 Status Loader_CompareMemory(void)
 {
-    uint8_t sdBuf[512];
+    uint32_t sdBuf[128] = {0};
+    uint32_t flashBuf = 0;
 
     for (uint8_t sector = 0; sector < MAX_FW_SIZE_IN_SECTORS; sector++) 
     {
         // Read to sdBuf
-        /*
-        for (uint16_t byte = 0; byte < 512; byte++) 
-        {
-            if (*((volatile uint8_t*)(FLASH_USER_START_ADDR + sector * SECTOR_SIZE_IN_BYTES + byte)) != sdBuf[byte])
+        
+        for (uint8_t dword = 0; dword < 128; dword++) 
+        {   
+            Flash_Read(dword*4, &flashBuf);
+
+            if (sdBuf[dword] != flashBuf) 
             {
-                break;
+                return NEED_TO_UPDATE;
             }
         }
-        */
+
+        return OK;
     }
 }
 
@@ -60,6 +64,7 @@ Status Loader_MainProcess (void)
     }
 
     // Compare USER_MEM to .bin from microSD
+
 
 
     return status;

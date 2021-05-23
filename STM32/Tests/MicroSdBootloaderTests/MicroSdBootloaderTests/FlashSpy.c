@@ -55,17 +55,17 @@ Status Flash_Erase(uint8_t pageNumber)
     return OK;
 }
 
-Status Flash_Read(uint32_t address, uint32_t *pData) 
+Status Flash_Read(uint32_t offset, uint32_t *pData) 
 {
     if (pFlashMemory == NULL || pData == NULL)
     {
         return INVALID_PARAMETERS;
     }
-    if (address < FLASH_USER_START_ADDR || address >= FLASH_USER_START_ADDR + MAX_FW_SIZE_IN_BYTES)
+    if (offset >= MAX_FW_SIZE_IN_BYTES)
     {
         return INVALID_PARAMETERS;
     }
-    *pData = *(uint32_t*)(pFlashMemory + address);
+    *pData = *(uint32_t*)(pFlashMemory + offset);
     return OK;
 }
 
@@ -79,7 +79,7 @@ Status Flash_Write(uint32_t address, uint32_t data)
     {
         return INVALID_PARAMETERS;
     }
-    // Можем изменять биты: значение 0b1 на 0b0, а обратно только с помощью Flash_Erase
+
     *(uint32_t*)(pFlashMemory + address) &= data;
     return OK;
 }

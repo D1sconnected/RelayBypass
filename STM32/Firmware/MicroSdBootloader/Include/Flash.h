@@ -16,7 +16,7 @@
 Status Flash_Init(void);
 Status Flash_DeInit(void);
 Status Flash_Erase(uint8_t pageNumber);
-Status Flash_Read(uint32_t address, uint32_t *pData);
+Status Flash_Read(uint32_t offset, uint32_t *pData);
 Status Flash_Write(uint32_t address, uint32_t data);
 
 #endif

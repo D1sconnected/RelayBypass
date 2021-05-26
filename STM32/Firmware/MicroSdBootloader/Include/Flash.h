@@ -7,6 +7,7 @@
 #include "./../../SharedLibs/sdcard/sdcard.h"
 
 #define FLASH_USER_START_ADDR       0x08001800
+#define DWORD_SIZE_IN_BYTES         4
 #define SECTOR_SIZE_IN_BYTES        512
 #define PAGE_SIZE_IN_BYTES          1024
 #define MAX_FW_SIZE_IN_PAGES        10

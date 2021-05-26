@@ -150,10 +150,12 @@
     <ClCompile Include="FlashSpy.c" />
     <ClCompile Include="LoaderTests.cpp" />
     <ClCompile Include="MicroSdBootloaderTests.cpp" />
-    <ClCompile Include="SdcardSpy.c" />
+    <ClCompile Include="SdCardSpy.c" />
     <ClCompile Include="SpiSpy.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FlashSpy.h" />
+    <ClInclude Include="SdCardSpy.h" />
     <ClInclude Include="SpiSpy.h" />
     <ClInclude Include="stm32f1xx_hal.h" />
   </ItemGroup>

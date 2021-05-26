@@ -27,10 +27,10 @@
     <ClCompile Include="SpiSpy.c">
       <Filter>HAL Spies</Filter>
     </ClCompile>
-    <ClCompile Include="SdcardSpy.c">
+    <ClCompile Include="FlashSpy.c">
       <Filter>HAL Spies</Filter>
     </ClCompile>
-    <ClCompile Include="FlashSpy.c">
+    <ClCompile Include="SdCardSpy.c">
       <Filter>HAL Spies</Filter>
     </ClCompile>
   </ItemGroup>
@@ -39,6 +39,12 @@
       <Filter>HAL Spies</Filter>
     </ClInclude>
     <ClInclude Include="SpiSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="SdCardSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="FlashSpy.h">
       <Filter>HAL Spies</Filter>
     </ClInclude>
   </ItemGroup>

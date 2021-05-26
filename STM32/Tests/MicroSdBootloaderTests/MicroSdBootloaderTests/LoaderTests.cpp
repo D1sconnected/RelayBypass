@@ -47,15 +47,16 @@ TEST(Loader, ShouldHandleCompareMemoryForIdentical)
     LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
 
     // Allocate Test Pattern, sizeof 10 kB
+    
     uint8_t pattern[MAX_FW_SIZE_IN_BYTES]  = { 0 };
 
     for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++) 
     {
-        pattern[byte] = byte++;
+        pattern[byte] = (uint8_t)byte;
     }
 
-    memcpy(pFlash, pattern, MAX_FW_SIZE_IN_BYTES);
-    memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+    memcpy(pFlash, (uint32_t*)pattern, MAX_FW_SIZE_IN_BYTES);
+    memcpy(pSdFlash, (uint32_t*)pattern, MAX_FW_SIZE_IN_BYTES);
 
     status = Loader_CompareMemory();
     LONGS_EQUAL(OK, status);

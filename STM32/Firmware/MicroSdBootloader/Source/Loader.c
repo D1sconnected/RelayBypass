@@ -19,7 +19,7 @@ void Loader_Destroy(Loader *pSelf)
 
 Status Loader_CompareMemory(void)
 {
-    uint32_t sdBuf[128] = {0};
+    uint8_t sdBuf[512] = {0};
     uint32_t flashBuf = 0;
 
     SDCARD_ReadBegin(0x00);
@@ -27,13 +27,13 @@ Status Loader_CompareMemory(void)
     for (uint8_t sector = 0; sector < MAX_FW_SIZE_IN_SECTORS; sector++) 
     {
         // Read to sdBuf
-        SDCARD_ReadData((uint8_t*)sdBuf);
+        SDCARD_ReadData(sdBuf);
         
         for (uint8_t dword = 0; dword < 128; dword++) 
         {   
             Flash_Read(sector*SECTOR_SIZE_IN_BYTES + dword*DWORD_SIZE_IN_BYTES, &flashBuf);
 
-            if (sdBuf[dword] != flashBuf) 
+            if ((uint32_t)sdBuf[dword*4] != flashBuf) 
             {
                 SDCARD_ReadEnd();
                 return NEED_TO_UPDATE;

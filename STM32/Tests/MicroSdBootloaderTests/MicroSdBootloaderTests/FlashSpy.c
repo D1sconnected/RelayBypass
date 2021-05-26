@@ -1,6 +1,6 @@
 #include "FlashSpy.h"
 
-static uint8_t *pFlashMemory = NULL;
+static uint32_t *pFlashMemory = NULL;
 
 Status FlashSpy_GetFlashPtr(uint32_t **ppFlashMemory, uint32_t offset)
 {
@@ -9,13 +9,13 @@ Status FlashSpy_GetFlashPtr(uint32_t **ppFlashMemory, uint32_t offset)
         return INVALID_PARAMETERS;
     }
 
-    *ppFlashMemory = (uint32_t*)&pFlashMemory[offset];
+    *ppFlashMemory = &pFlashMemory[offset];
     return OK;
 }
 
 Status Flash_Init(void)
 {
-    pFlashMemory = (uint8_t*)malloc(MAX_FW_SIZE_IN_BYTES);
+    pFlashMemory = (uint32_t*)malloc(MAX_FW_SIZE_IN_BYTES);
     if (pFlashMemory == NULL)
     {
         return FAIL;
@@ -60,7 +60,10 @@ Status Flash_Read(uint32_t offset, uint32_t *pData)
     {
         return INVALID_PARAMETERS;
     }
-    *pData = *((uint32_t*)(pFlashMemory + offset));
+    *pData = *(pFlashMemory + offset);
+
+    uint32_t data = *pData;
+
     return OK;
 }
 
@@ -75,6 +78,6 @@ Status Flash_Write(uint32_t address, uint32_t data)
         return INVALID_PARAMETERS;
     }
 
-    *(uint32_t*)(pFlashMemory + address) &= data;
+    *(pFlashMemory + address) &= data;
     return OK;
 }

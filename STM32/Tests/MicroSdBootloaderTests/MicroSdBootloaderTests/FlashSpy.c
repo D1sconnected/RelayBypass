@@ -66,17 +66,20 @@ Status Flash_Read(uint32_t offset, uint32_t *pData)
     return OK;
 }
 
-Status Flash_Write(uint32_t address, uint32_t data)
+Status Flash_Write(uint32_t offset, uint32_t data)
 {
     if (pFlashMemory == NULL)
     {
         return INVALID_PARAMETERS;
     }
-    if (address < FLASH_USER_START_ADDR || address >= FLASH_USER_START_ADDR + MAX_FW_SIZE_IN_BYTES)
+    /*
+    if (offset < FLASH_USER_START_ADDR || offset >= FLASH_USER_START_ADDR + MAX_FW_SIZE_IN_BYTES)
     {
         return INVALID_PARAMETERS;
     }
+    */
+    //*(pFlashMemory + address) &= data;
+    *(pFlashMemory + offset) = data;
 
-    *(pFlashMemory + address) &= data;
     return OK;
 }

@@ -14,6 +14,8 @@ TEST_GROUP(Loader)
     void setup()
     {
         pLoader = Loader_Create();
+        LONGS_EQUAL(OK, Flash_Init());
+        LONGS_EQUAL(OK, SdcardSpy_InitMemory());
     }
     void teardown()
     {
@@ -40,10 +42,8 @@ TEST(Loader, ShouldHandleCompareMemoryForIdentical)
     uint32_t *pFlash = NULL;
     uint32_t *pSdFlash = NULL;
 
-    LONGS_EQUAL(OK, SdcardSpy_InitMemory());
     LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
 
-    LONGS_EQUAL(OK, Flash_Init());
     LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
 
     // Allocate Test Pattern, sizeof 10 kB
@@ -60,4 +60,64 @@ TEST(Loader, ShouldHandleCompareMemoryForIdentical)
 
     status = Loader_CompareMemory();
     LONGS_EQUAL(OK, status);
+}
+
+TEST(Loader, ShouldHandleCompareMemoryForNotIdentical)
+{
+    Status status = FAIL;
+    uint32_t *pFlash = NULL;
+    uint32_t *pSdFlash = NULL;
+
+    LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
+
+    LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
+
+    // Allocate Test Pattern, sizeof 10 kB
+
+    uint8_t pattern[MAX_FW_SIZE_IN_BYTES] = { 0 };
+
+    for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
+    {
+        pattern[byte] = (uint8_t)byte;
+    }
+
+    memcpy(pFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+    memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+
+    // Corrupt flash
+    pFlash[1] = pFlash[10];
+
+    status = Loader_CompareMemory();
+    LONGS_EQUAL(NEED_TO_UPDATE, status);
+}
+
+TEST(Loader, ShouldHandleUpdateFirmware)
+{
+    Status status = FAIL;
+    uint32_t* pFlash = NULL;
+    uint32_t* pSdFlash = NULL;
+
+    LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
+
+    LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
+
+    uint8_t pattern[MAX_FW_SIZE_IN_BYTES] = { 0 };
+
+    for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
+    {
+        pattern[byte] = (uint8_t)byte;
+    }
+
+    memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+
+    status = Loader_UpdateFirmware();
+    LONGS_EQUAL(OK, status);
+
+    for (uint32_t dword = 0; dword < 128; dword++)
+    {
+        printf("[%d] - pFlash: %lu, pSdFlash: %lu\n\r", dword, pFlash[dword], pSdFlash[dword]);
+        UNSIGNED_LONGS_EQUAL(pFlash[dword], pSdFlash[dword])
+
+    }
+
 }

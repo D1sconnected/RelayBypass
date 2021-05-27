@@ -76,14 +76,14 @@ void MicroSd_Test(void)
     // Write single block filed with counter from 0x00 addr
     uint32_t startBlockAddr = 0x00;
     uint32_t blockAddr = startBlockAddr;
-    uint8_t block[512];
+    uint32_t block[128];
 
-    for (int i = 0; i < 512; i++)
+    for (int i = 0; i < 128; i++)
     {
         block[i] = i;
     }
 
-    code = SDCARD_WriteSingleBlock(blockAddr, block);
+    code = SDCARD_WriteSingleBlock(blockAddr, (uint8_t*)block);
     if(code < 0)
     {
         return;
@@ -91,12 +91,12 @@ void MicroSd_Test(void)
 
     // Read single block from 0x00 addr
     memset(block, 0, sizeof(block));
-    code = SDCARD_ReadSingleBlock(blockAddr, block);
+    code = SDCARD_ReadSingleBlock(blockAddr, (uint8_t*)block);
     if(code < 0)
     {
         return;
     }
-
+/*
     // Write multiple blocks filed with counter from 0x00 addr
     code = SDCARD_WriteBegin(blockAddr);
     if(code < 0)
@@ -148,6 +148,7 @@ void MicroSd_Test(void)
     {
         return;
     }
+*/
 }
 
 /* USER CODE END 0 */

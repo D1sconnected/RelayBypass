@@ -55,8 +55,8 @@ TEST(Loader, ShouldHandleCompareMemoryForIdentical)
         pattern[byte] = (uint8_t)byte;
     }
 
-    memcpy(pFlash, (uint32_t*)pattern, MAX_FW_SIZE_IN_BYTES);
-    memcpy(pSdFlash, (uint32_t*)pattern, MAX_FW_SIZE_IN_BYTES);
+    memcpy(pFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+    memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
 
     status = Loader_CompareMemory();
     LONGS_EQUAL(OK, status);

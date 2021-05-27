@@ -1,6 +1,6 @@
 #include "FlashSpy.h"
 
-static uint8_t *pFlashMemory = NULL;
+static uint32_t *pFlashMemory = NULL;
 
 Status FlashSpy_GetFlashPtr(uint32_t **ppFlashMemory, uint32_t offset)
 {
@@ -61,9 +61,7 @@ Status Flash_Read(uint32_t offset, uint32_t *pData)
         return INVALID_PARAMETERS;
     }
 
-    *pData = *(uint32_t*)(pFlashMemory + offset);
-
-    uint32_t data = *pData;
+    *pData = *(pFlashMemory + offset);
 
     return OK;
 }

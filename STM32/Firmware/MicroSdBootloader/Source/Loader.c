@@ -31,7 +31,7 @@ Status Loader_CompareMemory(void)
         
         for (uint8_t dword = 0; dword < 128; dword++) 
         {   
-            Flash_Read(sector*SECTOR_SIZE_IN_BYTES + dword*DWORD_SIZE_IN_BYTES, &flashBuf);
+            Flash_Read(sector*SECTOR_SIZE_IN_BYTES + dword, &flashBuf);
 
             if (sdBuf[dword] != flashBuf) 
             {

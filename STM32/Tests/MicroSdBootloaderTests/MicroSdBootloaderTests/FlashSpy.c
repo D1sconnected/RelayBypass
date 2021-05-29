@@ -16,6 +16,7 @@ Status FlashSpy_GetFlashPtr(uint32_t **ppFlashMemory, uint32_t offset)
 Status Flash_Init(void)
 {
     pFlashMemory = (uint8_t*)malloc(MAX_FW_SIZE_IN_BYTES);
+
     if (pFlashMemory == NULL)
     {
         return FAIL;
@@ -30,6 +31,7 @@ Status Flash_DeInit(void)
     {
         return OK;
     }
+
     free(pFlashMemory);
     pFlashMemory = NULL;
     return OK;
@@ -41,12 +43,14 @@ Status Flash_Erase(uint8_t pageNumber)
     {
         return INVALID_PARAMETERS;
     }
+
     if (pageNumber >= MAX_FW_SIZE_IN_PAGES)
     {
         return INVALID_PARAMETERS;
     }
+
     uint32_t offset = pageNumber * PAGE_SIZE_IN_BYTES;
-    memset(pFlashMemory + offset, 0xFF, PAGE_SIZE_IN_BYTES);
+    memset((uint8_t*)pFlashMemory + offset, 0xFF, PAGE_SIZE_IN_BYTES);
     return OK;
 }
 
@@ -56,6 +60,7 @@ Status Flash_Read(uint32_t offset, uint32_t *pData)
     {
         return INVALID_PARAMETERS;
     }
+
     if (offset >= MAX_FW_SIZE_IN_DWORDS)
     {
         return INVALID_PARAMETERS;
@@ -72,14 +77,14 @@ Status Flash_Write(uint32_t offset, uint32_t data)
     {
         return INVALID_PARAMETERS;
     }
-    /*
-    if (offset < FLASH_USER_START_ADDR || offset >= FLASH_USER_START_ADDR + MAX_FW_SIZE_IN_BYTES)
+
+    if (offset >= MAX_FW_SIZE_IN_DWORDS)
     {
         return INVALID_PARAMETERS;
     }
-    */
-    //*(pFlashMemory + address) &= data;
-    *(pFlashMemory + offset) = data;
+
+    *(pFlashMemory + offset) &= data;
+    //*(pFlashMemory + offset) = data;
 
     return OK;
 }

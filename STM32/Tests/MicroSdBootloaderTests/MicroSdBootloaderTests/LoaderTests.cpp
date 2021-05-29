@@ -110,14 +110,38 @@ TEST(Loader, ShouldHandleUpdateFirmware)
 
     memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
 
+    for (uint8_t page = 0; page < MAX_FW_SIZE_IN_PAGES; page++)
+    {
+        status = Flash_Erase(page);
+        LONGS_EQUAL(OK, status);
+    }
+
     status = Loader_UpdateFirmware();
     LONGS_EQUAL(OK, status);
 
     for (uint32_t dword = 0; dword < MAX_FW_SIZE_IN_DWORDS; dword++)
     {
-        printf("[%d] - pFlash: %lu, pSdFlash: %lu\n\r", dword, pFlash[dword], pSdFlash[dword]);
+        printf("[%d] - pFlash: %lx, pSdFlash: %lx\n\r", dword, pFlash[dword], pSdFlash[dword]);
         UNSIGNED_LONGS_EQUAL(pFlash[dword], pSdFlash[dword])
+    }
+}
 
+TEST(Loader, ShouldHandleFlashErase) 
+{
+    Status status = FAIL;
+    uint32_t* pFlash = NULL;
+
+    LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
+
+    for (uint8_t page = 0; page < MAX_FW_SIZE_IN_PAGES; page++)
+    {
+        status = Flash_Erase(page);
+        LONGS_EQUAL(OK, status);
     }
 
+    for (uint32_t dword = 0; dword < MAX_FW_SIZE_IN_DWORDS; dword++)
+    {
+        printf("[%d] - pFlash: %lx\n\r", dword, pFlash[dword]);
+        UNSIGNED_LONGS_EQUAL(pFlash[dword], 0xFFFFFFFF)
+    }
 }

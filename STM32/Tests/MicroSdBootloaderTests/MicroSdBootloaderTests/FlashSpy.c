@@ -56,7 +56,7 @@ Status Flash_Read(uint32_t offset, uint32_t *pData)
     {
         return INVALID_PARAMETERS;
     }
-    if (offset >= MAX_FW_SIZE_IN_BYTES)
+    if (offset >= MAX_FW_SIZE_IN_DWORDS)
     {
         return INVALID_PARAMETERS;
     }

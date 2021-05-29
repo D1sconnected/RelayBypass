@@ -31,7 +31,7 @@ Status Loader_CompareMemory(void)
         
         for (uint8_t dword = 0; dword < 128; dword++) 
         {   
-            Flash_Read(sector*SECTOR_SIZE_IN_BYTES + dword, &flashBuf);
+            Flash_Read(sector*SECTOR_SIZE_IN_DWORDS + dword, &flashBuf);
 
             if (sdBuf[dword] != flashBuf) 
             {
@@ -39,10 +39,32 @@ Status Loader_CompareMemory(void)
                 return NEED_TO_UPDATE;
             }
         }
-
-        SDCARD_ReadEnd();
-        return OK;
     }
+
+    SDCARD_ReadEnd();
+    return OK;
+}
+
+Status Loader_UpdateFirmware(void) 
+{
+    uint32_t sdBuf[128] = { 0 };
+
+    SDCARD_ReadBegin(0x00);
+
+    for (uint8_t sector = 0; sector < MAX_FW_SIZE_IN_SECTORS; sector++)
+    {
+        // Read to sdBuf
+        SDCARD_ReadData((uint8_t*)sdBuf);
+
+        for (uint8_t dword = 0; dword < 128; dword++)
+        {
+            Flash_Write(sector*SECTOR_SIZE_IN_DWORDS + dword, sdBuf[dword]);
+        }
+
+    }
+
+    SDCARD_ReadEnd();
+    return OK;
 }
 
 Status Loader_MainProcess (void) 
@@ -69,8 +91,9 @@ Status Loader_MainProcess (void)
     }
 
     // Compare USER_MEM to .bin from microSD
-
-
+    
+    // Write .bin to USER_MEM
+    
 
     return status;
 }

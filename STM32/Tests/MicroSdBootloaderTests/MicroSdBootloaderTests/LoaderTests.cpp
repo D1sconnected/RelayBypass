@@ -113,7 +113,7 @@ TEST(Loader, ShouldHandleUpdateFirmware)
     status = Loader_UpdateFirmware();
     LONGS_EQUAL(OK, status);
 
-    for (uint32_t dword = 0; dword < 128; dword++)
+    for (uint32_t dword = 0; dword < MAX_FW_SIZE_IN_DWORDS; dword++)
     {
         printf("[%d] - pFlash: %lu, pSdFlash: %lu\n\r", dword, pFlash[dword], pSdFlash[dword]);
         UNSIGNED_LONGS_EQUAL(pFlash[dword], pSdFlash[dword])

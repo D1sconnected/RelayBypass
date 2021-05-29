@@ -14,4 +14,6 @@ void Loader_Destroy(Loader* pSelf);
 
 Status Loader_CompareMemory(void);
 Status Loader_MainProcess(void);
+Status Loader_UpdateFirmware(void);
+
 #endif

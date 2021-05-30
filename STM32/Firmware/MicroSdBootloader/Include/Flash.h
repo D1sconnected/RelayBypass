@@ -4,9 +4,10 @@
 
 #include "Common.h"
 #include "../Core/Inc/main.h"
-#include "./../../SharedLibs/sdcard/sdcard.h"
+#include "./../../../SharedLibs/sdcard/sdcard.h"
 
-#define FLASH_USER_START_ADDR       0x08001800
+//#define FLASH_USER_START_ADDR       0x08001800
+#define FLASH_USER_START_ADDR       0x08002000
 #define SECTOR_SIZE_IN_BYTES        512
 #define SECTOR_SIZE_IN_DWORDS       128
 #define PAGE_SIZE_IN_BYTES          1024

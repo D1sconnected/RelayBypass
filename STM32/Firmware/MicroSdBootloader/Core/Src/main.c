@@ -21,6 +21,7 @@
 #include "main.h"
 #include "spi.h"
 #include "gpio.h"
+#include "../../Include/Flash.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -88,7 +89,7 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-
+  MicroSdBootloader_FlashTest();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -141,6 +142,31 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void MicroSdBootloader_FlashTest()
+{
+	uint32_t buffer = 0;
+
+	Flash_Init();
+	Flash_Read(0x00, &buffer);
+	Flash_Erase(0);
+	Flash_Read(0x00, &buffer);
+
+	uint32_t pattern[128] = {0};
+
+    for (uint32_t dword = 0; dword < 128; dword++)
+    {
+        pattern[dword] = dword;
+        Flash_Write(4*dword, pattern[dword]);
+    }
+
+    for (uint32_t dword = 0; dword < 128; dword++)
+    {
+    	Flash_Read(dword, &buffer);
+    }
+
+	return;
+}
 
 /* USER CODE END 4 */
 

@@ -126,10 +126,50 @@ TEST(Loader, ShouldHandleUpdateFirmware)
     }
 }
 
-TEST(Loader, ShouldHandleFlashErase) 
+TEST(Loader, ShouldHandleUpdateWithNoErase)
 {
     Status status = FAIL;
     uint32_t* pFlash = NULL;
+    uint32_t* pSdFlash = NULL;
+
+    LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
+
+    LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
+
+    uint8_t pattern[MAX_FW_SIZE_IN_BYTES] = { 0 };
+
+    for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
+    {
+        pattern[byte] = (uint8_t)byte;
+    }
+
+    memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+
+    status = Loader_UpdateFirmware();
+    LONGS_EQUAL(OK, status);
+
+    for (uint32_t dword = 0; dword < MAX_FW_SIZE_IN_DWORDS; dword++)
+    {
+        printf("[%d] - pFlash: %lx, pSdFlash: %lx\n\r", dword, pFlash[dword], pSdFlash[dword]);
+
+        if (pFlash[dword] != pSdFlash[dword]) 
+        {
+            status = OK;
+        }
+
+        else 
+        {
+            status = FAIL;
+        }
+
+        LONGS_EQUAL(OK, status);
+    }
+}
+
+TEST(Loader, ShouldHandleFlashErase) 
+{
+    Status status = FAIL;
+    uint32_t *pFlash = NULL;
 
     LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
 

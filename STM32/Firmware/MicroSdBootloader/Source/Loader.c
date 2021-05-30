@@ -60,7 +60,6 @@ Status Loader_UpdateFirmware(void)
         {
             Flash_Write(sector*SECTOR_SIZE_IN_DWORDS + dword, sdBuf[dword]);
         }
-
     }
 
     SDCARD_ReadEnd();
@@ -92,8 +91,11 @@ Status Loader_MainProcess (void)
 
     // Compare USER_MEM to .bin from microSD
     
+    // Erase Flash
+
     // Write .bin to USER_MEM
     
+
 
     return status;
 }

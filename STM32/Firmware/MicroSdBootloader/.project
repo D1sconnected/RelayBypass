@@ -29,4 +29,11 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>sdcard</name>
+			<type>2</type>
+			<location>D:/Archive/01_Development/01_Github/relay-bypass/STM32/SharedLibs/sdcard</location>
+		</link>
+	</linkedResources>
 </projectDescription>

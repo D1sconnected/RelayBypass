@@ -1,6 +1,6 @@
 #include "FlashSpy.h"
 
-static uint32_t *pFlashMemory = NULL;
+uint32_t *pFlashMemory = NULL;
 
 Status FlashSpy_GetFlashPtr(uint32_t **ppFlashMemory, uint32_t offset)
 {
@@ -15,6 +15,11 @@ Status FlashSpy_GetFlashPtr(uint32_t **ppFlashMemory, uint32_t offset)
 
 Status Flash_Init(void)
 {
+    if (pFlashMemory != NULL) 
+    {
+        return OK;
+    }
+
     pFlashMemory = (uint8_t*)malloc(MAX_FW_SIZE_IN_BYTES);
 
     if (pFlashMemory == NULL)

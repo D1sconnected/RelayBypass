@@ -20,6 +20,12 @@ TEST_GROUP(Loader)
     void teardown()
     {
         Loader_Destroy(pLoader);
+
+        free(pFlashMemory);
+        free(pSdMemory);
+        pFlashMemory = NULL;
+        pSdMemory = NULL;
+
     }
 };
 
@@ -28,13 +34,36 @@ TEST(Loader, ShouldNotBeNull)
     CHECK_TRUE(pLoader);
 }
 
-/*
+
 TEST(Loader, ShoudHandleMainProcess)
 {
-    Status status = Loader_MainProcess();
+    Status status = FAIL;
+    uint32_t* pFlash = NULL;
+    uint32_t* pSdFlash = NULL;
+
+    LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
+
+    LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
+
+    // Allocate Test Pattern, sizeof 10 kB
+
+    uint8_t pattern[MAX_FW_SIZE_IN_BYTES] = { 0 };
+
+    for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
+    {
+        pattern[byte] = (uint8_t)byte;
+    }
+
+    memcpy(pFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+    memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+
+    // Corrupt flash
+    pFlash[10] = pFlash[20];
+
+    status = Loader_MainProcess();
     LONGS_EQUAL(OK, status);
 }
-*/
+
 
 TEST(Loader, ShouldHandleCompareMemoryForIdentical) 
 {

@@ -1,7 +1,7 @@
 #include "SdCardSpy.h"
 #include "Flash.h"
 
-static uint8_t *pSdMemory = NULL;
+uint8_t *pSdMemory = NULL;
 static uint8_t sectorNumber = 0; // ToDo convert to uint32_t
 
 Status SdcardSpy_InitMemory()

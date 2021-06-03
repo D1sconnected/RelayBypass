@@ -112,6 +112,7 @@ Status Loader_MainProcess (void)
     }
 
     // Write .bin to USER_MEM
-    
+    status = Loader_UpdateFirmware();
+
     return status;
 }

@@ -59,7 +59,7 @@ TEST(Loader, ShouldHandleCompareMemoryForIdentical)
     memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
 
     status = Loader_CompareMemory();
-    LONGS_EQUAL(OK, status);
+    LONGS_EQUAL(NO_NEED_TO_UPDATE, status);
 }
 
 TEST(Loader, ShouldHandleCompareMemoryForNotIdentical)
@@ -88,7 +88,7 @@ TEST(Loader, ShouldHandleCompareMemoryForNotIdentical)
     pFlash[1] = pFlash[10];
 
     status = Loader_CompareMemory();
-    LONGS_EQUAL(NEED_TO_UPDATE, status);
+    LONGS_EQUAL(OK, status);
 }
 
 TEST(Loader, ShouldHandleUpdateFirmware)

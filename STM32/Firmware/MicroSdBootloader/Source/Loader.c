@@ -36,13 +36,13 @@ Status Loader_CompareMemory(void)
             if (sdBuf[dword] != flashBuf) 
             {
                 SDCARD_ReadEnd();
-                return NEED_TO_UPDATE;
+                return OK;
             }
         }
     }
 
     SDCARD_ReadEnd();
-    return OK;
+    return NO_NEED_TO_UPDATE;
 }
 
 Status Loader_UpdateFirmware(void) 
@@ -80,6 +80,7 @@ Status Loader_MainProcess (void)
     if (status != OK) 
     {
         // Led Blink, then skip update & go to USER_MEM
+        return FAIL;
     }
 
     // Unlock FLASH 
@@ -87,17 +88,30 @@ Status Loader_MainProcess (void)
     if (status != OK)
     {
         // Led Blink, then skip update & go to USER_MEM
+        return status;
     }
 
     // Compare USER_MEM to .bin from microSD
-    
+    status = Loader_CompareMemory();
+    if (status != OK)
+    {
+        // Led Blink, then skip update & go to USER_MEM
+        return status;
+    }
+
     // Erase Flash
+    for (uint8_t page = 0; page < MAX_FW_SIZE_IN_PAGES; page++)
+    {
+        status = Flash_Erase(page);
+
+        if (status != OK)
+        {
+            // Led Blink
+            return status;
+        }
+    }
 
     // Write .bin to USER_MEM
     
-
-
     return status;
 }
-
-

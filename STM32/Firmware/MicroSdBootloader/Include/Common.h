@@ -17,7 +17,7 @@ typedef enum
     NO_COMMAND = -7,
     INVALID_FORMAT = -8,
 	NO_NEW_COMMANDS = -9,
-    NEED_TO_UPDATE = -10,
+    NO_NEED_TO_UPDATE = -10,
 } Status;
 
 #endif

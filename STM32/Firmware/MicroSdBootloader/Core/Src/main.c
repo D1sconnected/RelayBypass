@@ -89,7 +89,7 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  MicroSdBootloader_FlashTest();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -142,6 +142,23 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void MicroSdBootloader_GoToApp()
+{
+	uint32_t appJumpAddress;
+	void (*GoToApp)(void);
+
+	appJumpAddress = *((volatile uint32_t*)(FLASH_USER_START_ADDR + 4));
+	GoToApp = (void (*)(void))appJumpAddress;
+
+	HAL_RCC_DeInit();
+	HAL_DeInit();
+
+	__disable_irq();
+	SCB->VTOR = FLASH_USER_START_ADDR;
+	__set_MSP(*((volatile uint32_t*) FLASH_USER_START_ADDR));
+	GoToApp();
+}
 
 void MicroSdBootloader_FlashTest()
 {

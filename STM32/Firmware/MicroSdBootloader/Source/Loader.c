@@ -58,7 +58,7 @@ Status Loader_UpdateFirmware(void)
 
         for (uint8_t dword = 0; dword < 128; dword++)
         {
-            Flash_Write(sector*SECTOR_SIZE_IN_DWORDS + dword, sdBuf[dword]);
+            Flash_Write(sector*SECTOR_SIZE_IN_DWORDS + 4*dword, sdBuf[dword]);
         }
     }
 

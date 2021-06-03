@@ -88,9 +88,8 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  MicroSdBootloader_FlashTest();
-  //Loader_MainProcess();
-  //MicroSdBootloader_GoToApp();
+  Loader_MainProcess();
+  MicroSdBootloader_GoToApp();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -162,7 +161,7 @@ void MicroSdBootloader_GoToApp()
 	HAL_RCC_DeInit();
 	HAL_DeInit();
 
-	__disable_irq();
+	//__disable_irq();
 	SCB->VTOR = FLASH_USER_START_ADDR;
 	__set_MSP(*((volatile uint32_t*) FLASH_USER_START_ADDR));
 	GoToApp();

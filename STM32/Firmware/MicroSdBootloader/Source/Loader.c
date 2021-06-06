@@ -31,7 +31,7 @@ Status Loader_CompareMemory(void)
         
         for (uint8_t dword = 0; dword < 128; dword++) 
         {   
-            Flash_Read(sector*SECTOR_SIZE_IN_DWORDS + dword, &flashBuf);
+            Flash_Read(sector*SECTOR_SIZE_IN_DWORDS + 4*dword, &flashBuf);
 
             if (sdBuf[dword] != flashBuf) 
             {
@@ -48,6 +48,7 @@ Status Loader_CompareMemory(void)
 Status Loader_UpdateFirmware(void) 
 {
     uint32_t sdBuf[128] = { 0 };
+    uint32_t flashBuf = 0;
 
     SDCARD_ReadBegin(0x00);
 
@@ -58,7 +59,14 @@ Status Loader_UpdateFirmware(void)
 
         for (uint8_t dword = 0; dword < 128; dword++)
         {
-            Flash_Write(sector*SECTOR_SIZE_IN_DWORDS + 4*dword, sdBuf[dword]);
+            Flash_Write(sector*SECTOR_SIZE_IN_BYTES + 4*dword, sdBuf[dword]);
+            Flash_Read(sector*SECTOR_SIZE_IN_BYTES + 4*dword, &flashBuf);
+            if (sdBuf[dword] != flashBuf)
+            {
+                SDCARD_ReadEnd();
+                return FAIL;
+            }
+
         }
     }
 

@@ -158,10 +158,10 @@ void MicroSdBootloader_GoToApp()
 	appJumpAddress = *((volatile uint32_t*)(FLASH_USER_START_ADDR + 4));
 	GoToApp = (void (*)(void))appJumpAddress;
 
-	HAL_RCC_DeInit();
+	LL_RCC_DeInit();
 	HAL_DeInit();
 
-	//__disable_irq();
+	__disable_irq();
 	SCB->VTOR = FLASH_USER_START_ADDR;
 	__set_MSP(*((volatile uint32_t*) FLASH_USER_START_ADDR));
 	GoToApp();

@@ -34,7 +34,6 @@ TEST(Loader, ShouldNotBeNull)
     CHECK_TRUE(pLoader);
 }
 
-
 TEST(Loader, ShoudHandleMainProcess)
 {
     Status status = FAIL;
@@ -63,7 +62,6 @@ TEST(Loader, ShoudHandleMainProcess)
     status = Loader_MainProcess();
     LONGS_EQUAL(OK, status);
 }
-
 
 TEST(Loader, ShouldHandleCompareMemoryForIdentical) 
 {
@@ -123,13 +121,13 @@ TEST(Loader, ShouldHandleCompareMemoryForNotIdentical)
 TEST(Loader, ShouldHandleUpdateFirmware)
 {
     Status status = FAIL;
-    uint32_t* pFlash = NULL;
-    uint32_t* pSdFlash = NULL;
+    uint32_t *pFlash = NULL;
+    uint32_t *pSdFlash = NULL;
 
     LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
-
     LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
 
+    /*
     uint8_t pattern[MAX_FW_SIZE_IN_BYTES] = { 0 };
 
     for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
@@ -137,7 +135,14 @@ TEST(Loader, ShouldHandleUpdateFirmware)
         pattern[byte] = (uint8_t)byte;
     }
 
-    memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+    memcpy((uint8_t*)pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+    */
+    uint8_t *pByteSdFlash = (uint8_t*)pSdFlash;
+
+    for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
+    {
+        pByteSdFlash[byte] = (uint8_t)byte;
+    }
 
     for (uint8_t page = 0; page < MAX_FW_SIZE_IN_PAGES; page++)
     {
@@ -162,9 +167,9 @@ TEST(Loader, ShouldHandleUpdateWithNoErase)
     uint32_t* pSdFlash = NULL;
 
     LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
-
     LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
 
+    /*
     uint8_t pattern[MAX_FW_SIZE_IN_BYTES] = { 0 };
 
     for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
@@ -172,10 +177,17 @@ TEST(Loader, ShouldHandleUpdateWithNoErase)
         pattern[byte] = (uint8_t)byte;
     }
 
-    memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+    memcpy((uint8_t*)pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+    */
+    uint8_t* pByteSdFlash = (uint8_t*)pSdFlash;
+
+    for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
+    {
+        pByteSdFlash[byte] = (uint8_t)byte;
+    }
 
     status = Loader_UpdateFirmware();
-    LONGS_EQUAL(OK, status);
+    LONGS_EQUAL(FAIL, status);
 
     for (uint32_t dword = 0; dword < MAX_FW_SIZE_IN_DWORDS; dword++)
     {

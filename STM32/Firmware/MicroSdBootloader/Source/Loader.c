@@ -66,7 +66,6 @@ Status Loader_UpdateFirmware(void)
                 SDCARD_ReadEnd();
                 return FAIL;
             }
-
         }
     }
 

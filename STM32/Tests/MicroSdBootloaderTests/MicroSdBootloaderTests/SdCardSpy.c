@@ -1,12 +1,12 @@
 #include "SdCardSpy.h"
 #include "Flash.h"
 
-uint8_t *pSdMemory = NULL;
+uint32_t *pSdMemory = NULL;
 static uint8_t sectorNumber = 0; // ToDo convert to uint32_t
 
 Status SdcardSpy_InitMemory()
 {
-    pSdMemory = (uint8_t*)malloc(MAX_FW_SIZE_IN_BYTES); // ToDo Double size for reserve copy
+    pSdMemory = (uint32_t*)malloc(MAX_FW_SIZE_IN_BYTES); // ToDo Double size for reserve copy
 
     if (pSdMemory == NULL)
     {
@@ -23,7 +23,7 @@ Status SdcardSpy_GetFlashPtr(uint32_t **ppSdMemory, uint32_t offset)
         return INVALID_PARAMETERS;
     }
 
-    *ppSdMemory = (uint32_t*)&pSdMemory[offset];
+    *ppSdMemory = &pSdMemory[offset];
     return OK;
 }
 
@@ -46,9 +46,10 @@ int SDCARD_ReadData(uint8_t *buff)
     }
 
     //*buff = *((pSdMemory + sectorNumber*SECTOR_SIZE_IN_BYTES));
+    uint8_t* pSdMemoryByte = (uint8_t*)pSdMemory;
     for (uint16_t byte = 0; byte < SECTOR_SIZE_IN_BYTES; byte++)
     {
-        buff[byte] = pSdMemory[byte + sectorNumber*SECTOR_SIZE_IN_BYTES];
+        buff[byte] = pSdMemoryByte[byte + sectorNumber*SECTOR_SIZE_IN_BYTES];
     }
 
     sectorNumber++; // MultipleRead emulation

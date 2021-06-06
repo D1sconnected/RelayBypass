@@ -4,7 +4,7 @@
 
 #include "./../../SharedLibs/sdcard/sdcard.h"
 
-extern uint8_t* pSdMemory;
+extern uint32_t *pSdMemory;
 
 Status SdcardSpy_InitMemory();
 Status SdcardSpy_GetFlashPtr(uint32_t **ppSdMemory, uint32_t offset);

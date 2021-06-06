@@ -20,7 +20,7 @@ Status Flash_Init(void)
         return OK;
     }
 
-    pFlashMemory = (uint8_t*)malloc(MAX_FW_SIZE_IN_BYTES);
+    pFlashMemory = (uint32_t*)malloc(MAX_FW_SIZE_IN_BYTES);
 
     if (pFlashMemory == NULL)
     {
@@ -66,12 +66,13 @@ Status Flash_Read(uint32_t offset, uint32_t *pData)
         return INVALID_PARAMETERS;
     }
 
-    if (offset >= MAX_FW_SIZE_IN_DWORDS)
+    if (offset >= MAX_FW_SIZE_IN_BYTES)
     {
         return INVALID_PARAMETERS;
     }
 
-    *pData = *(pFlashMemory + offset);
+    //*pData = *(pFlashMemory + offset);
+    *pData = pFlashMemory[offset / 4];
 
     return OK;
 }
@@ -83,12 +84,12 @@ Status Flash_Write(uint32_t offset, uint32_t data)
         return INVALID_PARAMETERS;
     }
 
-    if (offset >= MAX_FW_SIZE_IN_DWORDS)
+    if (offset >= MAX_FW_SIZE_IN_BYTES)
     {
         return INVALID_PARAMETERS;
     }
-
-    *(pFlashMemory + offset) &= data;
+    pFlashMemory[offset / 4] &= data;
+    //*(pFlashMemory + offset) &= data;
     //*(pFlashMemory + offset) = data;
 
     return OK;

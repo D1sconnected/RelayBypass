@@ -47,5 +47,32 @@
     <ClInclude Include="FlashSpy.h">
       <Filter>HAL Spies</Filter>
     </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_rcc.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_bus.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_cortex.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_dma.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_exti.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_gpio.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_pwr.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_system.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_utils.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

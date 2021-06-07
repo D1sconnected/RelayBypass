@@ -71,6 +71,10 @@ void Error_Handler(void);
 #define MCU_PROG_GPIO_Port GPIOB
 #define SPI1_CS2_Pin GPIO_PIN_10
 #define SPI1_CS2_GPIO_Port GPIOB
+#define A_LED_RED_Pin GPIO_PIN_8
+#define A_LED_RED_GPIO_Port GPIOA
+#define B_LED_RED_Pin GPIO_PIN_9
+#define B_LED_RED_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

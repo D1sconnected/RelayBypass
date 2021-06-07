@@ -1,5 +1,7 @@
 #include "../Include/Loader.h"
 
+static void Loader_IndicateError (int status);
+
 Loader * Loader_Create(void)
 {
     Loader *pSelf = (Loader*)calloc(1, sizeof(Loader));
@@ -48,7 +50,6 @@ Status Loader_CompareMemory(void)
 Status Loader_UpdateFirmware(void) 
 {
     uint32_t sdBuf[128] = { 0 };
-    uint32_t flashBuf = 0;
 
     SDCARD_ReadBegin(0x00);
 
@@ -56,18 +57,11 @@ Status Loader_UpdateFirmware(void)
     {
         // Read to sdBuf
         SDCARD_ReadData((uint8_t*)sdBuf);
+        HAL_GPIO_TogglePin(MCU_PROG_GPIO_Port, MCU_PROG_Pin);
 
         for (uint8_t dword = 0; dword < 128; dword++)
         {
             Flash_Write(sector*SECTOR_SIZE_IN_BYTES + 4*dword, sdBuf[dword]);
-            /*
-            Flash_Read(sector*SECTOR_SIZE_IN_BYTES + 4*dword, &flashBuf);
-            if (sdBuf[dword] != flashBuf)
-            {
-                SDCARD_ReadEnd();
-                return FAIL;
-            }
-            */
         }
     }
 
@@ -84,7 +78,8 @@ Status Loader_MainProcess (void)
     do 
     {
         status = SDCARD_Init();
-    } while (status != OK || initCounter == 10);
+        initCounter++;
+    } while (status != OK && initCounter != 10);
 
     if (status != OK) 
     {
@@ -96,7 +91,7 @@ Status Loader_MainProcess (void)
     status = Flash_Init();
     if (status != OK)
     {
-        // Led Blink, then skip update & go to USER_MEM
+        Loader_IndicateError(FLASH_INIT_FAILED);
         return status;
     }
 
@@ -104,7 +99,7 @@ Status Loader_MainProcess (void)
     status = Loader_CompareMemory();
     if (status != OK)
     {
-        // Led Blink, then skip update & go to USER_MEM
+        Loader_IndicateError(LOADER_COMPARE_MEMORY_FAILED);
         return status;
     }
 
@@ -115,16 +110,35 @@ Status Loader_MainProcess (void)
 
         if (status != OK)
         {
-            // Led Blink
+            Loader_IndicateError(FLASH_ERASE_FAILED);
             return status;
         }
     }
 
     // Write .bin to USER_MEM
     status = Loader_UpdateFirmware();
+    if (status != OK)
+    {
+        Loader_IndicateError(LOADER_UPDATE_FIRMWARE_FAILED);
+        return status;
+    }
 
     // Lock FLASH
     status = Flash_DeInit();
+    if (status != OK)
+    {
+        Loader_IndicateError(FLASH_DEINIT_FAILED);
+    }
 
     return status;
+}
+
+static void Loader_IndicateError (int counter)
+{
+    do
+    {
+        HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+        HAL_Delay(100);
+        counter--;
+    } while (counter != 0);
 }

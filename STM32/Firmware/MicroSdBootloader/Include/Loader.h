@@ -9,6 +9,13 @@
 
 typedef uint8_t Loader;
 
+typedef enum
+{
+    LOADER_COMPARE_MEMORY_FAILED    = 1,
+    LOADER_UPDATE_FIRMWARE_FAILED   = 2,
+    LOADER_MAIN_PROCESS_FAILED      = 3
+} LoaderStatus;
+
 Loader * Loader_Create(void);
 void Loader_Destroy(Loader* pSelf);
 

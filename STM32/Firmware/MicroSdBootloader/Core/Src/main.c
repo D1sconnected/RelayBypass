@@ -88,7 +88,7 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  Status status = Loader_MainProcess();
+  Loader_MainProcess();
   MicroSdBootloader_GoToApp();
   /* USER CODE END 2 */
 

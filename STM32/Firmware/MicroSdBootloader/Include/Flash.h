@@ -25,6 +25,15 @@
 #define MAX_FW_SIZE_IN_BYTES            MAX_FW_SIZE_IN_SECTORS * SECTOR_SIZE_IN_BYTES
 #define MAX_FW_SIZE_IN_DWORDS           MAX_FW_SIZE_IN_BYTES / 4
 
+typedef enum
+{
+    FLASH_INIT_FAILED   = 4,
+    FLASH_DEINIT_FAILED = 5,
+    FLASH_ERASE_FAILED  = 6,
+    FLASH_READ_FAILED   = 7,
+    FLASH_WRITE_FAILED  = 8
+} FlashStatus;
+
 Status Flash_Init(void);
 Status Flash_DeInit(void);
 Status Flash_Erase(uint8_t pageNumber);

@@ -50,7 +50,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void MicroSdBootloader_GoToApp(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -88,7 +88,7 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  Loader_MainProcess();
+  Status status = Loader_MainProcess();
   MicroSdBootloader_GoToApp();
   /* USER CODE END 2 */
 
@@ -150,7 +150,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-void MicroSdBootloader_GoToApp()
+void MicroSdBootloader_GoToApp(void)
 {
 	uint32_t appJumpAddress;
 	void (*GoToApp)(void);
@@ -166,7 +166,7 @@ void MicroSdBootloader_GoToApp()
 	__set_MSP(*((volatile uint32_t*) FLASH_USER_START_ADDR));
 	GoToApp();
 }
-
+/*
 void MicroSdBootloader_FlashTest()
 {
 	uint32_t buffer = 0;
@@ -186,12 +186,12 @@ void MicroSdBootloader_FlashTest()
 
     for (uint32_t dword = 0; dword < 128; dword++)
     {
-    	Flash_Read(dword, &buffer);
+    	Flash_Read(4*dword, &buffer);
     }
 
 	return;
 }
-
+*/
 /* USER CODE END 4 */
 
 /**

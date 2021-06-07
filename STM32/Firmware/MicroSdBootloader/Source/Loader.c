@@ -60,12 +60,14 @@ Status Loader_UpdateFirmware(void)
         for (uint8_t dword = 0; dword < 128; dword++)
         {
             Flash_Write(sector*SECTOR_SIZE_IN_BYTES + 4*dword, sdBuf[dword]);
+            /*
             Flash_Read(sector*SECTOR_SIZE_IN_BYTES + 4*dword, &flashBuf);
             if (sdBuf[dword] != flashBuf)
             {
                 SDCARD_ReadEnd();
                 return FAIL;
             }
+            */
         }
     }
 
@@ -120,6 +122,9 @@ Status Loader_MainProcess (void)
 
     // Write .bin to USER_MEM
     status = Loader_UpdateFirmware();
+
+    // Lock FLASH
+    status = Flash_DeInit();
 
     return status;
 }

@@ -6,9 +6,14 @@
 #include "../Core/Inc/main.h"
 #include "./../../../SharedLibs/sdcard/sdcard.h"
 
-//#define FLASH_USER_START_ADDR       0x08001800
+// With Optimization By Size - 6kB
+//#define FLASH_USER_START_ADDR           0x08001800
+
+// No Optimization By Size - 10kB
+#define FLASH_USER_START_ADDR           0x08002800
+
 #define FLASH_START_ADDR                0x08000000
-#define FLASH_USER_START_ADDR           0x08002400
+
 
 #define FLASH_TOTAL_SIZE_IN_BYTES       16384
 #define FLASH_BOOTLOADER_SIZE_IN_BYTES  (FLASH_USER_START_ADDR - FLASH_START_ADDR)
@@ -35,10 +40,10 @@ typedef enum
     FLASH_WRITE_FAILED  = 8
 } FlashStatus;
 
-Status Flash_Init(void);
-Status Flash_DeInit(void);
-Status Flash_Erase(uint8_t pageNumber);
-Status Flash_Read(uint32_t offset, uint32_t *pData);
-Status Flash_Write(uint32_t offset, uint32_t data);
+int Flash_Init(void);
+int Flash_DeInit(void);
+int Flash_Erase(uint8_t pageNumber);
+int Flash_Read(uint32_t offset, uint32_t *pData);
+int Flash_Write(uint32_t offset, uint32_t data);
 
 #endif

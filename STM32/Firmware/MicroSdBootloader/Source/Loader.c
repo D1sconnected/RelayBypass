@@ -1,5 +1,6 @@
 #include "../Include/Loader.h"
 
+static void Loader_HandleError(int status);
 static void Loader_IndicateError (int counter, GPIO_TypeDef *pPort, uint16_t pin);
 
 Loader * Loader_Create(void)
@@ -19,57 +20,109 @@ void Loader_Destroy(Loader *pSelf)
     pSelf = NULL;
 }
 
-Status Loader_CompareMemory(void)
+int Loader_CompareMemory(void)
 {
     uint32_t sdBuf[128] = {0};
     uint32_t flashBuf = 0;
 
-    SDCARD_ReadBegin(0x00);
+    int status = 0;
+
+    status = SDCARD_ReadBegin(0x00);
+    if (status != OK)
+    {
+        Loader_HandleError(SDCARD_READ_BEGIN_FAILED);
+        return SDCARD_READ_BEGIN_FAILED;
+    }
 
     for (uint8_t sector = 0; sector < MAX_FW_SIZE_IN_SECTORS; sector++) 
     {
         // Read to sdBuf
-        SDCARD_ReadData((uint8_t*)sdBuf);
+        status = SDCARD_ReadData((uint8_t*)sdBuf);
+        if (status != OK)
+        {
+            Loader_HandleError(SDCARD_READ_DATA_FAILED);
+            return SDCARD_READ_DATA_FAILED;
+        }
         
         for (uint8_t dword = 0; dword < 128; dword++) 
         {   
-            Flash_Read(sector*SECTOR_SIZE_IN_BYTES + 4*dword, &flashBuf);
+            status = Flash_Read(SECTOR_SIZE_IN_BYTES*sector + 4*dword, &flashBuf);
+            if (status != OK)
+            {
+                Loader_HandleError(FLASH_READ_FAILED);
+                return FLASH_READ_FAILED;
+            }
 
             if (sdBuf[dword] != flashBuf) 
             {
-                SDCARD_ReadEnd();
+                status = SDCARD_ReadEnd();
+                if (status != OK)
+                {
+                    Loader_HandleError(SDCARD_READ_END_FAILED);
+                    return SDCARD_READ_END_FAILED;
+                }
+
                 return OK;
             }
         }
     }
 
-    SDCARD_ReadEnd();
+    status = SDCARD_ReadEnd();
+    if (status != OK)
+    {
+        Loader_HandleError(SDCARD_READ_END_FAILED);
+        return SDCARD_READ_END_FAILED;
+    }
+
     return NO_NEED_TO_UPDATE;
 }
 
-Status Loader_UpdateFirmware(void) 
+int Loader_UpdateFirmware(void)
 {
     uint32_t sdBuf[128] = { 0 };
 
-    SDCARD_ReadBegin(0x00);
+    int status = 0;
+
+    status = SDCARD_ReadBegin(0x00);
+    if (status != OK)
+    {
+        Loader_HandleError(SDCARD_READ_BEGIN_FAILED);
+        return SDCARD_READ_BEGIN_FAILED;
+    }
 
     for (uint8_t sector = 0; sector < MAX_FW_SIZE_IN_SECTORS; sector++)
     {
         // Read to sdBuf
-        SDCARD_ReadData((uint8_t*)sdBuf);
+        status = SDCARD_ReadData((uint8_t*)sdBuf);
+        if (status != OK)
+        {
+            Loader_HandleError(SDCARD_READ_DATA_FAILED);
+            return SDCARD_READ_DATA_FAILED;
+        }
         HAL_GPIO_TogglePin(MCU_PROG_GPIO_Port, MCU_PROG_Pin);
 
         for (uint8_t dword = 0; dword < 128; dword++)
         {
-            Flash_Write(sector*SECTOR_SIZE_IN_BYTES + 4*dword, sdBuf[dword]);
+            status = Flash_Write(SECTOR_SIZE_IN_BYTES*sector + 4*dword, sdBuf[dword]);
+            if (status != OK)
+            {
+                Loader_HandleError(FLASH_WRITE_FAILED);
+                return FLASH_WRITE_FAILED;
+            }
         }
     }
 
-    SDCARD_ReadEnd();
+    status = SDCARD_ReadEnd();
+    if (status != OK)
+    {
+        Loader_HandleError(SDCARD_READ_END_FAILED);
+        return SDCARD_READ_END_FAILED;
+    }
+
     return OK;
 }
 
-Status Loader_MainProcess (void) 
+int Loader_MainProcess (void)
 {
     Status status;
     uint8_t initCounter = 0;
@@ -83,7 +136,7 @@ Status Loader_MainProcess (void)
 
     if (status != OK) 
     {
-        Loader_IndicateError(status, B_LED_RED_GPIO_Port, B_LED_RED_Pin);
+        Loader_HandleError(SDCARD_INIT_FAILED);
         return status;
     }
 
@@ -91,7 +144,7 @@ Status Loader_MainProcess (void)
     status = Flash_Init();
     if (status != OK)
     {
-        Loader_IndicateError(FLASH_INIT_FAILED, A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+        Loader_HandleError(FLASH_INIT_FAILED);
         return status;
     }
 
@@ -99,7 +152,7 @@ Status Loader_MainProcess (void)
     status = Loader_CompareMemory();
     if (status != OK)
     {
-        Loader_IndicateError(LOADER_COMPARE_MEMORY_FAILED, A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+        Loader_HandleError(LOADER_COMPARE_MEMORY_FAILED);
         return status;
     }
 
@@ -110,7 +163,7 @@ Status Loader_MainProcess (void)
 
         if (status != OK)
         {
-            Loader_IndicateError(FLASH_ERASE_FAILED, A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+            Loader_HandleError(FLASH_ERASE_FAILED);
             return status;
         }
     }
@@ -119,7 +172,7 @@ Status Loader_MainProcess (void)
     status = Loader_UpdateFirmware();
     if (status != OK)
     {
-        Loader_IndicateError(LOADER_UPDATE_FIRMWARE_FAILED, A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+        Loader_HandleError(LOADER_UPDATE_FIRMWARE_FAILED);
         return status;
     }
 
@@ -127,10 +180,23 @@ Status Loader_MainProcess (void)
     status = Flash_DeInit();
     if (status != OK)
     {
-        Loader_IndicateError(FLASH_DEINIT_FAILED, A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+        Loader_HandleError(FLASH_DEINIT_FAILED);
     }
 
     return status;
+}
+
+static void Loader_HandleError(int status)
+{
+    if (status >= SDCARD_STATUS_DEVISOR)
+    {
+        Loader_IndicateError(status/SDCARD_STATUS_DEVISOR, B_LED_RED_GPIO_Port, B_LED_RED_Pin);
+    }
+
+    else
+    {
+        Loader_IndicateError(status, A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+    }
 }
 
 static void Loader_IndicateError (int counter, GPIO_TypeDef *pPort, uint16_t pin)
@@ -141,5 +207,9 @@ static void Loader_IndicateError (int counter, GPIO_TypeDef *pPort, uint16_t pin
         HAL_Delay(100);
         counter--;
     } while (counter != 0);
+
+    HAL_GPIO_WritePin(pPort, pin, GPIO_PIN_RESET);
+    // Wait to separate different errors
+    HAL_Delay(1000);
 }
 

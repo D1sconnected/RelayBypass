@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#define FLASH_USER_START_ADDR           0x08002400
+#define FLASH_USER_START_ADDR           0x08002800
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

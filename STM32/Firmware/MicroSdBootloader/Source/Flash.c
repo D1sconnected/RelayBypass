@@ -1,26 +1,26 @@
 #include "./../Include/Flash.h"
 
-Status Flash_Init(void)
+int Flash_Init(void)
 {
     HAL_StatusTypeDef halStatus = HAL_FLASH_Unlock();
     if(halStatus != HAL_OK)
     {
-        return FAIL;
+        return FLASH_INIT_FAILED;
     }
-    return OK;
+    return FLASH_OK;
 }
 
-Status Flash_DeInit(void)
+int Flash_DeInit(void)
 {
     HAL_StatusTypeDef halStatus = HAL_FLASH_Lock();
     if(halStatus != HAL_OK)
     {
-        return FAIL;
+        return FLASH_DEINIT_FAILED;
     }
-    return OK;
+    return FLASH_OK;
 }
 
-Status Flash_Erase(uint8_t pageNumber)
+int Flash_Erase(uint8_t pageNumber)
 {
     if (pageNumber >= MAX_FW_SIZE_IN_PAGES)
     {
@@ -38,13 +38,13 @@ Status Flash_Erase(uint8_t pageNumber)
     status = HAL_FLASHEx_Erase(&eraseInit, &pageError);
     if(status != HAL_OK)
     {
-        return FAIL;
+        return FLASH_ERASE_FAILED;
     }
 
-    return OK;
+    return FLASH_OK;
 }
 
-Status Flash_Read(uint32_t offset, uint32_t *pData)
+int Flash_Read(uint32_t offset, uint32_t *pData)
 {
     if (pData == NULL)
     {
@@ -57,10 +57,10 @@ Status Flash_Read(uint32_t offset, uint32_t *pData)
     }
 
     *pData = *((volatile uint32_t*)(FLASH_USER_START_ADDR + offset));
-    return OK;
+    return FLASH_OK;
 }
 
-Status Flash_Write(uint32_t offset, uint32_t data)
+int Flash_Write(uint32_t offset, uint32_t data)
 {
     if (offset >= MAX_FW_SIZE_IN_BYTES)
     {
@@ -72,8 +72,8 @@ Status Flash_Write(uint32_t offset, uint32_t data)
 
     if(halStatus != HAL_OK)
     {
-        return FAIL;
+        return FLASH_WRITE_FAILED;
     }
 
-    return OK;
+    return FLASH_OK;
 }

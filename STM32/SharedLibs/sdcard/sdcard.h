@@ -34,19 +34,21 @@ extern SPI_HandleTypeDef hspi1;
 #define SDCARD_CS_Pin        SPI1_CS2_Pin
 #define SDCARD_CS_GPIO_Port  SPI1_CS2_GPIO_Port
 
+#define SDCARD_STATUS_DEVISOR           10
+
 typedef enum
 {
     SDCARD_OK                           = 0,
-    SDCARD_INIT_FAILED                  = 1,
-    SDCARD_GETBLOCKS_NUMBER_FAILED      = 2,
-    SDCARD_READ_SINGLE_BLOCK_FAILED     = 3,
-    SDCARD_WRITE_SINGLE_BLOCK_FAILED    = 4,
-    SDCARD_READ_BEGIN_FAILED            = 5,
-    SDCARD_READ_DATA_FAILED             = 6,
-    SDCARD_READ_END_FAILED              = 7,
-    SDCARD_WRITE_BEGIN_FAILED           = 8,
-    SDCARD_WRITE_DATA_FAILED            = 9,
-    SDCARD_WRITE_END_FAILED             = 10
+    SDCARD_INIT_FAILED                  = 10,
+    SDCARD_GETBLOCKS_NUMBER_FAILED      = 20,
+    SDCARD_READ_SINGLE_BLOCK_FAILED     = 30,
+    SDCARD_WRITE_SINGLE_BLOCK_FAILED    = 40,
+    SDCARD_READ_BEGIN_FAILED            = 50,
+    SDCARD_READ_DATA_FAILED             = 60,
+    SDCARD_READ_END_FAILED              = 70,
+    SDCARD_WRITE_BEGIN_FAILED           = 80,
+    SDCARD_WRITE_DATA_FAILED            = 90,
+    SDCARD_WRITE_END_FAILED             = 100
 } SdCardStatus;
 
 // call before initializing any SPI devices

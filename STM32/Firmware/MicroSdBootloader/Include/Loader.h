@@ -20,8 +20,8 @@ typedef enum
 Loader * Loader_Create(void);
 void Loader_Destroy(Loader* pSelf);
 
-Status Loader_CompareMemory(void);
-Status Loader_MainProcess(void);
-Status Loader_UpdateFirmware(void);
+int Loader_CompareMemory(void);
+int Loader_MainProcess(void);
+int Loader_UpdateFirmware(void);
 
 #endif

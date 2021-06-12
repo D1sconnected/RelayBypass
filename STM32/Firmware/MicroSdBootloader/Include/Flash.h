@@ -27,6 +27,7 @@
 
 typedef enum
 {
+    FLASH_OK            = 0,
     FLASH_INIT_FAILED   = 4,
     FLASH_DEINIT_FAILED = 5,
     FLASH_ERASE_FAILED  = 6,

@@ -1,6 +1,6 @@
 #include "../Include/Loader.h"
 
-static void Loader_IndicateError (int status);
+static void Loader_IndicateError (int counter, GPIO_TypeDef *pPort, uint16_t pin);
 
 Loader * Loader_Create(void)
 {
@@ -83,15 +83,15 @@ Status Loader_MainProcess (void)
 
     if (status != OK) 
     {
-        // Led Blink, then skip update & go to USER_MEM
-        return FAIL;
+        Loader_IndicateError(status, B_LED_RED_GPIO_Port, B_LED_RED_Pin);
+        return status;
     }
 
     // Unlock FLASH 
     status = Flash_Init();
     if (status != OK)
     {
-        Loader_IndicateError(FLASH_INIT_FAILED);
+        Loader_IndicateError(FLASH_INIT_FAILED, A_LED_RED_GPIO_Port, A_LED_RED_Pin);
         return status;
     }
 
@@ -99,7 +99,7 @@ Status Loader_MainProcess (void)
     status = Loader_CompareMemory();
     if (status != OK)
     {
-        Loader_IndicateError(LOADER_COMPARE_MEMORY_FAILED);
+        Loader_IndicateError(LOADER_COMPARE_MEMORY_FAILED, A_LED_RED_GPIO_Port, A_LED_RED_Pin);
         return status;
     }
 
@@ -110,7 +110,7 @@ Status Loader_MainProcess (void)
 
         if (status != OK)
         {
-            Loader_IndicateError(FLASH_ERASE_FAILED);
+            Loader_IndicateError(FLASH_ERASE_FAILED, A_LED_RED_GPIO_Port, A_LED_RED_Pin);
             return status;
         }
     }
@@ -119,7 +119,7 @@ Status Loader_MainProcess (void)
     status = Loader_UpdateFirmware();
     if (status != OK)
     {
-        Loader_IndicateError(LOADER_UPDATE_FIRMWARE_FAILED);
+        Loader_IndicateError(LOADER_UPDATE_FIRMWARE_FAILED, A_LED_RED_GPIO_Port, A_LED_RED_Pin);
         return status;
     }
 
@@ -127,18 +127,19 @@ Status Loader_MainProcess (void)
     status = Flash_DeInit();
     if (status != OK)
     {
-        Loader_IndicateError(FLASH_DEINIT_FAILED);
+        Loader_IndicateError(FLASH_DEINIT_FAILED, A_LED_RED_GPIO_Port, A_LED_RED_Pin);
     }
 
     return status;
 }
 
-static void Loader_IndicateError (int counter)
+static void Loader_IndicateError (int counter, GPIO_TypeDef *pPort, uint16_t pin)
 {
     do
     {
-        HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+        HAL_GPIO_TogglePin(pPort, pin);
         HAL_Delay(100);
         counter--;
     } while (counter != 0);
 }
+

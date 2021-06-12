@@ -36,6 +36,7 @@ extern SPI_HandleTypeDef hspi1;
 
 typedef enum
 {
+    SDCARD_OK                           = 0,
     SDCARD_INIT_FAILED                  = 1,
     SDCARD_GETBLOCKS_NUMBER_FAILED      = 2,
     SDCARD_READ_SINGLE_BLOCK_FAILED     = 3,

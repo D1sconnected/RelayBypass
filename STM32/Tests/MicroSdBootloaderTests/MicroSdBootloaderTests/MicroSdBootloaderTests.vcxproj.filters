@@ -33,6 +33,9 @@
     <ClCompile Include="SdCardSpy.c">
       <Filter>HAL Spies</Filter>
     </ClCompile>
+    <ClCompile Include="GpioSpy.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stm32f1xx_hal.h">
@@ -72,6 +75,9 @@
       <Filter>HAL Spies</Filter>
     </ClInclude>
     <ClInclude Include="stm32f1xx_ll_utils.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="GpioSpy.h">
       <Filter>HAL Spies</Filter>
     </ClInclude>
   </ItemGroup>

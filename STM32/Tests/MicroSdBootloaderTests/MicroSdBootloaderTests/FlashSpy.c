@@ -71,9 +71,7 @@ Status Flash_Read(uint32_t offset, uint32_t *pData)
         return INVALID_PARAMETERS;
     }
 
-    //*pData = *(pFlashMemory + offset);
     *pData = pFlashMemory[offset / 4];
-
     return OK;
 }
 
@@ -88,9 +86,7 @@ Status Flash_Write(uint32_t offset, uint32_t data)
     {
         return INVALID_PARAMETERS;
     }
-    pFlashMemory[offset / 4] &= data;
-    //*(pFlashMemory + offset) &= data;
-    //*(pFlashMemory + offset) = data;
 
+    pFlashMemory[offset / 4] &= data;
     return OK;
 }

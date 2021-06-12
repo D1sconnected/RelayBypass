@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FlashSpy.c" />
+    <ClCompile Include="GpioSpy.c" />
     <ClCompile Include="LoaderTests.cpp" />
     <ClCompile Include="MicroSdBootloaderTests.cpp" />
     <ClCompile Include="SdCardSpy.c" />
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FlashSpy.h" />
+    <ClInclude Include="GpioSpy.h" />
     <ClInclude Include="SdCardSpy.h" />
     <ClInclude Include="SpiSpy.h" />
     <ClInclude Include="stm32f1xx_hal.h" />

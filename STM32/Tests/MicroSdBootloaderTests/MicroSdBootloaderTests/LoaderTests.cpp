@@ -5,6 +5,7 @@ extern "C"
 #include "Loader.h"
 #include "SdCardSpy.h"
 #include "FlashSpy.h"
+#include "GpioSpy.h"
 }
 
 TEST_GROUP(Loader)
@@ -29,13 +30,21 @@ TEST_GROUP(Loader)
     }
 };
 
-TEST(Loader, ShouldNotBeNull)
+TEST(Loader, Should_Not_Be_Null)
 {
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
     CHECK_TRUE(pLoader);
 }
 
-TEST(Loader, ShoudHandleMainProcess)
+TEST(Loader, Should_Handle_Main_Process)
 {
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
     Status status = FAIL;
     uint32_t* pFlash = NULL;
     uint32_t* pSdFlash = NULL;
@@ -63,8 +72,12 @@ TEST(Loader, ShoudHandleMainProcess)
     LONGS_EQUAL(OK, status);
 }
 
-TEST(Loader, ShouldHandleCompareMemoryForIdentical) 
+TEST(Loader, Should_Compare_Memory_For_Identical) 
 {
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
     Status status = FAIL;
     uint32_t *pFlash = NULL;
     uint32_t *pSdFlash = NULL;
@@ -89,8 +102,12 @@ TEST(Loader, ShouldHandleCompareMemoryForIdentical)
     LONGS_EQUAL(NO_NEED_TO_UPDATE, status);
 }
 
-TEST(Loader, ShouldHandleCompareMemoryForNotIdentical)
+TEST(Loader, Should_Compare_Memory_For_Not_Identical)
 {
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
     Status status = FAIL;
     uint32_t *pFlash = NULL;
     uint32_t *pSdFlash = NULL;
@@ -118,8 +135,12 @@ TEST(Loader, ShouldHandleCompareMemoryForNotIdentical)
     LONGS_EQUAL(OK, status);
 }
 
-TEST(Loader, ShouldHandleUpdateFirmware)
+TEST(Loader, Should_Update_Firmware)
 {
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
     Status status = FAIL;
     uint32_t *pFlash = NULL;
     uint32_t *pSdFlash = NULL;
@@ -127,16 +148,6 @@ TEST(Loader, ShouldHandleUpdateFirmware)
     LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
     LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
 
-    /*
-    uint8_t pattern[MAX_FW_SIZE_IN_BYTES] = { 0 };
-
-    for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
-    {
-        pattern[byte] = (uint8_t)byte;
-    }
-
-    memcpy((uint8_t*)pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
-    */
     uint8_t *pByteSdFlash = (uint8_t*)pSdFlash;
 
     for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
@@ -160,8 +171,12 @@ TEST(Loader, ShouldHandleUpdateFirmware)
     }
 }
 
-TEST(Loader, ShouldHandleUpdateWithNoErase)
+TEST(Loader, Should_Not_Update_With_No_Erase)
 {
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
     Status status = FAIL;
     uint32_t* pFlash = NULL;
     uint32_t* pSdFlash = NULL;
@@ -169,16 +184,6 @@ TEST(Loader, ShouldHandleUpdateWithNoErase)
     LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
     LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
 
-    /*
-    uint8_t pattern[MAX_FW_SIZE_IN_BYTES] = { 0 };
-
-    for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
-    {
-        pattern[byte] = (uint8_t)byte;
-    }
-
-    memcpy((uint8_t*)pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
-    */
     uint8_t* pByteSdFlash = (uint8_t*)pSdFlash;
 
     for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
@@ -187,7 +192,7 @@ TEST(Loader, ShouldHandleUpdateWithNoErase)
     }
 
     status = Loader_UpdateFirmware();
-    LONGS_EQUAL(FAIL, status);
+    LONGS_EQUAL(OK, status);
 
     for (uint32_t dword = 0; dword < MAX_FW_SIZE_IN_DWORDS; dword++)
     {
@@ -207,8 +212,12 @@ TEST(Loader, ShouldHandleUpdateWithNoErase)
     }
 }
 
-TEST(Loader, ShouldHandleFlashErase) 
+TEST(Loader, Should_Handle_FlashErase) 
 {
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
     Status status = FAIL;
     uint32_t *pFlash = NULL;
 

@@ -8,6 +8,8 @@ extern "C"
 #include "GpioSpy.h"
 }
 
+//#define DEBUG_PRINT
+
 TEST_GROUP(Loader)
 {
     Loader *pLoader = NULL;
@@ -170,7 +172,9 @@ TEST(Loader, Should_Update_Firmware)
 
     for (uint32_t dword = 0; dword < MAX_FW_SIZE_IN_DWORDS; dword++)
     {
+        #ifdef DEBUG_PRINT
         printf("[%d] - pFlash: %lx, pSdFlash: %lx\n\r", dword, pFlash[dword], pSdFlash[LOAD_OFFSET_IN_DWORDS+dword]);
+        #endif
         UNSIGNED_LONGS_EQUAL(pFlash[dword], pSdFlash[LOAD_OFFSET_IN_DWORDS+dword])
     }
 }
@@ -201,8 +205,9 @@ TEST(Loader, Should_Not_Update_With_No_Erase)
 
     for (uint32_t dword = 0; dword < MAX_FW_SIZE_IN_DWORDS; dword++)
     {
+        #ifdef DEBUG_PRINT
         printf("[%d] - pFlash: %lx, pSdFlash: %lx\n\r", dword, pFlash[dword], pSdFlash[dword]);
-
+        #endif
         if (pFlash[dword] != pSdFlash[dword]) 
         {
             status = OK;
@@ -215,6 +220,31 @@ TEST(Loader, Should_Not_Update_With_No_Erase)
 
         LONGS_EQUAL(OK, status);
     }
+}
+
+TEST(Loader, Should_Not_Update_With_No_Update_Flag)
+{
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
+    int status = FAIL;
+    uint32_t* pFlash = NULL;
+    uint32_t* pSdFlash = NULL;
+
+    LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
+    LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
+
+    pSdFlash[0] = 0x00000000;
+    uint8_t* pByteSdFlash = (uint8_t*)(&pSdFlash[LOAD_OFFSET_IN_DWORDS]);
+
+    for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
+    {
+        pByteSdFlash[byte] = (uint8_t)byte;
+    }
+
+    status = Loader_CompareMemory();
+    LONGS_EQUAL(NO_NEED_TO_UPDATE, status);
 }
 
 TEST(Loader, Should_Handle_FlashErase) 
@@ -236,7 +266,9 @@ TEST(Loader, Should_Handle_FlashErase)
 
     for (uint32_t dword = 0; dword < MAX_FW_SIZE_IN_DWORDS; dword++)
     {
+        #ifdef DEBUG_PRINT
         printf("[%d] - pFlash: %lx\n\r", dword, pFlash[dword]);
+        #endif
         UNSIGNED_LONGS_EQUAL(pFlash[dword], 0xFFFFFFFF)
     }
 }

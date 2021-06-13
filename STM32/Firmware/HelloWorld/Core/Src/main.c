@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#define FLASH_USER_START_ADDR           0x08002800
+//#define FLASH_USER_START_ADDR           0x08001800
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -64,10 +64,10 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	__disable_irq();
-	SCB->VTOR = FLASH_USER_START_ADDR;
+	//__disable_irq();
+	//SCB->VTOR = FLASH_USER_START_ADDR;
 	//__set_MSP(*((volatile uint32_t*) FLASH_USER_START_ADDR));
-	__enable_irq();
+	//__enable_irq();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/

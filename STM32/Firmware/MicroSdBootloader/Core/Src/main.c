@@ -164,6 +164,7 @@ void MicroSdBootloader_GoToApp(void)
 	__disable_irq();
 	SCB->VTOR = FLASH_USER_START_ADDR;
 	__set_MSP(*((volatile uint32_t*) FLASH_USER_START_ADDR));
+    __enable_irq();
 	GoToApp();
 }
 /*

@@ -7,10 +7,10 @@
 #include "./../../../SharedLibs/sdcard/sdcard.h"
 
 // With Optimization By Size - 6kB
-//#define FLASH_USER_START_ADDR           0x08001800
+#define FLASH_USER_START_ADDR           0x08001800
 
 // No Optimization By Size - 10kB
-#define FLASH_USER_START_ADDR           0x08002800
+//#define FLASH_USER_START_ADDR           0x08002800
 
 #define FLASH_START_ADDR                0x08000000
 

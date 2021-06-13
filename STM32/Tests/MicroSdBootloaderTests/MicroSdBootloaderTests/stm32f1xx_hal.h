@@ -27,6 +27,8 @@
 #define EXTI3_IRQn
 #define EXTI15_10_IRQn
 
+#define GPIO_TypeDef uint8_t
+
 typedef enum
 {
   GPIO_PIN_RESET,

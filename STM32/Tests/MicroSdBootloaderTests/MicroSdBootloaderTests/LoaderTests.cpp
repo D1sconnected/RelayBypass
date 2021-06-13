@@ -45,7 +45,7 @@ TEST(Loader, Should_Handle_Main_Process)
     printf("[%s]\n\r", __FUNCTION__);
     printf("------------------------------------------------------------------------\n\r");
 
-    Status status = FAIL;
+    int status = FAIL;
     uint32_t* pFlash = NULL;
     uint32_t* pSdFlash = NULL;
 
@@ -78,7 +78,7 @@ TEST(Loader, Should_Compare_Memory_For_Identical)
     printf("[%s]\n\r", __FUNCTION__);
     printf("------------------------------------------------------------------------\n\r");
 
-    Status status = FAIL;
+    int status = FAIL;
     uint32_t *pFlash = NULL;
     uint32_t *pSdFlash = NULL;
 
@@ -108,7 +108,7 @@ TEST(Loader, Should_Compare_Memory_For_Not_Identical)
     printf("[%s]\n\r", __FUNCTION__);
     printf("------------------------------------------------------------------------\n\r");
 
-    Status status = FAIL;
+    int status = FAIL;
     uint32_t *pFlash = NULL;
     uint32_t *pSdFlash = NULL;
 
@@ -141,7 +141,7 @@ TEST(Loader, Should_Update_Firmware)
     printf("[%s]\n\r", __FUNCTION__);
     printf("------------------------------------------------------------------------\n\r");
 
-    Status status = FAIL;
+    int status = FAIL;
     uint32_t *pFlash = NULL;
     uint32_t *pSdFlash = NULL;
 
@@ -177,7 +177,7 @@ TEST(Loader, Should_Not_Update_With_No_Erase)
     printf("[%s]\n\r", __FUNCTION__);
     printf("------------------------------------------------------------------------\n\r");
 
-    Status status = FAIL;
+    int status = FAIL;
     uint32_t* pFlash = NULL;
     uint32_t* pSdFlash = NULL;
 
@@ -218,7 +218,7 @@ TEST(Loader, Should_Handle_FlashErase)
     printf("[%s]\n\r", __FUNCTION__);
     printf("------------------------------------------------------------------------\n\r");
 
-    Status status = FAIL;
+    int status = FAIL;
     uint32_t *pFlash = NULL;
 
     LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));

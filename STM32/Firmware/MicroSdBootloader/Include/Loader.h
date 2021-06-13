@@ -17,6 +17,8 @@ typedef enum
     LOADER_MAIN_PROCESS_FAILED      = 3
 } LoaderStatus;
 
+#define UPDATE_FLAG 0xFEEDBABE
+
 Loader * Loader_Create(void);
 void Loader_Destroy(Loader* pSelf);
 

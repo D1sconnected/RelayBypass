@@ -34,6 +34,19 @@ int Loader_CompareMemory(void)
         return SDCARD_READ_BEGIN_FAILED;
     }
 
+    // Read Update Flag on 1st page
+    status = SDCARD_ReadData((uint8_t*)sdBuf);
+    if (status != OK)
+    {
+        Loader_HandleError(SDCARD_READ_DATA_FAILED);
+        return SDCARD_READ_DATA_FAILED;
+    }
+
+    if (sdBuf[0] != UPDATE_FLAG)
+    {
+        return NO_NEED_TO_UPDATE;
+    }
+
     for (uint8_t sector = 0; sector < MAX_FW_SIZE_IN_SECTORS; sector++) 
     {
         // Read to sdBuf
@@ -83,7 +96,7 @@ int Loader_UpdateFirmware(void)
 
     int status = 0;
 
-    status = SDCARD_ReadBegin(0x00);
+    status = SDCARD_ReadBegin(0x01);
     if (status != OK)
     {
         Loader_HandleError(SDCARD_READ_BEGIN_FAILED);
@@ -208,8 +221,9 @@ static void Loader_IndicateError (int counter, GPIO_TypeDef *pPort, uint16_t pin
         counter--;
     } while (counter != 0);
 
-    HAL_GPIO_WritePin(pPort, pin, GPIO_PIN_RESET);
     // Wait to separate different errors
-    HAL_Delay(1000);
+    HAL_Delay(500);
+    // Reset for future errors
+    HAL_GPIO_WritePin(pPort, pin, GPIO_PIN_RESET);
 }
 

@@ -62,8 +62,9 @@ TEST(Loader, Should_Handle_Main_Process)
         pattern[byte] = (uint8_t)byte;
     }
 
+    pSdFlash[0] = UPDATE_FLAG;
     memcpy(pFlash, pattern, MAX_FW_SIZE_IN_BYTES);
-    memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+    memcpy(&pSdFlash[LOAD_OFFSET_IN_DWORDS], pattern, MAX_FW_SIZE_IN_BYTES);
 
     // Corrupt flash
     pFlash[10] = pFlash[20];
@@ -95,8 +96,9 @@ TEST(Loader, Should_Compare_Memory_For_Identical)
         pattern[byte] = (uint8_t)byte;
     }
 
+    pSdFlash[0] = UPDATE_FLAG;
     memcpy(pFlash, pattern, MAX_FW_SIZE_IN_BYTES);
-    memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+    memcpy(&pSdFlash[LOAD_OFFSET_IN_DWORDS], pattern, MAX_FW_SIZE_IN_BYTES);
 
     status = Loader_CompareMemory();
     LONGS_EQUAL(NO_NEED_TO_UPDATE, status);
@@ -125,8 +127,9 @@ TEST(Loader, Should_Compare_Memory_For_Not_Identical)
         pattern[byte] = (uint8_t)byte;
     }
 
+    pSdFlash[0] = UPDATE_FLAG;
     memcpy(pFlash, pattern, MAX_FW_SIZE_IN_BYTES);
-    memcpy(pSdFlash, pattern, MAX_FW_SIZE_IN_BYTES);
+    memcpy(&pSdFlash[LOAD_OFFSET_IN_DWORDS], pattern, MAX_FW_SIZE_IN_BYTES);
 
     // Corrupt flash
     pFlash[1] = pFlash[10];
@@ -148,7 +151,8 @@ TEST(Loader, Should_Update_Firmware)
     LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
     LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
 
-    uint8_t *pByteSdFlash = (uint8_t*)pSdFlash;
+    pSdFlash[0] = UPDATE_FLAG;
+    uint8_t *pByteSdFlash = (uint8_t*)(&pSdFlash[LOAD_OFFSET_IN_DWORDS]);
 
     for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
     {
@@ -166,8 +170,8 @@ TEST(Loader, Should_Update_Firmware)
 
     for (uint32_t dword = 0; dword < MAX_FW_SIZE_IN_DWORDS; dword++)
     {
-        printf("[%d] - pFlash: %lx, pSdFlash: %lx\n\r", dword, pFlash[dword], pSdFlash[dword]);
-        UNSIGNED_LONGS_EQUAL(pFlash[dword], pSdFlash[dword])
+        printf("[%d] - pFlash: %lx, pSdFlash: %lx\n\r", dword, pFlash[dword], pSdFlash[LOAD_OFFSET_IN_DWORDS+dword]);
+        UNSIGNED_LONGS_EQUAL(pFlash[dword], pSdFlash[LOAD_OFFSET_IN_DWORDS+dword])
     }
 }
 
@@ -178,13 +182,14 @@ TEST(Loader, Should_Not_Update_With_No_Erase)
     printf("------------------------------------------------------------------------\n\r");
 
     int status = FAIL;
-    uint32_t* pFlash = NULL;
-    uint32_t* pSdFlash = NULL;
+    uint32_t *pFlash = NULL;
+    uint32_t *pSdFlash = NULL;
 
     LONGS_EQUAL(OK, SdcardSpy_GetFlashPtr(&pSdFlash, 0x00));
     LONGS_EQUAL(OK, FlashSpy_GetFlashPtr(&pFlash, 0x00));
 
-    uint8_t* pByteSdFlash = (uint8_t*)pSdFlash;
+    pSdFlash[0] = UPDATE_FLAG;
+    uint8_t* pByteSdFlash = (uint8_t*)(&pSdFlash[LOAD_OFFSET_IN_DWORDS]);
 
     for (uint32_t byte = 0; byte < MAX_FW_SIZE_IN_BYTES; byte++)
     {

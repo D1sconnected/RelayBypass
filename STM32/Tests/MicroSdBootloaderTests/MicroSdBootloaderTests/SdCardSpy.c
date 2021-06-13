@@ -6,7 +6,7 @@ static uint8_t sectorNumber = 0; // ToDo convert to uint32_t
 
 Status SdcardSpy_InitMemory()
 {
-    pSdMemory = (uint32_t*)malloc(MAX_FW_SIZE_IN_BYTES); // ToDo Double size for reserve copy
+    pSdMemory = (uint32_t*)malloc(0x200 + MAX_FW_SIZE_IN_BYTES); // Extra page for UPDATE_FLAG
 
     if (pSdMemory == NULL)
     {
@@ -34,7 +34,7 @@ int SDCARD_Init()
 
 int SDCARD_ReadBegin(uint32_t blockNum)
 {
-    sectorNumber = (uint8_t)(blockNum / SECTOR_SIZE_IN_BYTES);
+    sectorNumber = (uint8_t)(blockNum);
     return 0;
 }
 

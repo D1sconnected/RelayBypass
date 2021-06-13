@@ -34,6 +34,8 @@ extern SPI_HandleTypeDef hspi1;
 #define SDCARD_CS_Pin        SPI1_CS2_Pin
 #define SDCARD_CS_GPIO_Port  SPI1_CS2_GPIO_Port
 
+#define SDCARD_START_SECTOR             0x00
+#define SDCARD_FIRMWARE_START_SECTOR    0x01
 #define SDCARD_STATUS_DEVISOR           10
 
 typedef enum

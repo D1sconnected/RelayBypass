@@ -27,7 +27,7 @@ int Loader_CompareMemory(void)
 
     int status = 0;
 
-    status = SDCARD_ReadBegin(0x00);
+    status = SDCARD_ReadBegin(SDCARD_START_SECTOR);
     if (status != OK)
     {
         Loader_HandleError(SDCARD_READ_BEGIN_FAILED);
@@ -96,7 +96,7 @@ int Loader_UpdateFirmware(void)
 
     int status = 0;
 
-    status = SDCARD_ReadBegin(0x01);
+    status = SDCARD_ReadBegin(SDCARD_FIRMWARE_START_SECTOR);
     if (status != OK)
     {
         Loader_HandleError(SDCARD_READ_BEGIN_FAILED);

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="HAL Spies">
+      <UniqueIdentifier>{6616074b-9f62-4610-84a4-7bde42e5958a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MicroSdBootloaderTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoaderTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpiSpy.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
+    <ClCompile Include="FlashSpy.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
+    <ClCompile Include="SdCardSpy.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
+    <ClCompile Include="GpioSpy.c">
+      <Filter>HAL Spies</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stm32f1xx_hal.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="SpiSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="SdCardSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="FlashSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_rcc.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_bus.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_cortex.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_dma.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_exti.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_gpio.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_pwr.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_system.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_utils.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="GpioSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

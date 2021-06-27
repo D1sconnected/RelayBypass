@@ -19,12 +19,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "spi.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "../../sdcard/sdcard.h"
+//#define FLASH_USER_START_ADDR           0x08001800
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,106 +49,11 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void MicroSd_Test(void);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-void MicroSd_Test(void)
-{
-    // Init microSD in loop
-    int code = 0;
-    do
-    {
-        code = SDCARD_Init();
-    } while (code != 0);
-
-    // Get total number of blocks
-    uint32_t blocksNum;
-    code = SDCARD_GetBlocksNumber(&blocksNum);
-    if(code < 0)
-    {
-        return;
-    }
-
-    // Write single block filed with counter from 0x00 addr
-    uint32_t startBlockAddr = 0x00;
-    uint32_t blockAddr = startBlockAddr;
-    uint32_t block[128];
-
-    for (int i = 0; i < 128; i++)
-    {
-        block[i] = i;
-    }
-
-    code = SDCARD_WriteSingleBlock(blockAddr, (uint8_t*)block);
-    if(code < 0)
-    {
-        return;
-    }
-
-    // Read single block from 0x00 addr
-    memset(block, 0, sizeof(block));
-    code = SDCARD_ReadSingleBlock(blockAddr, (uint8_t*)block);
-    if(code < 0)
-    {
-        return;
-    }
-/*
-    // Write multiple blocks filed with counter from 0x00 addr
-    code = SDCARD_WriteBegin(blockAddr);
-    if(code < 0)
-    {
-        return;
-    }
-
-    for(int i = 0; i < 3; i++)
-    {
-
-        for (int j = 0; j < 512; j++)
-        {
-            block[j] = j*i;
-        }
-
-        code = SDCARD_WriteData(block);
-        if(code < 0)
-        {
-            return;
-        }
-    }
-
-    code = SDCARD_WriteEnd();
-    if(code < 0)
-    {
-        return;
-    }
-
-    // Read multiple blocks from 0x00 addr
-    memset(block, 0, sizeof(block));
-
-    code = SDCARD_ReadBegin(blockAddr);
-    if(code < 0)
-    {
-        return;
-    }
-
-    for(int i = 0; i < 3; i++)
-    {
-        code = SDCARD_ReadData(block);
-        if(code < 0)
-        {
-            return;
-        }
-    }
-
-    code = SDCARD_ReadEnd();
-    if(code < 0)
-    {
-        return;
-    }
-*/
-}
 
 /* USER CODE END 0 */
 
@@ -160,7 +64,10 @@ void MicroSd_Test(void)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	//__disable_irq();
+	//SCB->VTOR = FLASH_USER_START_ADDR;
+	//__set_MSP(*((volatile uint32_t*) FLASH_USER_START_ADDR));
+	//__enable_irq();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -181,9 +88,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  MicroSd_Test();
+	//__enable_irq();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -191,7 +97,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  HAL_GPIO_TogglePin(MCU_PROG_GPIO_Port, MCU_PROG_Pin);
+	  HAL_Delay(500);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

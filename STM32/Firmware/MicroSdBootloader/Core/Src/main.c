@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "../../sdcard/sdcard.h"
+#include "../../Include/Flash.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,106 +50,11 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void MicroSd_Test(void);
+void MicroSdBootloader_GoToApp(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-void MicroSd_Test(void)
-{
-    // Init microSD in loop
-    int code = 0;
-    do
-    {
-        code = SDCARD_Init();
-    } while (code != 0);
-
-    // Get total number of blocks
-    uint32_t blocksNum;
-    code = SDCARD_GetBlocksNumber(&blocksNum);
-    if(code < 0)
-    {
-        return;
-    }
-
-    // Write single block filed with counter from 0x00 addr
-    uint32_t startBlockAddr = 0x00;
-    uint32_t blockAddr = startBlockAddr;
-    uint32_t block[128];
-
-    for (int i = 0; i < 128; i++)
-    {
-        block[i] = i;
-    }
-
-    code = SDCARD_WriteSingleBlock(blockAddr, (uint8_t*)block);
-    if(code < 0)
-    {
-        return;
-    }
-
-    // Read single block from 0x00 addr
-    memset(block, 0, sizeof(block));
-    code = SDCARD_ReadSingleBlock(blockAddr, (uint8_t*)block);
-    if(code < 0)
-    {
-        return;
-    }
-/*
-    // Write multiple blocks filed with counter from 0x00 addr
-    code = SDCARD_WriteBegin(blockAddr);
-    if(code < 0)
-    {
-        return;
-    }
-
-    for(int i = 0; i < 3; i++)
-    {
-
-        for (int j = 0; j < 512; j++)
-        {
-            block[j] = j*i;
-        }
-
-        code = SDCARD_WriteData(block);
-        if(code < 0)
-        {
-            return;
-        }
-    }
-
-    code = SDCARD_WriteEnd();
-    if(code < 0)
-    {
-        return;
-    }
-
-    // Read multiple blocks from 0x00 addr
-    memset(block, 0, sizeof(block));
-
-    code = SDCARD_ReadBegin(blockAddr);
-    if(code < 0)
-    {
-        return;
-    }
-
-    for(int i = 0; i < 3; i++)
-    {
-        code = SDCARD_ReadData(block);
-        if(code < 0)
-        {
-            return;
-        }
-    }
-
-    code = SDCARD_ReadEnd();
-    if(code < 0)
-    {
-        return;
-    }
-*/
-}
 
 /* USER CODE END 0 */
 
@@ -183,7 +88,8 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  MicroSd_Test();
+  Loader_MainProcess();
+  MicroSdBootloader_GoToApp();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -203,33 +109,40 @@ int main(void)
   */
 void SystemClock_Config(void)
 {
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL3;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  LL_FLASH_SetLatency(LL_FLASH_LATENCY_0);
+  while(LL_FLASH_GetLatency()!= LL_FLASH_LATENCY_0)
   {
-    Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  LL_RCC_HSI_SetCalibTrimming(16);
+  LL_RCC_HSI_Enable();
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+   /* Wait till HSI is ready */
+  while(LL_RCC_HSI_IsReady() != 1)
+  {
+
+  }
+  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI_DIV_2, LL_RCC_PLL_MUL_4);
+  LL_RCC_PLL_Enable();
+
+   /* Wait till PLL is ready */
+  while(LL_RCC_PLL_IsReady() != 1)
+  {
+
+  }
+  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
+  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
+
+   /* Wait till System clock is ready */
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
+  {
+
+  }
+  LL_SetSystemCoreClock(16000000);
+
+   /* Update the time base */
+  if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
   {
     Error_Handler();
   }
@@ -237,6 +150,49 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
+void MicroSdBootloader_GoToApp(void)
+{
+	uint32_t appJumpAddress;
+	void (*GoToApp)(void);
+
+	appJumpAddress = *((volatile uint32_t*)(FLASH_USER_START_ADDR + 4));
+	GoToApp = (void (*)(void))appJumpAddress;
+
+	LL_RCC_DeInit();
+	HAL_DeInit();
+
+	__disable_irq();
+	SCB->VTOR = FLASH_USER_START_ADDR;
+	__set_MSP(*((volatile uint32_t*) FLASH_USER_START_ADDR));
+    __enable_irq();
+	GoToApp();
+}
+/*
+void MicroSdBootloader_FlashTest()
+{
+	uint32_t buffer = 0;
+
+	Flash_Init();
+	Flash_Read(0x00, &buffer);
+	Flash_Erase(0);
+	Flash_Read(0x00, &buffer);
+
+	uint32_t pattern[128] = {0};
+
+    for (uint32_t dword = 0; dword < 128; dword++)
+    {
+        pattern[dword] = dword;
+        Flash_Write(4*dword, pattern[dword]);
+    }
+
+    for (uint32_t dword = 0; dword < 128; dword++)
+    {
+    	Flash_Read(4*dword, &buffer);
+    }
+
+	return;
+}
+*/
 /* USER CODE END 4 */
 
 /**

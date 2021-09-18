@@ -26,7 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdlib.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -95,8 +95,7 @@ int main(void)
 
   uint32_t adcResult = 0;
   uint32_t temp = 0;
-  uint8_t potResult = 0;
-  char txBuf[10] = {0};
+  char txBuf[4] = {0};
   /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -109,26 +108,24 @@ int main(void)
       HAL_ADC_PollForConversion(&hadc1, 100);
       adcResult = HAL_ADC_GetValue(&hadc1);
 
-      if (adcResult <= 960)
+      if (adcResult <= 1020)
       {
-          temp = adcResult/16;
-          //itoa(potResult, temp, 10);
+          temp = adcResult/17;
       }
 
-      else if (adcResult > 960)
+      else if (adcResult > 1020)
       {
-          temp = adcResult/80;
-          temp = temp - 12 + 60;
-          //itoa(potResult, temp, 10);
+          temp = adcResult/68;
+          temp = temp - 15 + 55;
       }
 
-      //itoa(potResult, txBuf, 10);
+      itoa(temp, txBuf, 10);
       HAL_ADC_Stop(&hadc1);
-      //txBuf[8] = '\r';
-      //txBuf[9] = '\n';
-      //HAL_UART_Transmit_IT(&huart1, (uint8_t*)txBuf, sizeof(txBuf));
-      //HAL_UART_Transmit_IT(&huart1, (uint8_t*)"\n\r-------------\n\r", sizeof("\n-------------\n\r"));
-      //HAL_Delay(500);
+      txBuf[2] = '\r';
+      txBuf[3] = '\n';
+      HAL_UART_Transmit_IT(&huart1, (uint8_t*)txBuf, sizeof(txBuf));
+      HAL_UART_Transmit_IT(&huart1, (uint8_t*)"\n\r-------------\n\r", sizeof("\n-------------\n\r"));
+      HAL_Delay(500);
   }
   /* USER CODE END 3 */
 }

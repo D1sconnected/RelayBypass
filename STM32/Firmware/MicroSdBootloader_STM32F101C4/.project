@@ -35,5 +35,15 @@
 			<type>2</type>
 			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/sdcard</locationURI>
 		</link>
+		<link>
+			<name>Include</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/MicroSdBootloader/Include</locationURI>
+		</link>
+		<link>
+			<name>Source</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/MicroSdBootloader/Source</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>

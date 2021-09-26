@@ -2,7 +2,7 @@
 Mcu.Family=STM32F1
 ProjectManager.MainLocation=Core/Src
 RCC.MCOFreq_Value=16000000
-ProjectManager.ProjectFileName=MicroSdBootloader.ioc
+ProjectManager.ProjectFileName=MicroSdBootloader_STM32F101C4.ioc
 PB9.GPIO_Label=B_LED_RED
 ProjectManager.KeepUserCode=true
 Mcu.UserName=STM32F101C4Tx
@@ -87,7 +87,7 @@ RCC.IPParameters=ADCFreqValue,ADCPresc,AHBFreq_Value,APB1Freq_Value,APB1TimFreq_
 ProjectManager.AskForMigrate=true
 Mcu.Name=STM32F101C(4-6)Tx
 ProjectManager.HalAssertFull=false
-ProjectManager.ProjectName=MicroSdBootloader
+ProjectManager.ProjectName=MicroSdBootloader_STM32F101C4
 ProjectManager.UnderRoot=true
 PB2.Locked=true
 RCC.PLLMCOFreq_Value=8000000

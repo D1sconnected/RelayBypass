@@ -93,7 +93,9 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  uint32_t adcResult = 0;
+  uint32_t adcResult1 = 0;
+  uint32_t adcResult2 = 0;
+  uint32_t adcTotal;
   uint32_t temp = 0;
   char txBuf[4] = {0};
   /* USER CODE END 2 */
@@ -104,20 +106,37 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+      /*
+      // Get 1st result;
       HAL_ADC_Start(&hadc1);
       HAL_ADC_PollForConversion(&hadc1, 100);
-      adcResult = HAL_ADC_GetValue(&hadc1);
+      adcResult1 = HAL_ADC_GetValue(&hadc1);
+      HAL_ADC_Stop(&hadc1);
 
-      if (adcResult <= 1020)
+      // Get 2nd result;
+      HAL_ADC_Start(&hadc1);
+      HAL_ADC_PollForConversion(&hadc1, 100);
+      adcResult2 = HAL_ADC_GetValue(&hadc1);
+      HAL_ADC_Stop(&hadc1);
+
+      adcTotal = (adcResult1 + adcResult2)/2;
+
+      if (adcTotal <= 1020)
       {
-          temp = adcResult/17;
+          temp = adcTotal/17;
       }
 
-      else if (adcResult > 1020)
+      else if (adcTotal > 1020)
       {
-          temp = adcResult/68;
-          temp = temp - 15 + 55;
+          temp = adcTotal/68;
+          temp = temp + 45;
       }
+        */
+      HAL_ADC_Start(&hadc1);
+      HAL_ADC_PollForConversion(&hadc1, 100);
+      adcResult1 = HAL_ADC_GetValue(&hadc1);
+      HAL_ADC_Stop(&hadc1);
+      temp = adcResult1/41;
 
       itoa(temp, txBuf, 10);
       HAL_ADC_Stop(&hadc1);

@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "../../../../SharedLibs/MicroSdBootloader/Include/Flash.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,7 +50,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void MicroSdBootloader_GoToApp(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -88,7 +88,8 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-
+  Loader_MainProcess();
+  MicroSdBootloader_GoToApp();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -153,6 +154,49 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
+void MicroSdBootloader_GoToApp(void)
+{
+	uint32_t appJumpAddress;
+	void (*GoToApp)(void);
+
+	appJumpAddress = *((volatile uint32_t*)(FLASH_USER_START_ADDR + 4));
+	GoToApp = (void (*)(void))appJumpAddress;
+
+	LL_RCC_DeInit();
+	HAL_DeInit();
+
+	__disable_irq();
+	SCB->VTOR = FLASH_USER_START_ADDR;
+	__set_MSP(*((volatile uint32_t*) FLASH_USER_START_ADDR));
+    __enable_irq();
+	GoToApp();
+}
+/*
+void MicroSdBootloader_FlashTest()
+{
+	uint32_t buffer = 0;
+
+	Flash_Init();
+	Flash_Read(0x00, &buffer);
+	Flash_Erase(0);
+	Flash_Read(0x00, &buffer);
+
+	uint32_t pattern[128] = {0};
+
+    for (uint32_t dword = 0; dword < 128; dword++)
+    {
+        pattern[dword] = dword;
+        Flash_Write(4*dword, pattern[dword]);
+    }
+
+    for (uint32_t dword = 0; dword < 128; dword++)
+    {
+    	Flash_Read(4*dword, &buffer);
+    }
+
+	return;
+}
+*/
 /* USER CODE END 4 */
 
 /**

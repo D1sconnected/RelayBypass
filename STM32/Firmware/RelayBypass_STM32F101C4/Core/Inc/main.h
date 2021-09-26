@@ -32,7 +32,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "../../Include/Common.h"
+#include "../../../../SharedLibs/RelayBypass/Include/Common.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

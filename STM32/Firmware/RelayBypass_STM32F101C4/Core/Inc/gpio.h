@@ -32,8 +32,8 @@ extern "C" {
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
-#include "../../Include/List.h"
-#include "../../Include/Common.h"
+#include "../../../../SharedLibs/RelayBypass/Include/List.h"
+#include "../../../../SharedLibs/RelayBypass/Include/Common.h"
 
 extern TIM_HandleTypeDef htim2;
 /* USER CODE END Private defines */

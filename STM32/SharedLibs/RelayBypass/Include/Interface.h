@@ -3,8 +3,8 @@
 #define INTERFACE_HEADER_FILE_H
 
 #include "Common.h"
-#include "../Core/Inc/main.h"
-#include "../Core/Inc/gpio.h"
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/main.h"
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
 
 #define FX_OFF false
 #define FX_ON  true

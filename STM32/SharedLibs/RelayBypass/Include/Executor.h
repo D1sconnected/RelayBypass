@@ -8,8 +8,8 @@
 #include "Serial.h"
 #include "Interface.h"
 
-#include "../Core/Inc/gpio.h"
-#include "../Core/Inc/tim.h"
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
 typedef struct ExecutorStruct
 {
 	Node* pExecutorList;

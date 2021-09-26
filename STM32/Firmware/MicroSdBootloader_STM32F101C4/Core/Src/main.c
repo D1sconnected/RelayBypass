@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "../../../../SharedLibs/MicroSdBootloader/Include/Flash.h"
+#include "../../../../SharedLibs/MicroSdBootloader/Include/Loader.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

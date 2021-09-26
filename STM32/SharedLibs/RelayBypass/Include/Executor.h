@@ -8,8 +8,16 @@
 #include "Serial.h"
 #include "Interface.h"
 
+#ifdef STM32F1_VERSION
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
+#endif
+
+#ifdef STM32L1_VERSION
+#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/gpio.h"
+#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
+#endif
+
 typedef struct ExecutorStruct
 {
 	Node* pExecutorList;

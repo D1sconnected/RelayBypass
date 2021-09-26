@@ -3,8 +3,16 @@
 #define INTERFACE_HEADER_FILE_H
 
 #include "Common.h"
-#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/main.h"
+
+#ifdef STM32F1_VERSION
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
+#endif
+
+#ifdef STM32L1_VERSION
+#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/gpio.h"
+#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
+#endif
 
 #define FX_OFF false
 #define FX_ON  true

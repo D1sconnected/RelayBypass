@@ -3,8 +3,15 @@
 #define FLASH_HEADER_FILE_H
 
 #include "Common.h"
-#include "../Core/Inc/main.h"
-#include "./../../../SharedLibs/sdcard/sdcard.h"
+#include "../../sdcard/sdcard.h"
+
+#ifdef STM32F1_VERSION
+#include "../../../Firmware/MicroSdBootloader_STM32F101C4/Core/Inc/main.h"
+#endif
+
+#ifdef STM32L1_VERSION
+#include "../../../Firmware/MicroSdBootloader_STM32L151C8/Core/Inc/main.h"
+#endif
 
 // With Optimization By Size - 6kB
 #define FLASH_USER_START_ADDR           0x08001800

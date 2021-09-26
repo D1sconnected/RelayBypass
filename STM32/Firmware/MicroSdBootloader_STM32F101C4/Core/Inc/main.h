@@ -42,7 +42,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "../../Include/Common.h"
+#include "../../../../SharedLibs/MicroSdBootloader/Include/Common.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

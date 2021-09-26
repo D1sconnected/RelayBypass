@@ -3,9 +3,16 @@
 #define LOADER_HEADER_FILE_H
 
 #include "Common.h"
-#include "../Core/Inc/main.h"
-#include "./../../../SharedLibs/sdcard/sdcard.h"
+#include "../../sdcard/sdcard.h"
 #include "Flash.h"
+
+#ifdef STM32F1_VERSION
+#include "../../../Firmware/MicroSdBootloader_STM32F101C4/Core/Inc/main.h"
+#endif
+
+#ifdef STM32L1_VERSION
+#include "../../../Firmware/MicroSdBootloader_STM32L151C8/Core/Inc/main.h"
+#endif
 
 typedef uint8_t Loader;
 

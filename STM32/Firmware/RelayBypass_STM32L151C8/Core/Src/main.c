@@ -26,12 +26,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "../../../../SharedLibs/RelayBypass/Include/Executor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -92,6 +91,14 @@ int main(void)
   MX_I2C1_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
+  Status status = OK;
+
+  Executor *pExecutor = Executor_Create();
+
+  if(pExecutor == NULL)
+  {
+      Error_Handler();
+  }
 
   /* USER CODE END 2 */
 
@@ -99,6 +106,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    status = Executor_Handler(pExecutor);
+
+    if (status == INVALID_PARAMETERS)
+    {
+        Error_Handler();
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -167,9 +180,9 @@ void Error_Handler(void)
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
-  while (1)
-  {
-  }
+  Interface_ToggleChannel(CHANNEL_A);
+  Interface_ToggleChannel(CHANNEL_B);
+  NVIC_SystemReset();
   /* USER CODE END Error_Handler_Debug */
 }
 

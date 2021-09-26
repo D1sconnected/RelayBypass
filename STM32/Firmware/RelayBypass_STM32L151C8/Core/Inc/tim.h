@@ -34,13 +34,16 @@ extern "C" {
 extern TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN Private defines */
+#include "../../../../SharedLibs/RelayBypass/Include/List.h"
+#include "../../../../SharedLibs/RelayBypass/Include/Common.h"
 
+#define COUNTS_FOR_CHANGE_ROUTE 50
 /* USER CODE END Private defines */
 
 void MX_TIM2_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+Status USER_TIM_HandOverLocalList(Node** pMasterList);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

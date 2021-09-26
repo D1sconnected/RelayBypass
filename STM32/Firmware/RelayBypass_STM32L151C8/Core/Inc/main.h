@@ -28,7 +28,7 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l1xx_hal.h"
+#include "stm32f1xx_hal.h"
 
 #include "stm32l1xx_ll_rcc.h"
 #include "stm32l1xx_ll_bus.h"
@@ -38,11 +38,9 @@ extern "C" {
 #include "stm32l1xx_ll_utils.h"
 #include "stm32l1xx_ll_pwr.h"
 #include "stm32l1xx_ll_dma.h"
-#include "stm32l1xx_ll_gpio.h"
-
-/* Private includes ----------------------------------------------------------*/
+#include "stm32l1xx_ll_gpio.h"/* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "../../../../SharedLibs/RelayBypass/Include/Common.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -52,7 +50,6 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

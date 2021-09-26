@@ -32,13 +32,17 @@ extern "C" {
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
+#include "../../../../SharedLibs/RelayBypass/Include/List.h"
+#include "../../../../SharedLibs/RelayBypass/Include/Common.h"
 
+extern TIM_HandleTypeDef htim2;
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+Status USER_GPIO_PushCommand(StateStruct* pCmd);
+Status USER_GPIO_HandOverLocalList(Node** pMasterList);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

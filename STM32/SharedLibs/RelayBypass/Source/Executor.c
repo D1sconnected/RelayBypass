@@ -73,8 +73,8 @@ Status Executor_UpdateList(Executor *pSelf)
 
     // Call HandOverLocalList for each peripheral
     Status status = OK;
-    status += USER_GPIO_HandOverLocalList(&pSelf->pExecutorList);
-    status += USER_TIM_HandOverLocalList(&pSelf->pExecutorList);
+    status += Button_HandOverLocalList(&pSelf->pExecutorList);
+    status += Timer_HandOverLocalList(&pSelf->pExecutorList);
 
     return status;
 }

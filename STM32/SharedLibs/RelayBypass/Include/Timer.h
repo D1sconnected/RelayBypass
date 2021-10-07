@@ -19,8 +19,8 @@
 
 #define COUNTS_FOR_CHANGE_ROUTE 50
 
-Status USER_TIM_PushCommand(StateStruct* pCmd);
-Status USER_TIM_HandOverLocalList(Node** pMasterList);
-void Timer_Callback (TIM_HandleTypeDef *htim);
+Status Timer_PushCommand(StateStruct* pCmd);
+Status Timer_HandOverLocalList(Node** pMasterList);
+void   Timer_Callback (TIM_HandleTypeDef *htim);
 
 #endif

@@ -2,7 +2,7 @@
 
 static Node* pLocalTimList = NULL;
 
-Status USER_TIM_PushCommand(StateStruct* pCmd)
+Status Timer_PushCommand(StateStruct* pCmd)
 {
     if (pCmd == NULL)
     {
@@ -14,7 +14,7 @@ Status USER_TIM_PushCommand(StateStruct* pCmd)
     return OK;
 }
 
-Status USER_TIM_HandOverLocalList(Node** pMasterList)
+Status Timer_HandOverLocalList(Node** pMasterList)
 {
     if (pMasterList == NULL)
     {
@@ -52,7 +52,7 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.specificator = 0;
-        Status status = USER_TIM_PushCommand(&cmdBlock);
+        Status status = Timer_PushCommand(&cmdBlock);
         gBtnStateA = false;
     }
 
@@ -61,7 +61,7 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.specificator = 0;
-        Status status = USER_TIM_PushCommand(&cmdBlock);
+        Status status = Timer_PushCommand(&cmdBlock);
         gBtnStateB = false;
     }
 
@@ -82,12 +82,12 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_CHANGE_ROUTE;
         cmdBlock.channel = changeRouteChannel;
         cmdBlock.specificator = 0;
-        Status status = USER_TIM_PushCommand(&cmdBlock);
+        Status status = Timer_PushCommand(&cmdBlock);
         changeRouteCounter = 0;
 
         cmdBlock.state = EXECUTOR_STATE_TOGGLE_CHANNEL;
         cmdBlock.channel = changeRouteChannel;
         cmdBlock.specificator = 0;
-        status = USER_TIM_PushCommand(&cmdBlock);
+        status = Timer_PushCommand(&cmdBlock);
     }
 }

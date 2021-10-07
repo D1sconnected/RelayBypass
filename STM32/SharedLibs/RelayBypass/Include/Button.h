@@ -14,8 +14,8 @@
 extern bool gBtnStateA;
 extern bool gBtnStateB;
 
-void Button_Callback (uint16_t GPIO_Pin);
-Status USER_GPIO_PushCommand(StateStruct* pCmd);
-Status USER_GPIO_HandOverLocalList(Node** pMasterList);
+Status Button_PushCommand(StateStruct* pCmd);
+Status Button_HandOverLocalList(Node** pMasterList);
+void   Button_Callback (uint16_t GPIO_Pin);
 
 #endif

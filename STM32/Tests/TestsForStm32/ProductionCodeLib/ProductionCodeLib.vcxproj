@@ -90,7 +90,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(SolutionDir)..\..\Tests\TestsForStm32\TestsForStm32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\SharedLibs\RelayBypass\Include;$(SolutionDir)..\..\Tests\TestsForStm32\TestsForStm32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -108,7 +108,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(SolutionDir)..\..\Tests\TestsForStm32\TestsForStm32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\SharedLibs\RelayBypass\Include;$(SolutionDir)..\..\Tests\TestsForStm32\TestsForStm32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -126,7 +126,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(SolutionDir)..\..\Tests\TestsForStm32\TestsForStm32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\SharedLibs\RelayBypass\Include;$(SolutionDir)..\..\Tests\TestsForStm32\TestsForStm32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -144,7 +144,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(SolutionDir)..\..\Tests\TestsForStm32\TestsForStm32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\SharedLibs\RelayBypass\Include;$(SolutionDir)..\..\Tests\TestsForStm32\TestsForStm32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -155,9 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\gpio.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\main.h" />
-    <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\tim.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Common.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Executor.h" />
     <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Interface.h" />

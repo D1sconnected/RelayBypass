@@ -87,7 +87,5 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.channel = changeRouteChannel;
         cmdBlock.specificator = 0;
         status = USER_TIM_PushCommand(&cmdBlock);
-
     }
-
 }

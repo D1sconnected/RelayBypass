@@ -41,8 +41,8 @@ extern TIM_HandleTypeDef htim2;
 void MX_GPIO_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-Status USER_GPIO_PushCommand(StateStruct* pCmd);
-Status USER_GPIO_HandOverLocalList(Node** pMasterList);
+//Status USER_GPIO_PushCommand(StateStruct* pCmd);
+//Status USER_GPIO_HandOverLocalList(Node** pMasterList);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

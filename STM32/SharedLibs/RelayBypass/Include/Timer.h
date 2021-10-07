@@ -1,7 +1,6 @@
 #ifndef TIMER_HEADER_FILE_H
 #define TIMER_HEADER_FILE_H
 
-
 #ifdef STM32F1_VERSION
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"

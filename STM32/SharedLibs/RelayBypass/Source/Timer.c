@@ -1,5 +1,7 @@
 #include "../Include/Timer.h"
 
+static Node* pLocalTimList = NULL;
+
 Status USER_TIM_PushCommand(StateStruct* pCmd)
 {
     if (pCmd == NULL)

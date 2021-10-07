@@ -15,13 +15,7 @@
 #include "List.h"
 
 /* USER CODE BEGIN 0 */
-extern bool gBtnStateA;
-extern bool gBtnStateB;
-
-static Node* pLocalTimList = NULL;
 /* USER CODE END 0 */
-
-TIM_HandleTypeDef htim2;
 
 #define COUNTS_FOR_CHANGE_ROUTE 50
 

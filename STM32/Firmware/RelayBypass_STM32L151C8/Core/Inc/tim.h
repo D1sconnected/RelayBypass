@@ -36,6 +36,7 @@ extern TIM_HandleTypeDef htim2;
 /* USER CODE BEGIN Private defines */
 #include "../../../../SharedLibs/RelayBypass/Include/List.h"
 #include "../../../../SharedLibs/RelayBypass/Include/Common.h"
+#include "../../../../SharedLibs/RelayBypass/Include/Timer.h"
 
 #define COUNTS_FOR_CHANGE_ROUTE 50
 /* USER CODE END Private defines */

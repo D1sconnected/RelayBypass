@@ -1,8 +1,5 @@
 #include "GpioSpy.h"
 
-bool gBtnStateA = false;
-bool gBtnStateB = false;
-
 static Node *pGpioList = NULL;
 
 EmulatedGpioStatesStruct emulatedGpio = {0};

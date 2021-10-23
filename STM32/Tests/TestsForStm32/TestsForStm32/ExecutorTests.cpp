@@ -2,7 +2,17 @@
 
 extern "C"
 {
-#include "main.h"
+
+#ifdef STM32F1_VERSION
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/main.h"
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
+#endif
+
+#ifdef STM32L1_VERSION
+#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/main.h"
+#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
+#endif
+
 #include "Executor.h"
 #include "List.h"
 #include "Serial.h"
@@ -10,7 +20,6 @@ extern "C"
 #include "GpioSpy.h"
 #include "TimSpy.h"
 }
-
 
 TEST_GROUP(Executor)
 {

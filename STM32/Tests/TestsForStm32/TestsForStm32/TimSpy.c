@@ -1,10 +1,6 @@
 #include "TimSpy.h"
 
 TIM_HandleTypeDef htim2;
-
-extern bool gBtnStateA;
-extern bool gBtnStateB;
-
 static Node *pTimList = NULL;
 
 Status USER_TIM_PushCommand(StateStruct* pCmd)

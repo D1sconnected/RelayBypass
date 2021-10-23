@@ -86,9 +86,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;STM32L1_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Firmware\RelayBypass\Core\Inc;$(SolutionDir)..\..\Firmware\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Archive\01_Development\01_Github\relay-bypass\STM32\Firmware\RelayBypass_STM32L151C8\Core\Inc;$(SolutionDir)..\..\SharedLibs\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,7 +161,7 @@
     <ClInclude Include="AdcSpy.h" />
     <ClInclude Include="GpioSpy.h" />
     <ClInclude Include="SerialSpy.h" />
-    <ClInclude Include="stm32f1xx_hal.h" />
+    <ClInclude Include="stm32l1xx_hal.h" />
     <ClInclude Include="TimSpy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -86,7 +86,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;STM32L1_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -155,7 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass_STM32F101C4\Core\Inc\main.h" />
+    <ClInclude Include="..\..\..\Firmware\RelayBypass_STM32L151C8\Core\Inc\main.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Button.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Common.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Executor.h" />

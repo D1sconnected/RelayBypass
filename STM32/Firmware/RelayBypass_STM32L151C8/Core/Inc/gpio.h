@@ -35,7 +35,8 @@ extern "C" {
 #include "../../../../SharedLibs/RelayBypass/Include/List.h"
 #include "../../../../SharedLibs/RelayBypass/Include/Common.h"
 
-extern TIM_HandleTypeDef htim2;
+//extern TIM_HandleTypeDef htim2;
+#include "tim.h"
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);

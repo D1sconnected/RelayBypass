@@ -1,5 +1,5 @@
-#ifndef __STM32F1xx_HAL_H
-#define __STM32F1xx_HAL_H
+#ifndef __STM32L1xx_HAL_H
+#define __STM32L1xx_HAL_H
 
 #include "../../../SharedLibs/RelayBypass/Include/Common.h"
 #include <stdint.h>

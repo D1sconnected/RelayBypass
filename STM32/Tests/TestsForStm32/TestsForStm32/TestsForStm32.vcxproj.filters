@@ -44,9 +44,6 @@
     <ClInclude Include="SerialSpy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stm32f1xx_hal.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
     <ClInclude Include="TimSpy.h">
       <Filter>HAL Spies</Filter>
     </ClInclude>
@@ -54,6 +51,9 @@
       <Filter>HAL Spies</Filter>
     </ClInclude>
     <ClInclude Include="AdcSpy.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_hal.h">
       <Filter>HAL Spies</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,6 +2,7 @@
 #define FLASHSPY_HEADER_FILE_H
 
 #include "../../SharedLibs/MicroSdBootloader/Include/Flash.h"
+#include <string.h>
 #include <stdio.h>
 
 extern uint32_t *pFlashMemory;

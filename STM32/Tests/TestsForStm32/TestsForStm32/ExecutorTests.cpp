@@ -207,7 +207,7 @@ TEST(Executor, ShouldHandleChangeRouteState)
     localCmdBlock.specificator = NULL;
 
     // Call USER_GPIO_PushCommand to insert command to pGpioList
-    Status status = USER_GPIO_PushCommand(&localCmdBlock);
+    Status status = Button_PushCommand(&localCmdBlock);
     LONGS_EQUAL(OK, status);
 
     //----------ACT----------//
@@ -253,7 +253,7 @@ TEST(Executor, ShouldHandleSequenceOfStates)
     localCmdBlock.specificator = NULL;
 
     // Call USER_GPIO_PushCommand to insert command to pGpioList
-    Status status = USER_GPIO_PushCommand(&localCmdBlock);
+    Status status = Button_PushCommand(&localCmdBlock);
     LONGS_EQUAL(OK, status);
 
     // Set command with SWITCH_CHANNEL state
@@ -262,7 +262,7 @@ TEST(Executor, ShouldHandleSequenceOfStates)
     localCmdBlock.specificator = NULL;
 
     // Call USER_GPIO_PushCommand to insert command to pGpioList
-    status = USER_GPIO_PushCommand(&localCmdBlock);
+    status = Button_PushCommand(&localCmdBlock);
     LONGS_EQUAL(OK, status);
 
     //----------ACT #1----------//
@@ -324,7 +324,7 @@ TEST(Executor, ShouldHandleToggleChannelState)
     localCmdBlock.specificator = NULL;
 
     // Call USER_GPIO_PushCommand to insert command to pGpioList
-    Status status = USER_GPIO_PushCommand(&localCmdBlock);
+    Status status = Button_PushCommand(&localCmdBlock);
     LONGS_EQUAL(OK, status);
 
     //----------ACT----------//
@@ -369,7 +369,7 @@ TEST(Executor, ShouldHandleSwitchChannelState)
     localCmdBlock.specificator = NULL;
 
     // Call USER_GPIO_PushCommand to insert command to pGpioList
-    Status status = USER_GPIO_PushCommand(&localCmdBlock);
+    Status status = Button_PushCommand(&localCmdBlock);
     LONGS_EQUAL(OK, status);
 
     //----------ACT----------//

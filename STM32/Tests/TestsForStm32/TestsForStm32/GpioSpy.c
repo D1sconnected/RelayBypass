@@ -4,36 +4,6 @@ static Node *pGpioList = NULL;
 
 EmulatedGpioStatesStruct emulatedGpio = {0};
 
-Status USER_GPIO_PushCommand(StateStruct *pCmd)
-{
-	if (pCmd == NULL) 
-	{
-		return INVALID_PARAMETERS;
-	}
-
-	List_PushBack(&pGpioList, *pCmd);
-
-	return OK;
-}
-
-Status USER_GPIO_HandOverLocalList(Node **pMasterList)
-{
-	if (pMasterList == NULL)
-	{
-		return INVALID_PARAMETERS;
-	}
-
-	StateStruct temp;
-
-	while (pGpioList != NULL)
-	{
-	temp = List_Pop(&pGpioList);
-	List_PushBack(pMasterList, temp);
-	}
-
-	return OK;
-}
-
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	HAL_TIM_Base_Start_IT(&htim2);

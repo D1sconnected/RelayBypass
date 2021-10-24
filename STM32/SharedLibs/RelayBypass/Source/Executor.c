@@ -25,8 +25,8 @@ Status Executor_Handler(Executor *pSelf)
         return INVALID_PARAMETERS;
     }
 
-    static ExecutorState state = -1;
-    static StateStruct currentCmdBlock = {0};
+    ExecutorState state = -1;
+    StateStruct currentCmdBlock = {0};
     Status status = Executor_UpdateList(pSelf);
 
     if (status != OK)

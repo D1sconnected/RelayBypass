@@ -27,11 +27,11 @@ SOFTWARE.
 #define __SDCARD_H__
 
 #ifdef STM32F1_VERSION
-#include "../../../Firmware/MicroSdBootloader_STM32F101C4/Core/Inc/main.h"
+#include "../../Firmware/MicroSdBootloader_STM32F101C4/Core/Inc/main.h"
 #endif
 
 #ifdef STM32L1_VERSION
-#include "../../../Firmware/MicroSdBootloader_STM32L151C8/Core/Inc/main.h"
+#include "../../Firmware/MicroSdBootloader_STM32L151C8/Core/Inc/main.h"
 #endif
 
 extern SPI_HandleTypeDef hspi1;

@@ -5,11 +5,13 @@ extern "C"
 
 #ifdef STM32F1_VERSION
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/main.h"
+#include "stm32f1xx_hal.h"
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
 #endif
 
 #ifdef STM32L1_VERSION
 #include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/main.h"
+#include "stm32l1xx_hal.h"
 #include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
 #endif
 

@@ -25,7 +25,7 @@ Status Executor_Handler(Executor *pSelf)
         return INVALID_PARAMETERS;
     }
 
-    ExecutorState state = -1;
+    ExecutorState state = EXECUTOR_STATE_IDLE;
     StateStruct currentCmdBlock = {0};
     Status status = Executor_UpdateList(pSelf);
 
@@ -39,16 +39,15 @@ Status Executor_Handler(Executor *pSelf)
 
     switch (state) 
     {
-        case EXECUTOR_STATE_SWITCH_CHANNEL:
+        case EXECUTOR_STATE_IDLE:
         {
-            status = Interface_SwitchChannel(currentCmdBlock.channel);
-            return status;
+            return NO_COMMAND;
         }
         break;
 
-        case EXECUTOR_STATE_TOGGLE_CHANNEL:
+        case EXECUTOR_STATE_SWITCH_CHANNEL:
         {
-            status = Interface_ToggleChannel(currentCmdBlock.channel);
+            status = Interface_SwitchChannel(currentCmdBlock.channel);
             return status;
         }
         break;
@@ -59,6 +58,62 @@ Status Executor_Handler(Executor *pSelf)
             return status;
         }
         break;
+
+        case EXECUTOR_STATE_SAVE_ROUTE:
+        {
+            return UNSUPPORTED;
+        }
+        break;
+
+        case EXECUTOR_STATE_TOGGLE_CHANNEL:
+        {
+            status = Interface_ToggleChannel(currentCmdBlock.channel);
+            return status;
+        }
+        break;
+
+        case EXECUTOR_STATE_GET_CHANNEL:
+        {
+            return UNSUPPORTED;
+        }
+        break;
+
+        case EXECUTOR_STATE_TRACE_TO_MICROSD:
+        {
+            return UNSUPPORTED;
+        }
+        break;
+
+        case EXECUTOR_STATE_TRACE_TO_UART:
+        {
+            return UNSUPPORTED;
+        }
+        break;
+
+        case EXECUTOR_STATE_GET_UART_RX:
+        {
+            return UNSUPPORTED;
+        }
+        break;
+
+        case EXECUTOR_STATE_SEND_UART_TX:
+        {
+            return UNSUPPORTED;
+        }
+        break;
+
+        case EXECUTOR_STATE_WRITE_TO_DISPLAY:
+        {
+            return UNSUPPORTED;
+        }
+        break;
+
+        case EXECUTOR_STATE_CONFIG_EXT_CTRL_TIM:
+        {
+            return UNSUPPORTED;
+        }
+        break;
+
     }
 
      return NO_COMMAND;

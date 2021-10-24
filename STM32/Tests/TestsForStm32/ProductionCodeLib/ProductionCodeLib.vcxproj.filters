@@ -39,9 +39,6 @@
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass_STM32L151C8\Core\Inc\main.h">
-      <Filter>HAL Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Button.c">

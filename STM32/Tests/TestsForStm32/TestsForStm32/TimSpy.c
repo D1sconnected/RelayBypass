@@ -3,36 +3,6 @@
 TIM_HandleTypeDef htim2;
 static Node *pTimList = NULL;
 
-//Status USER_TIM_PushCommand(StateStruct* pCmd)
-//{
-//	if (pCmd == NULL)
-//	{
-//		return INVALID_PARAMETERS;
-//	}
-//
-//	List_PushBack(&pTimList, *pCmd);
-//
-//	return OK;
-//}
-//
-//Status USER_TIM_HandOverLocalList(Node** pMasterList)
-//{
-//	if (pMasterList == NULL)
-//	{
-//		return INVALID_PARAMETERS;
-//	}
-//
-//	StateStruct temp;
-//
-//	while (pTimList != NULL)
-//	{
-//		temp = List_Pop(&pTimList);
-//		List_PushBack(pMasterList, temp);
-//	}
-//
-//	return OK;
-//}
-
 HAL_StatusTypeDef HAL_TIM_Base_Start_IT(TIM_HandleTypeDef *pHtim) 
 {
 	return HAL_OK;

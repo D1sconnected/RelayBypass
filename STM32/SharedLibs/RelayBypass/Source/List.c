@@ -11,11 +11,11 @@ void List_Push(Node **ppHead, StateStruct command)
 StateStruct List_Pop(Node **ppHead)
 {
     Node *previousNode = NULL;
-    StateStruct command;
+    StateStruct command = {EXECUTOR_STATE_IDLE, 0, 0};
 
     if (*ppHead == NULL)
     {
-        return;
+        return command;
     }
 
     previousNode = (*ppHead);

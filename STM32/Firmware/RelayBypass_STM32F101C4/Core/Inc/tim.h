@@ -37,7 +37,6 @@ extern TIM_HandleTypeDef htim2;
 #include "../../../../SharedLibs/RelayBypass/Include/List.h"
 #include "../../../../SharedLibs/RelayBypass/Include/Common.h"
 #include "../../../../SharedLibs/RelayBypass/Include/Timer.h"
-
 /* USER CODE END Private defines */
 
 void MX_TIM2_Init(void);

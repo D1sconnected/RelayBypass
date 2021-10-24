@@ -56,5 +56,8 @@
     <ClInclude Include="stm32l1xx_hal.h">
       <Filter>HAL Spies</Filter>
     </ClInclude>
+    <ClInclude Include="stm32f1xx_hal.h">
+      <Filter>HAL Spies</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

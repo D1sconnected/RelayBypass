@@ -20,7 +20,7 @@
 
 typedef struct ExecutorStruct
 {
-	Node* pExecutorList;
+	Node *pExecutorList;
 	//Serial	*pSerial;
 } Executor;
 

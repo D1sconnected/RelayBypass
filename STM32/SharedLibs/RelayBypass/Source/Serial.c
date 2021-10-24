@@ -166,6 +166,9 @@ Status Serial_HandleGetCommand(Serial *pSelf)
             case BLUE:
                 memcpy(getResponse+8, "BLUE", sizeof("BLUE"));
                 break;
+            case NONE:
+                memcpy(getResponse+8, "NONE", sizeof("NONE"));
+                break;
         }
         getResponse[11] = '\r';
         getResponse[12] = '\n';

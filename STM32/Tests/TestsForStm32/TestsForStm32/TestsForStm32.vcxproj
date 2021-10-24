@@ -161,6 +161,7 @@
     <ClInclude Include="AdcSpy.h" />
     <ClInclude Include="GpioSpy.h" />
     <ClInclude Include="SerialSpy.h" />
+    <ClInclude Include="stm32f1xx_hal.h" />
     <ClInclude Include="stm32l1xx_hal.h" />
     <ClInclude Include="TimSpy.h" />
   </ItemGroup>

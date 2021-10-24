@@ -3,6 +3,7 @@
 #define SERIAL_HEADER_FILE_H
 
 #include "Common.h"
+#include <string.h>
 
 #define SERIAL_RX_BUFFER_SIZE	32
 #define SERIAL_TX_BUFFER_SIZE	256
@@ -30,56 +31,56 @@ void Serial_Destroy(Serial *pSelf);
 
 
 // UART message handler
-// pSelf – pointer to object with Serial type
+// pSelf ï¿½ pointer to object with Serial type
 //
 // Returns:
-// OK – in case of success
-// NO_COMMAND – in case of unkown command in rxBuffer 
+// OK ï¿½ in case of success
+// NO_COMMAND ï¿½ in case of unkown command in rxBuffer 
 Status Serial_Handler(Serial *pSelf);
 
 // Handler for <help> command
-// pSelf – pointer to object with Serial type
+// pSelf ï¿½ pointer to object with Serial type
 //
 // Returns:
-// OK – in case of success
+// OK ï¿½ in case of success
 // OUT_OF_BOUNDS - in case of response len > txBuffer
 Status Serial_HandleHelpCommand(Serial* pSelf);
 
 // Handler for <toogle> command
-// pSelf – pointer to object with Serial type
+// pSelf ï¿½ pointer to object with Serial type
 //
 // Returns:
-// OK – in case of success
+// OK ï¿½ in case of success
 // OUT_OF_BOUNDS - in case of response len > txBuffer
 Status Serial_HandleToggleCommand(Serial* pSelf);
 
 // Handler for <switch> command
-// pSelf – pointer to object with Serial type
+// pSelf ï¿½ pointer to object with Serial type
 //
 // Returns:
-// OK – in case of success
+// OK ï¿½ in case of success
 // OUT_OF_BOUNDS - in case of response len > txBuffer
 Status Serial_HandleSwitchCommand(Serial* pSelf);
 
 // Handler for <get> command
-// pSelf – pointer to object with Serial type
+// pSelf ï¿½ pointer to object with Serial type
 //
 // Returns:
-// OK – in case of success
+// OK ï¿½ in case of success
 // OUT_OF_BOUNDS - in case of response len > txBuffer
 Status Serial_HandleGetCommand(Serial* pSelf);
 
 // Checks that data occured in rxBuffer
-// pSelf – pointer to object with Serial type
+// pSelf ï¿½ pointer to object with Serial type
 // 
 // Returns:
 // OK - in case of data occured in rxBuffer
-// NO_DATA – in case there is no data in rxBuffer
+// NO_DATA ï¿½ in case there is no data in rxBuffer
 Status Serial_ReceiveCmd(Serial *pSelf);
 
 // Send response with UART
-// pSelf – pointer to object with Serial type
-// pRes – pointer for data to send in response
+// pSelf ï¿½ pointer to object with Serial type
+// pRes ï¿½ pointer for data to send in response
 // 
 // Returns:
 // OK - in case of data has been successfuly transmitted
@@ -87,10 +88,10 @@ Status Serial_ReceiveCmd(Serial *pSelf);
 Status Serial_SendResponse(Serial *pSelf, char *pRes);
 
 // Clears UART rxBuffer
-// pSelf – pointer to object with Serial type
+// pSelf ï¿½ pointer to object with Serial type
 // 
 // Returns:
-// OK – in case of success
+// OK ï¿½ in case of success
 Status Serial_Clear(Serial *pSelf);
 
 #endif

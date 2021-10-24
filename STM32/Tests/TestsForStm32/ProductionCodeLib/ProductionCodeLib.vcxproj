@@ -155,7 +155,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass_STM32L151C8\Core\Inc\main.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Button.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Common.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Executor.h" />

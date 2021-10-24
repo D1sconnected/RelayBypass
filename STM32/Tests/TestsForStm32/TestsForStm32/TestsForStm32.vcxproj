@@ -239,7 +239,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CPPUTEST_HOME)\lib\CppUTestd.lib;$(SolutionDir)Debug\ProductionCodeLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(CPPUTEST_HOME)\lib\CppUTestd.lib;$(SolutionDir)F1 Debug\ProductionCodeLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='L1 Debug|Win32'">
@@ -253,7 +253,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CPPUTEST_HOME)\lib\CppUTestd.lib;$(SolutionDir)Debug\ProductionCodeLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(CPPUTEST_HOME)\lib\CppUTestd.lib;$(SolutionDir)L1 Debug\ProductionCodeLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

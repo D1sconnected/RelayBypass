@@ -1,8 +1,13 @@
-// GpioSpy.h
 #ifndef GPIOSPY_HEADER_FILE_H
 #define GPIOSPY_HEADER_FILE_H
 
-#include "gpio.h"
+#ifdef STM32F1_VERSION
+#include "../../../Firmware/MicroSdBootloader_STM32F101C4/Core/Inc/gpio.h"
+#endif
+
+#ifdef STM32L1_VERSION
+#include "../../../Firmware/MicroSdBootloader_STM32L151C8/Core/Inc/gpio.h"
+#endif
 
 typedef struct 
 {

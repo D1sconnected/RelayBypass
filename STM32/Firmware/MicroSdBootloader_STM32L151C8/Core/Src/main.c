@@ -52,6 +52,7 @@
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 void MicroSdBootloader_GoToApp(void);
+static void MicroSdBootloader_FlashTest();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -172,8 +173,8 @@ void MicroSdBootloader_GoToApp(void)
     __enable_irq();
 	GoToApp();
 }
-/*
-void MicroSdBootloader_FlashTest()
+
+static void MicroSdBootloader_FlashTest()
 {
 	uint32_t buffer = 0;
 
@@ -197,7 +198,7 @@ void MicroSdBootloader_FlashTest()
 
 	return;
 }
-*/
+
 /* USER CODE END 4 */
 
 /**

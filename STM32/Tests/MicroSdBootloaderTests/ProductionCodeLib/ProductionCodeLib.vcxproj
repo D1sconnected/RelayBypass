@@ -19,14 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Firmware\MicroSdBootloader\Core\Inc\main.h" />
-    <ClInclude Include="..\..\..\Firmware\MicroSdBootloader\Include\Common.h" />
-    <ClInclude Include="..\..\..\Firmware\MicroSdBootloader\Include\Flash.h" />
-    <ClInclude Include="..\..\..\Firmware\MicroSdBootloader\Include\Loader.h" />
+    <ClInclude Include="..\..\..\SharedLibs\MicroSdBootloader\Include\Common.h" />
+    <ClInclude Include="..\..\..\SharedLibs\MicroSdBootloader\Include\Flash.h" />
+    <ClInclude Include="..\..\..\SharedLibs\MicroSdBootloader\Include\Loader.h" />
     <ClInclude Include="..\..\..\SharedLibs\sdcard\sdcard.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Firmware\MicroSdBootloader\Source\Loader.c" />
+    <ClCompile Include="..\..\..\SharedLibs\MicroSdBootloader\Source\Loader.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -96,7 +95,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;STM32L1_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>

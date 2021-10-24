@@ -2,7 +2,17 @@
 
 extern "C"
 {
-#include "Loader.h"
+#ifdef STM32F1_VERSION
+#include "../../../Firmware/MicroSdBootloader_STM32F101C4/Core/Inc/main.h"
+#include "stm32f1xx_hal.h"
+#endif
+
+#ifdef STM32L1_VERSION
+#include "../../../Firmware/MicroSdBootloader_STM32L151C8/Core/Inc/main.h"
+#include "stm32l1xx_hal.h"
+#endif
+
+#include "../../SharedLibs/MicroSdBootloader/Include/Loader.h"
 #include "SdCardSpy.h"
 #include "FlashSpy.h"
 #include "GpioSpy.h"

@@ -23,6 +23,7 @@
 #include "stm32f1xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "usart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,8 +53,14 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int reset = 0;
+uint16_t temp = 0;
+uint16_t result = 0;
+
+uint8_t txBuf[6];
+
 int i = 0;
-uint16_t timeStamp[10] = {0};
+uint16_t timeStamp[2] = {0};
 
 int buttonState = 0;
 /* USER CODE END 0 */
@@ -62,6 +69,7 @@ int buttonState = 0;
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
+extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -225,16 +233,16 @@ void EXTI0_IRQHandler(void)
 void TIM1_UP_TIM16_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 0 */
-  static int reset = 0;
   HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
   reset++;
 
-  if (reset == 3)
+  if (reset == 2)
   {
       i = 0;
+      temp = 0;
       memset(&timeStamp, 0, sizeof(timeStamp));
-
       reset = 0;
+      HAL_UART_Transmit(&huart1, (uint8_t*)"rst\n\r", sizeof("rst\n\r"), 1000);
   }
   /* USER CODE END TIM1_UP_TIM16_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);
@@ -250,6 +258,12 @@ void TIM2_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM2_IRQn 0 */
   HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+
+  itoa(result, txBuf, 10);
+  txBuf[4] = '\r';
+  txBuf[5] = '\n';
+  HAL_UART_Transmit(&huart1, (uint8_t*)txBuf, sizeof(txBuf), 1000);
+
   /* USER CODE END TIM2_IRQn 0 */
   HAL_TIM_IRQHandler(&htim2);
   /* USER CODE BEGIN TIM2_IRQn 1 */
@@ -267,32 +281,46 @@ void TIM3_IRQHandler(void)
 
   if (btnState == GPIO_PIN_RESET && buttonState == 1)
   {
-      static uint16_t result = 0;
+//      static uint16_t temp = 0;
+//      static uint16_t result = 0;
 
-      if (i >= 10)
+      if (i >= 2)
       {
           i = 0;
       }
 
       timeStamp[i] = (uint16_t)(__HAL_TIM_GetCounter(&htim1));
 
+
       if (i > 0)
       {
           if (timeStamp[i] >= timeStamp[i - 1])
           {
-              result = timeStamp[i] - timeStamp[i - 1];
+              temp = timeStamp[i] - timeStamp[i - 1];
           }
 
           else if (timeStamp[i] < timeStamp[i - 1])
           {
-              result = 1999 - timeStamp[i - 1] + timeStamp[i];
+              temp = 1999 - timeStamp[i - 1] + timeStamp[i];
           }
       }
-
       i++;
 
+      // Update result
+      if (result == 0)
+      {
+          result = temp;
+      }
+
+      else
+      {
+          result = (result + temp)/2;
+      }
+
+      // Update bpm
       if (result > 0)
       {
+          reset = 0;
           htim2.Init.Period = result;
           if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
           {
@@ -308,6 +336,20 @@ void TIM3_IRQHandler(void)
   /* USER CODE BEGIN TIM3_IRQn 1 */
 
   /* USER CODE END TIM3_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USART1 global interrupt.
+  */
+void USART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART1_IRQn 0 */
+
+  /* USER CODE END USART1_IRQn 0 */
+  HAL_UART_IRQHandler(&huart1);
+  /* USER CODE BEGIN USART1_IRQn 1 */
+
+  /* USER CODE END USART1_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

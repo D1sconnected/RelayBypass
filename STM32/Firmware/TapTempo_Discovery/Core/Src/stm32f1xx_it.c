@@ -52,11 +52,16 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int i = 0;
+uint16_t timeStamp[10] = {0};
 
+int buttonState = 0;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-
+extern TIM_HandleTypeDef htim1;
+extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -198,6 +203,112 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f1xx.s).                    */
 /******************************************************************************/
+
+/**
+  * @brief This function handles EXTI line0 interrupt.
+  */
+void EXTI0_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI0_IRQn 0 */
+  HAL_TIM_Base_Start_IT(&htim3);
+  buttonState = 1;
+  /* USER CODE END EXTI0_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+  /* USER CODE BEGIN EXTI0_IRQn 1 */
+
+  /* USER CODE END EXTI0_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM1 update interrupt and TIM16 global interrupt.
+  */
+void TIM1_UP_TIM16_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 0 */
+  static int reset = 0;
+  HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
+  reset++;
+
+  if (reset == 3)
+  {
+      i = 0;
+      memset(&timeStamp, 0, sizeof(timeStamp));
+
+      reset = 0;
+  }
+  /* USER CODE END TIM1_UP_TIM16_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim1);
+  /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 1 */
+
+  /* USER CODE END TIM1_UP_TIM16_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM2 global interrupt.
+  */
+void TIM2_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM2_IRQn 0 */
+  HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+  /* USER CODE END TIM2_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim2);
+  /* USER CODE BEGIN TIM2_IRQn 1 */
+
+  /* USER CODE END TIM2_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM3 global interrupt.
+  */
+void TIM3_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM3_IRQn 0 */
+  GPIO_PinState btnState = HAL_GPIO_ReadPin(BTN_GPIO_Port, BTN_Pin);
+
+  if (btnState == GPIO_PIN_RESET && buttonState == 1)
+  {
+      static uint16_t result = 0;
+
+      if (i >= 10)
+      {
+          i = 0;
+      }
+
+      timeStamp[i] = (uint16_t)(__HAL_TIM_GetCounter(&htim1));
+
+      if (i > 0)
+      {
+          if (timeStamp[i] >= timeStamp[i - 1])
+          {
+              result = timeStamp[i] - timeStamp[i - 1];
+          }
+
+          else if (timeStamp[i] < timeStamp[i - 1])
+          {
+              result = 1999 - timeStamp[i - 1] + timeStamp[i];
+          }
+      }
+
+      i++;
+
+      if (result > 0)
+      {
+          htim2.Init.Period = result;
+          if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+          {
+            Error_Handler();
+          }
+      }
+
+      buttonState = 0;
+  }
+
+  /* USER CODE END TIM3_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim3);
+  /* USER CODE BEGIN TIM3_IRQn 1 */
+
+  /* USER CODE END TIM3_IRQn 1 */
+}
 
 /* USER CODE BEGIN 1 */
 

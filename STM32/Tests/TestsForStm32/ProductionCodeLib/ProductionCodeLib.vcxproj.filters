@@ -18,42 +18,45 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Common.h">
+    <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Serial.h">
+    <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Interface.h">
+    <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Executor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\Executor.h">
+    <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass\Include\List.h">
+    <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\List.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\main.h">
-      <Filter>HAL Header Files</Filter>
+    <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Serial.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\gpio.h">
-      <Filter>HAL Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Firmware\RelayBypass\Core\Inc\tim.h">
-      <Filter>HAL Header Files</Filter>
+    <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Timer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\Serial.c">
+    <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Button.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\Interface.c">
+    <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Executor.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\Executor.c">
+    <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Interface.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Firmware\RelayBypass\Source\List.c">
+    <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\List.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Serial.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Timer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

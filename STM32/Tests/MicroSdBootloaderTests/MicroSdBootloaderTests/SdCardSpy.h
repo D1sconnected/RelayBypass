@@ -1,8 +1,8 @@
-// SdCardSpy.h
 #ifndef SDCARDSPY_HEADER_FILE_H
 #define SDCARDSPY_HEADER_FILE_H
 
 #include "./../../SharedLibs/sdcard/sdcard.h"
+#include "../../SharedLibs/MicroSdBootloader/Include/Flash.h"
 
 extern uint32_t *pSdMemory;
 

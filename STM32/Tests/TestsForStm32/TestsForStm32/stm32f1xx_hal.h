@@ -1,7 +1,8 @@
 #ifndef __STM32F1xx_HAL_H
 #define __STM32F1xx_HAL_H
 
-#include "../../Include/Common.h"
+#include "../../../SharedLibs/RelayBypass/Include/Common.h"
+#include <stdint.h>
 
 #define GPIO_PIN_0     ((uint16_t)0x0001)
 #define GPIO_PIN_1     ((uint16_t)0x0002)

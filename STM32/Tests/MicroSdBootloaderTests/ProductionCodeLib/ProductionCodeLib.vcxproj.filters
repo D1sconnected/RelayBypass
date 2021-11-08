@@ -15,25 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Firmware\MicroSdBootloader\Include\Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Firmware\MicroSdBootloader\Include\Loader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\SharedLibs\sdcard\sdcard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Firmware\MicroSdBootloader\Core\Inc\main.h">
+    <ClInclude Include="..\..\..\SharedLibs\MicroSdBootloader\Include\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Firmware\MicroSdBootloader\Include\Flash.h">
+    <ClInclude Include="..\..\..\SharedLibs\MicroSdBootloader\Include\Flash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SharedLibs\MicroSdBootloader\Include\Loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Firmware\MicroSdBootloader\Source\Loader.c">
-      <Filter>Resource Files</Filter>
+    <ClCompile Include="..\..\..\SharedLibs\MicroSdBootloader\Source\Loader.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

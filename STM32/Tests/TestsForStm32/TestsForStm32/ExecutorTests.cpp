@@ -2,7 +2,19 @@
 
 extern "C"
 {
-#include "main.h"
+
+#ifdef STM32F1_VERSION
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/main.h"
+#include "stm32f1xx_hal.h"
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
+#endif
+
+#ifdef STM32L1_VERSION
+#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/main.h"
+#include "stm32l1xx_hal.h"
+#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
+#endif
+
 #include "Executor.h"
 #include "List.h"
 #include "Serial.h"
@@ -10,7 +22,6 @@ extern "C"
 #include "GpioSpy.h"
 #include "TimSpy.h"
 }
-
 
 TEST_GROUP(Executor)
 {
@@ -198,7 +209,7 @@ TEST(Executor, ShouldHandleChangeRouteState)
     localCmdBlock.specificator = NULL;
 
     // Call USER_GPIO_PushCommand to insert command to pGpioList
-    Status status = USER_GPIO_PushCommand(&localCmdBlock);
+    Status status = Button_PushCommand(&localCmdBlock);
     LONGS_EQUAL(OK, status);
 
     //----------ACT----------//
@@ -244,7 +255,7 @@ TEST(Executor, ShouldHandleSequenceOfStates)
     localCmdBlock.specificator = NULL;
 
     // Call USER_GPIO_PushCommand to insert command to pGpioList
-    Status status = USER_GPIO_PushCommand(&localCmdBlock);
+    Status status = Button_PushCommand(&localCmdBlock);
     LONGS_EQUAL(OK, status);
 
     // Set command with SWITCH_CHANNEL state
@@ -253,7 +264,7 @@ TEST(Executor, ShouldHandleSequenceOfStates)
     localCmdBlock.specificator = NULL;
 
     // Call USER_GPIO_PushCommand to insert command to pGpioList
-    status = USER_GPIO_PushCommand(&localCmdBlock);
+    status = Button_PushCommand(&localCmdBlock);
     LONGS_EQUAL(OK, status);
 
     //----------ACT #1----------//
@@ -315,7 +326,7 @@ TEST(Executor, ShouldHandleToggleChannelState)
     localCmdBlock.specificator = NULL;
 
     // Call USER_GPIO_PushCommand to insert command to pGpioList
-    Status status = USER_GPIO_PushCommand(&localCmdBlock);
+    Status status = Button_PushCommand(&localCmdBlock);
     LONGS_EQUAL(OK, status);
 
     //----------ACT----------//
@@ -360,7 +371,7 @@ TEST(Executor, ShouldHandleSwitchChannelState)
     localCmdBlock.specificator = NULL;
 
     // Call USER_GPIO_PushCommand to insert command to pGpioList
-    Status status = USER_GPIO_PushCommand(&localCmdBlock);
+    Status status = Button_PushCommand(&localCmdBlock);
     LONGS_EQUAL(OK, status);
 
     //----------ACT----------//

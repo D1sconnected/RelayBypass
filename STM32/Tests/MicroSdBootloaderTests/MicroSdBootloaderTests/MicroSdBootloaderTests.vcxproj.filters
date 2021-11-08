@@ -16,6 +16,15 @@
     <Filter Include="HAL Spies">
       <UniqueIdentifier>{6616074b-9f62-4610-84a4-7bde42e5958a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HAL Spies\F1">
+      <UniqueIdentifier>{ec53bcf4-bbb9-4d41-aaec-bc332f9dabdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL Spies\L1">
+      <UniqueIdentifier>{2b06d2f7-f24b-48d9-8c63-ac8c1f1b2388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL Spies\Common">
+      <UniqueIdentifier>{c4cd6cee-d47c-46bb-b450-c4a68e4f02c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MicroSdBootloaderTests.cpp">
@@ -24,61 +33,91 @@
     <ClCompile Include="LoaderTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpiSpy.c">
-      <Filter>HAL Spies</Filter>
-    </ClCompile>
     <ClCompile Include="FlashSpy.c">
-      <Filter>HAL Spies</Filter>
-    </ClCompile>
-    <ClCompile Include="SdCardSpy.c">
-      <Filter>HAL Spies</Filter>
+      <Filter>HAL Spies\Common</Filter>
     </ClCompile>
     <ClCompile Include="GpioSpy.c">
-      <Filter>HAL Spies</Filter>
+      <Filter>HAL Spies\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SdCardSpy.c">
+      <Filter>HAL Spies\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SpiSpy.c">
+      <Filter>HAL Spies\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stm32f1xx_hal.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="SpiSpy.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="SdCardSpy.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
     <ClInclude Include="FlashSpy.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="stm32f1xx_ll_rcc.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="stm32f1xx_ll_bus.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="stm32f1xx_ll_cortex.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="stm32f1xx_ll_dma.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="stm32f1xx_ll_exti.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="stm32f1xx_ll_gpio.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="stm32f1xx_ll_pwr.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="stm32f1xx_ll_system.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="stm32f1xx_ll_utils.h">
-      <Filter>HAL Spies</Filter>
+      <Filter>HAL Spies\Common</Filter>
     </ClInclude>
     <ClInclude Include="GpioSpy.h">
-      <Filter>HAL Spies</Filter>
+      <Filter>HAL Spies\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SdCardSpy.h">
+      <Filter>HAL Spies\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SpiSpy.h">
+      <Filter>HAL Spies\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_hal.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_bus.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_cortex.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_dma.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_exti.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_gpio.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_pwr.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_rcc.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_system.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_utils.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_hal.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_bus.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_cortex.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_dma.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_exti.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_gpio.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_pwr.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_rcc.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_system.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_utils.h">
+      <Filter>HAL Spies\L1</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

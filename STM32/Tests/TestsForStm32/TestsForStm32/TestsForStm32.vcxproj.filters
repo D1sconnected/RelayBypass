@@ -16,6 +16,15 @@
     <Filter Include="HAL Spies">
       <UniqueIdentifier>{0c35c069-5d55-4c40-8f04-d7c65a567770}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HAL Spies\L1">
+      <UniqueIdentifier>{f74cf970-0427-4306-a409-e002aad43816}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL Spies\F1">
+      <UniqueIdentifier>{55fc6acc-a17f-4c6f-bd63-650d0d80f877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL Spies\Common">
+      <UniqueIdentifier>{cad48ad6-e4ee-45ed-adfb-a38628b0d539}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestsForStm32.cpp">
@@ -30,31 +39,61 @@
     <ClCompile Include="ExecutorTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TimSpy.c">
-      <Filter>HAL Spies</Filter>
+    <ClCompile Include="AdcSpy.c">
+      <Filter>HAL Spies\Common</Filter>
     </ClCompile>
     <ClCompile Include="GpioSpy.c">
-      <Filter>HAL Spies</Filter>
+      <Filter>HAL Spies\Common</Filter>
     </ClCompile>
-    <ClCompile Include="AdcSpy.c">
-      <Filter>HAL Spies</Filter>
+    <ClCompile Include="TimSpy.c">
+      <Filter>HAL Spies\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SerialSpy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stm32f1xx_hal.h">
-      <Filter>HAL Spies</Filter>
-    </ClInclude>
-    <ClInclude Include="TimSpy.h">
-      <Filter>HAL Spies</Filter>
+    <ClInclude Include="AdcSpy.h">
+      <Filter>HAL Spies\Common</Filter>
     </ClInclude>
     <ClInclude Include="GpioSpy.h">
-      <Filter>HAL Spies</Filter>
+      <Filter>HAL Spies\Common</Filter>
     </ClInclude>
-    <ClInclude Include="AdcSpy.h">
-      <Filter>HAL Spies</Filter>
+    <ClInclude Include="stm32f1xx_hal.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_hal.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="TimSpy.h">
+      <Filter>HAL Spies\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SerialSpy.h">
+      <Filter>HAL Spies\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_bus.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_cortex.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_dma.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_exti.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_gpio.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_pwr.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_rcc.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_system.h">
+      <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32l1xx_ll_utils.h">
+      <Filter>HAL Spies\L1</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

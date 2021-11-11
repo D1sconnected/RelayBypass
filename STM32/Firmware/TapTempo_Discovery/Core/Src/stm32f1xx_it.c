@@ -53,7 +53,6 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int reset = 0;
 uint16_t temp = 0;
 uint16_t result = 0;
 
@@ -234,16 +233,11 @@ void TIM1_UP_TIM16_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 0 */
   HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
-  reset++;
-
-  if (reset == 2)
-  {
-      i = 0;
-      temp = 0;
-      memset(&timeStamp, 0, sizeof(timeStamp));
-      reset = 0;
-      HAL_UART_Transmit(&huart1, (uint8_t*)"rst\n\r", sizeof("rst\n\r"), 1000);
-  }
+  i = 0;
+  result = 0;
+  temp = 0;
+  memset(&timeStamp, 0, sizeof(timeStamp));
+      //HAL_UART_Transmit(&huart1, (uint8_t*)"rst\n\r", sizeof("rst\n\r"), 1000);
   /* USER CODE END TIM1_UP_TIM16_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);
   /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 1 */
@@ -258,12 +252,6 @@ void TIM2_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM2_IRQn 0 */
   HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
-
-  itoa(result, txBuf, 10);
-  txBuf[4] = '\r';
-  txBuf[5] = '\n';
-  HAL_UART_Transmit(&huart1, (uint8_t*)txBuf, sizeof(txBuf), 1000);
-
   /* USER CODE END TIM2_IRQn 0 */
   HAL_TIM_IRQHandler(&htim2);
   /* USER CODE BEGIN TIM2_IRQn 1 */
@@ -281,8 +269,7 @@ void TIM3_IRQHandler(void)
 
   if (btnState == GPIO_PIN_RESET && buttonState == 1)
   {
-//      static uint16_t temp = 0;
-//      static uint16_t result = 0;
+      HAL_UART_Transmit(&huart1, (uint8_t*)"*\n\r", sizeof("*\n\r"), 1000);
 
       if (i >= 2)
       {
@@ -299,10 +286,10 @@ void TIM3_IRQHandler(void)
               temp = timeStamp[i] - timeStamp[i - 1];
           }
 
-          else if (timeStamp[i] < timeStamp[i - 1])
-          {
-              temp = 1999 - timeStamp[i - 1] + timeStamp[i];
-          }
+//          else if (timeStamp[i] < timeStamp[i - 1])
+//          {
+//              temp = 999 - timeStamp[i - 1] + timeStamp[i];
+//          }
       }
       i++;
 
@@ -320,12 +307,16 @@ void TIM3_IRQHandler(void)
       // Update bpm
       if (result > 0)
       {
-          reset = 0;
           htim2.Init.Period = result;
           if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
           {
             Error_Handler();
           }
+
+          itoa(result, txBuf, 10);
+          txBuf[4] = '\r';
+          txBuf[5] = '\n';
+          HAL_UART_Transmit(&huart1, (uint8_t*)txBuf, sizeof(txBuf), 1000);
       }
 
       buttonState = 0;

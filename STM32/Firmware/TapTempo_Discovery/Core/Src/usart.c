@@ -21,7 +21,7 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
-
+uint8_t txBuf[UART_TX_BUF_SIZE];
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;

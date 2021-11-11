@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usart.h"
+#include "stdbool.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,15 +54,18 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint16_t temp = 0;
-uint16_t result = 0;
 
-uint8_t txBuf[6];
+#define MAX_TIME_IN_MS 999
+#define AMOUNT_OF_TIMESTAMPS 2
 
-int i = 0;
-uint16_t timeStamp[2] = {0};
+// TapTempo Vars
+int gIndex = 0; // TimeStamp index
+uint16_t gTapTemp = 0; // Temporary time in ms
+uint16_t gTapResult = 0; // Resulted time ms
+uint16_t gTimeStamp[AMOUNT_OF_TIMESTAMPS] = {0};
 
-int buttonState = 0;
+// Press Detection
+int gButtonPressed = false;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -218,7 +222,7 @@ void EXTI0_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI0_IRQn 0 */
   HAL_TIM_Base_Start_IT(&htim3);
-  buttonState = 1;
+  gButtonPressed = true;
   /* USER CODE END EXTI0_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
   /* USER CODE BEGIN EXTI0_IRQn 1 */
@@ -233,10 +237,10 @@ void TIM1_UP_TIM16_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 0 */
   HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
-  i = 0;
-  result = 0;
-  temp = 0;
-  memset(&timeStamp, 0, sizeof(timeStamp));
+  gIndex = 0;
+  gTapResult = 0;
+  gTapTemp = 0;
+  memset(&gTimeStamp, 0, sizeof(gTimeStamp));
       //HAL_UART_Transmit(&huart1, (uint8_t*)"rst\n\r", sizeof("rst\n\r"), 1000);
   /* USER CODE END TIM1_UP_TIM16_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);
@@ -267,59 +271,58 @@ void TIM3_IRQHandler(void)
   /* USER CODE BEGIN TIM3_IRQn 0 */
   GPIO_PinState btnState = HAL_GPIO_ReadPin(BTN_GPIO_Port, BTN_Pin);
 
-  if (btnState == GPIO_PIN_RESET && buttonState == 1)
+  if (btnState == GPIO_PIN_RESET && gButtonPressed == true)
   {
+      // Button press detection via UART
       HAL_UART_Transmit(&huart1, (uint8_t*)"*\n\r", sizeof("*\n\r"), 1000);
 
-      if (i >= 2)
+      if (gIndex >= AMOUNT_OF_TIMESTAMPS)
       {
-          i = 0;
+          gIndex = 0;
       }
 
-      timeStamp[i] = (uint16_t)(__HAL_TIM_GetCounter(&htim1));
+      gTimeStamp[gIndex] = (uint16_t)(__HAL_TIM_GetCounter(&htim1));
 
-
-      if (i > 0)
+      if (gIndex > 0)
       {
-          if (timeStamp[i] >= timeStamp[i - 1])
+          if (gTimeStamp[gIndex] >= gTimeStamp[gIndex - 1])
           {
-              temp = timeStamp[i] - timeStamp[i - 1];
+              gTapTemp = gTimeStamp[gIndex] - gTimeStamp[gIndex - 1];
+          }
+          // We get gTapTemp, so reset timestamp timer - TIM1
+          __HAL_TIM_SetCounter(&htim1, 0);
+      }
+      gIndex++;
+
+      if (gTapTemp <= MAX_TIME_IN_MS)
+      {
+          if (gTapResult == 0)
+          {
+              gTapResult = gTapTemp;
+          }
+          else
+          {
+              gTapResult = (gTapResult + gTapTemp)/2;
           }
 
-//          else if (timeStamp[i] < timeStamp[i - 1])
-//          {
-//              temp = 999 - timeStamp[i - 1] + timeStamp[i];
-//          }
-      }
-      i++;
-
-      // Update result
-      if (result == 0)
-      {
-          result = temp;
-      }
-
-      else
-      {
-          result = (result + temp)/2;
-      }
-
-      // Update bpm
-      if (result > 0)
-      {
-          htim2.Init.Period = result;
+          // Update TIM2 - BPM via LED
+          htim2.Init.Period = gTapResult;
           if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
           {
             Error_Handler();
           }
 
-          itoa(result, txBuf, 10);
+          // Digital Pot update
+          writePot(gTapResult/4); // max 999 ms, 256 steps -> 999/256 = 4
+
+          // Trace via UART
+          itoa(gTapResult, txBuf, 10);
           txBuf[4] = '\r';
           txBuf[5] = '\n';
           HAL_UART_Transmit(&huart1, (uint8_t*)txBuf, sizeof(txBuf), 1000);
       }
 
-      buttonState = 0;
+      gButtonPressed = false;
   }
 
   /* USER CODE END TIM3_IRQn 0 */

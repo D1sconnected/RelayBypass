@@ -57,31 +57,19 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void writePot()
+void writePot(uint8_t val)
 {
-    static uint8_t counter = 0;
     uint8_t cmd = 0x11;
 
-    //CS goes low
+    // CS goes low
     HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
 
+    // Set val
     HAL_SPI_Transmit(&hspi1, &cmd, sizeof(cmd), 5000);
-    HAL_SPI_Transmit(&hspi1, &counter, sizeof(counter), 5000);
+    HAL_SPI_Transmit(&hspi1, &val, sizeof(val), 5000);
 
-    HAL_Delay(100);
-
-    //CS goes high
+    // CS goes high
     HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-
-    if (counter == 255)
-    {
-        counter = 0;
-    }
-
-    else
-    {
-        counter++;
-    }
 
 }
 /* USER CODE END 0 */

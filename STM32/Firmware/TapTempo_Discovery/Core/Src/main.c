@@ -116,9 +116,49 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint16_t adcResult[2] = {0};
+  int i = 0;
+
   while (1)
   {
-//      writePot();
+      if (i >= 2)
+      {
+          i = 0;
+      }
+
+      HAL_ADC_Start(&hadc1);
+      HAL_ADC_PollForConversion(&hadc1, 100);
+      adcResult[i] = HAL_ADC_GetValue(&hadc1);
+      HAL_ADC_Stop(&hadc1);
+
+      if (i > 0)
+      {
+          if (abs((int)adcResult[i] - (int)(adcResult[i - 1])) > 16)
+          {
+              HAL_UART_Transmit(&huart1, (uint8_t*)"#\n\r", sizeof("#\n\r"), 1000);
+
+              // Update TIM2 - BPM via LED
+              uint32_t result = adcResult[i]%4095;
+
+              htim2.Init.Period = (uint16_t)(result); // div by max adc, multiply to ms
+              if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+              {
+                Error_Handler();
+              }
+
+              // Digital Pot update
+              writePot((uint8_t)(result/4)); // max 999 ms, 256 steps -> 999/256 = 4
+
+              // Trace via UART
+              itoa(result/4, txBuf, 10);
+              txBuf[4] = '\r';
+              txBuf[5] = '\n';
+              HAL_UART_Transmit(&huart1, (uint8_t*)txBuf, sizeof(txBuf), 1000);
+          }
+      }
+
+      i++;
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

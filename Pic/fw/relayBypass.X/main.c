@@ -12,17 +12,17 @@
 #include "header.h"
 
 //#define DEBUG_PLATFORM
+#define DOUBLE_FX
 
-#ifdef DEBUG_PLATFORM
-#define GPIO_LED    RC3
-#define GPIO_RELE   RC1
-#define GPIO_BUTTON RC2
-#define GPIO_PHET   RA2
-#else
-#define GPIO_LED    RC5
-#define GPIO_RELE   RC3
-#define GPIO_BUTTON RC4
-#define GPIO_PHET   RA2
+#define GPIO_LED_A    RC5
+#define GPIO_RELE_A   RC3
+#define GPIO_BUTTON_A RC4
+#define GPIO_PHET     RA2
+
+#ifdef DOUBLE_FX
+#define GPIO_LED_B    RC0
+#define GPIO_RELE_B   RC2
+#define GPIO_BUTTON_B RC1
 #endif
 
 volatile uint16_t   btnSwitchCounter = 0;
@@ -34,23 +34,25 @@ void main ()
 {
     //ANSEL = 0; // no analog GPIO
     //ADCON0 = 0; // ADC and DAC converters off
-#ifdef DEBUG_PLATFORM
-    TRISC3 = 0x00; // set RC3 as output
-    TRISC1 = 0x00; // set RC1 as output
+#ifdef DOUBLE_FX
+    TRISC1 = 0xFF; // set RC1 as input
     TRISC0 = 0x00; // set RC0 as output
-    TRISC2 = 0xFF; // set RC2 as input
-    TRISA2 = 0x00; // set RA2 as output
-#else
+    TRISC2 = 0x00; // set RC2 as output
+#endif
     TRISC5 = 0x00; // set RC5 as output
     TRISC3 = 0x00; // set RC3 as output
     TRISC4 = 0xFF; // set RC4 as input
     TRISA2 = 0x00; // set RA2 as output
-#endif
 
-    GPIO_LED    = LOW;
-    GPIO_RELE   = LOW;
-    GPIO_BUTTON = LOW;
-    GPIO_PHET   = LOW;
+#ifdef DOUBLE_FX
+    GPIO_LED_B    = LOW;
+    GPIO_RELE_B   = LOW;
+    GPIO_BUTTON_B = LOW;
+#endif
+    GPIO_LED_A    = LOW;
+    GPIO_RELE_A   = LOW;
+    GPIO_BUTTON_A = LOW;
+    GPIO_PHET     = LOW;
 
     uint8_t pedalState  = FX_OFF;
     uint8_t buttonState = BUTTON_NOT_PRESSED;
@@ -67,8 +69,10 @@ void main ()
                     GPIO_PHET = HIGH;   
                     __delay_ms(7);
                     pedalState = FX_ON; 
-                    GPIO_RELE = HIGH;   
-                    GPIO_LED = HIGH;    
+                    GPIO_RELE_A = HIGH;
+                    GPIO_RELE_B = HIGH;
+                    GPIO_LED_A = HIGH;
+                    GPIO_LED_B = HIGH;
                     __delay_ms(7);
                     GPIO_PHET = LOW;
                 break;
@@ -77,8 +81,10 @@ void main ()
                     GPIO_PHET = HIGH; 
                     __delay_ms(7);
                     pedalState = FX_OFF; 
-                    GPIO_RELE = LOW; 
-                    GPIO_LED = LOW; 
+                    GPIO_RELE_A = LOW;
+                    GPIO_RELE_B = LOW;
+                    GPIO_LED_A = LOW;
+                    GPIO_LED_B = LOW;
                     __delay_ms(7);
                     GPIO_PHET = LOW;
                 break;
@@ -89,7 +95,7 @@ void main ()
 
 uint8_t checkButton ()
 {   
-    if (GPIO_BUTTON == LOW && changeStateFlag == LOW)
+    if (GPIO_BUTTON_A == LOW && changeStateFlag == LOW)
     {
         if (btnSwitchCounter < 1750)
         {
@@ -105,7 +111,7 @@ uint8_t checkButton ()
         }
     }
     
-    else if (GPIO_BUTTON == HIGH)
+    else if (GPIO_BUTTON_A == HIGH)
     {
         if (btnSwitchCounter == 0)
         {

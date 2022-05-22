@@ -25,10 +25,13 @@
 #define GPIO_BUTTON_B RC1
 #endif
 
-volatile uint16_t   btnSwitchCounter = 0;
-volatile uint8_t    changeStateFlag = LOW;
+volatile uint16_t   btnSwitchCounterA = 0;
+volatile uint16_t   btnSwitchCounterB = 0;
+volatile uint8_t    changeStateFlagA = LOW;
+volatile uint8_t    changeStateFlagB = LOW;
 
-uint8_t checkButton ();
+uint8_t checkButtonA ();
+uint8_t checkButtonB ();
 
 void main ()
 {
@@ -54,24 +57,51 @@ void main ()
     GPIO_BUTTON_A = LOW;
     GPIO_PHET     = LOW;
 
-    uint8_t pedalState  = FX_OFF;
-    uint8_t buttonState = BUTTON_NOT_PRESSED;
+    uint8_t pedalStateA  = FX_OFF;
+    uint8_t buttonStateA = BUTTON_NOT_PRESSED;
+    uint8_t pedalStateB  = FX_OFF;
+    uint8_t buttonStateB = BUTTON_NOT_PRESSED;
 
     while (1)
     {
-        buttonState = checkButton();
+        buttonStateA = checkButtonA();
+        buttonStateB = checkButtonB();
         
-        if (buttonState == BUTTON_PRESSED)
+        if (buttonStateA == BUTTON_PRESSED)
         {
-            switch(pedalState)
+            switch(pedalStateA)
             {
                 case FX_OFF:
                     GPIO_PHET = HIGH;   
                     __delay_ms(7);
-                    pedalState = FX_ON; 
+                    pedalStateA = FX_ON; 
                     GPIO_RELE_A = HIGH;
-                    GPIO_RELE_B = HIGH;
                     GPIO_LED_A = HIGH;
+                    __delay_ms(7);
+                    GPIO_PHET = LOW;
+                break;
+                
+                case FX_ON:
+                    GPIO_PHET = HIGH; 
+                    __delay_ms(7);
+                    pedalStateA = FX_OFF; 
+                    GPIO_RELE_A = LOW;
+                    GPIO_LED_A = LOW;
+                    __delay_ms(7);
+                    GPIO_PHET = LOW;
+                break;
+            }
+        }
+        
+        if (buttonStateB == BUTTON_PRESSED)
+        {
+            switch(pedalStateB)
+            {
+                case FX_OFF:
+                    GPIO_PHET = HIGH;   
+                    __delay_ms(7);
+                    pedalStateB = FX_ON; 
+                    GPIO_RELE_B = HIGH;
                     GPIO_LED_B = HIGH;
                     __delay_ms(7);
                     GPIO_PHET = LOW;
@@ -80,10 +110,8 @@ void main ()
                 case FX_ON:
                     GPIO_PHET = HIGH; 
                     __delay_ms(7);
-                    pedalState = FX_OFF; 
-                    GPIO_RELE_A = LOW;
+                    pedalStateB = FX_OFF; 
                     GPIO_RELE_B = LOW;
-                    GPIO_LED_A = LOW;
                     GPIO_LED_B = LOW;
                     __delay_ms(7);
                     GPIO_PHET = LOW;
@@ -93,32 +121,62 @@ void main ()
     }
 }
 
-uint8_t checkButton ()
+uint8_t checkButtonA ()
 {   
-    if (GPIO_BUTTON_A == LOW && changeStateFlag == LOW)
+    if (GPIO_BUTTON_A == LOW && changeStateFlagA == LOW)
     {
-        if (btnSwitchCounter < 1750)
+        if (btnSwitchCounterA < 1750)
         {
-            ++btnSwitchCounter;
+            ++btnSwitchCounterA;
             return BUTTON_NOT_PRESSED;
         }
         
         else
         {
-           btnSwitchCounter = 0;
-           changeStateFlag = HIGH;
+           btnSwitchCounterA = 0;
+           changeStateFlagA = HIGH;
            return BUTTON_PRESSED;
         }
     }
     
     else if (GPIO_BUTTON_A == HIGH)
     {
-        if (btnSwitchCounter == 0)
+        if (btnSwitchCounterA == 0)
         {
-           changeStateFlag = LOW;
+           changeStateFlagA = LOW;
            return BUTTON_NOT_PRESSED;
         }
         
-        --btnSwitchCounter;
+        --btnSwitchCounterA;
+    }
+}
+
+uint8_t checkButtonB ()
+{   
+    if (GPIO_BUTTON_B == LOW && changeStateFlagB == LOW)
+    {
+        if (btnSwitchCounterB < 1750)
+        {
+            ++btnSwitchCounterB;
+            return BUTTON_NOT_PRESSED;
+        }
+        
+        else
+        {
+           btnSwitchCounterB = 0;
+           changeStateFlagB = HIGH;
+           return BUTTON_PRESSED;
+        }
+    }
+    
+    else if (GPIO_BUTTON_B == HIGH)
+    {
+        if (btnSwitchCounterB == 0)
+        {
+           changeStateFlagB = LOW;
+           return BUTTON_NOT_PRESSED;
+        }
+        
+        --btnSwitchCounterB;
     }
 }

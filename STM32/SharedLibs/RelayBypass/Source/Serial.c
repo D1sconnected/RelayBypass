@@ -1,5 +1,12 @@
 #include "../Include/Serial.h"
-#include "../Include/Interface.h"
+
+#ifdef MIMIC
+#include "../../RelayBypass/Include/Interface_Mimic.h"
+#endif
+
+#ifdef CONSTRUCTOR
+#include "../../PlatformDependent/Include/Interface_Constructor.h"
+#endif
 
 typedef struct SerialStruct
 {

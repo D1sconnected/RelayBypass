@@ -6,7 +6,14 @@
 #include "Common.h"
 #include "List.h"
 #include "Serial.h"
-#include "Interface.h"
+
+#ifdef MIMIC
+#include "../../RelayBypass/Include/Interface_Mimic.h"
+#endif
+
+#ifdef CONSTRUCTOR
+#include "../../PlatformDependent/Include/Interface_Constructor.h"
+#endif
 
 #ifdef STM32F1_VERSION
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"

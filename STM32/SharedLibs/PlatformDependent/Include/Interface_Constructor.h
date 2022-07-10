@@ -2,7 +2,7 @@
 #ifndef INTERFACE_HEADER_FILE_H
 #define INTERFACE_HEADER_FILE_H
 
-#include "Common.h"
+#include "../../RelayBypass/Include/Common.h"
 
 #ifdef STM32F1_VERSION
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"

@@ -8,7 +8,14 @@
 
 //#include "adc.h"
 #include "Common.h"
-#include "Interface.h"
+
+#ifdef MIMIC
+#include "../../RelayBypass/Include/Interface_Mimic.h"
+#endif
+
+#ifdef CONSTRUCTOR
+#include "../../PlatformDependent/Include/Interface_Constructor.h"
+#endif
 
 HAL_StatusTypeDef HAL_ADC_Start(ADC_HandleTypeDef *phadc);
 HAL_StatusTypeDef HAL_ADC_PollForConversion(ADC_HandleTypeDef *pHadc, uint32_t Timeout);

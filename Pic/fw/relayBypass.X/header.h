@@ -1,10 +1,3 @@
-/* 
- * File:   header.h
- * Author: yupdi
- *
- * Created on 3 ?????? 2020 ?., 15:06
- */
-
 // CONFIG
 /* PICF616
 #pragma config FOSC = INTOSCCLK // Oscillator Selection bits (INTOSCIO oscillator: I/O function on RA4/OSC2/CLKOUT pin, I/O function on RA5/OSC1/CLKIN)
@@ -23,14 +16,15 @@
 #pragma config BOREN = OFF      // Brown-out Detect Enable bit (BOD disabled)
 #pragma config CP = OFF         // Code Protection bit (Program Memory code protection is disabled)
 #pragma config CPD = OFF        // Data Code Protection bit (Data memory code protection is disabled)
+
 // Define oscillator frequency
 #define _XTAL_FREQ 8000000
 
-#define HIGH    0x01
-#define LOW     0x00
+#define HIGH                0x01
+#define LOW                 0x00
 
-#define FX_ON   0xFF
-#define FX_OFF  0x00
+#define FX_ON               0xFF
+#define FX_OFF              0x00
 
 #define BUTTON_PRESSED      0xFF
 #define BUTTON_NOT_PRESSED  0x00

@@ -1,18 +1,13 @@
-/* 
- * File:   main.c
- * Author: yupdi
- *
- * Created on 3 ?????? 2020 ?., 15:16
- */
-
 // Supplementary libraries
 #include <stdint.h>
 #include <xc.h>
 // Include configuration bits
 #include "header.h"
 
-//#define DEBUG_PLATFORM
-#define DOUBLE_FX
+#define DOUBLE_FX                                   // comment this line to use singe fx version
+#define PHET_DELAY_TOTAL    14                      // total time in ms between phet activation and deactivation
+#define PHET_DELAY_HALF     PHET_DELAY_TOTAL / 2    // half  time in ms, first half takes place before switch routine, second takes after
+#define RATLLE_SENSITIVITY  1750                    // from 0 to 65535, btnSwCounter's max value to sense button pressed event
 
 #define GPIO_LED_A    RC5
 #define GPIO_RELE_A   RC3
@@ -25,18 +20,20 @@
 #define GPIO_BUTTON_B RC1
 #endif
 
-volatile uint16_t   btnSwitchCounterA = 0;
-volatile uint16_t   btnSwitchCounterB = 0;
-volatile uint8_t    changeStateFlagA = LOW;
-volatile uint8_t    changeStateFlagB = LOW;
+volatile uint16_t   btnSwCounterA   = 0;            // rattle counter for button A
+volatile uint16_t   btnSwCounterB   = 0;            // rattle counter for button B
+volatile uint8_t    swStateFlagA    = LOW;          // switch flag    for FX     A
+volatile uint8_t    swStateFlagB    = LOW;          // switch flag    for FX     B
 
 uint8_t checkButtonA ();
 uint8_t checkButtonB ();
 
 void main ()
 {
-    //ANSEL = 0; // no analog GPIO
-    //ADCON0 = 0; // ADC and DAC converters off
+    /* PICF616
+    ANSEL = 0; // no analog GPIO
+    ADCON0 = 0; // ADC and DAC converters off
+    */ 
 #ifdef DOUBLE_FX
     TRISC1 = 0xFF; // set RC1 as input
     TRISC0 = 0x00; // set RC0 as output
@@ -62,6 +59,10 @@ void main ()
     uint8_t pedalStateB  = FX_OFF;
     uint8_t buttonStateB = BUTTON_NOT_PRESSED;
 
+    /* 1. Check buttonState's -> update btnSwCounter's and update swStateFlag's -> return buttonState's
+     * 2. If detected BUTTON_PRESSED -> do routine based on pedalState
+     * 3. Repeat 1-2 in loop
+     */
     while (1)
     {
         buttonStateA = checkButtonA();
@@ -73,21 +74,21 @@ void main ()
             {
                 case FX_OFF:
                     GPIO_PHET = HIGH;   
-                    __delay_ms(7);
+                    __delay_ms(PHET_DELAY_HALF);
                     pedalStateA = FX_ON; 
                     GPIO_RELE_A = HIGH;
                     GPIO_LED_A = HIGH;
-                    __delay_ms(7);
+                    __delay_ms(PHET_DELAY_HALF);
                     GPIO_PHET = LOW;
                 break;
                 
                 case FX_ON:
                     GPIO_PHET = HIGH; 
-                    __delay_ms(7);
+                    __delay_ms(PHET_DELAY_HALF);
                     pedalStateA = FX_OFF; 
                     GPIO_RELE_A = LOW;
                     GPIO_LED_A = LOW;
-                    __delay_ms(7);
+                    __delay_ms(PHET_DELAY_HALF);
                     GPIO_PHET = LOW;
                 break;
             }
@@ -99,21 +100,21 @@ void main ()
             {
                 case FX_OFF:
                     GPIO_PHET = HIGH;   
-                    __delay_ms(7);
+                    __delay_ms(PHET_DELAY_HALF);
                     pedalStateB = FX_ON; 
                     GPIO_RELE_B = HIGH;
                     GPIO_LED_B = HIGH;
-                    __delay_ms(7);
+                    __delay_ms(PHET_DELAY_HALF);
                     GPIO_PHET = LOW;
                 break;
                 
                 case FX_ON:
                     GPIO_PHET = HIGH; 
-                    __delay_ms(7);
+                    __delay_ms(PHET_DELAY_HALF);
                     pedalStateB = FX_OFF; 
                     GPIO_RELE_B = LOW;
                     GPIO_LED_B = LOW;
-                    __delay_ms(7);
+                    __delay_ms(PHET_DELAY_HALF);
                     GPIO_PHET = LOW;
                 break;
             }
@@ -121,62 +122,69 @@ void main ()
     }
 }
 
+/* 1. If button was pressed (low state) and switch did not occured, we need to deal with rattle. 
+ * So increment counter until max value, then set swStateFlag 
+ */
 uint8_t checkButtonA ()
 {   
-    if (GPIO_BUTTON_A == LOW && changeStateFlagA == LOW)
+    if (GPIO_BUTTON_A == LOW && swStateFlagA == LOW)
     {
-        if (btnSwitchCounterA < 1750)
+        if (btnSwCounterA < RATLLE_SENSITIVITY)
         {
-            ++btnSwitchCounterA;
+            ++btnSwCounterA;
             return BUTTON_NOT_PRESSED;
         }
         
         else
         {
-           btnSwitchCounterA = 0;
-           changeStateFlagA = HIGH;
+           btnSwCounterA = 0;
+           swStateFlagA = HIGH;
            return BUTTON_PRESSED;
         }
     }
     
     else if (GPIO_BUTTON_A == HIGH)
     {
-        if (btnSwitchCounterA == 0)
+        if (btnSwCounterA == 0)
         {
-           changeStateFlagA = LOW;
+           swStateFlagA = LOW;
            return BUTTON_NOT_PRESSED;
         }
         
-        --btnSwitchCounterA;
+        --btnSwCounterA;
     }
+    
+    return BUTTON_NOT_PRESSED;
 }
 
 uint8_t checkButtonB ()
 {   
-    if (GPIO_BUTTON_B == LOW && changeStateFlagB == LOW)
+    if (GPIO_BUTTON_B == LOW && swStateFlagB == LOW)
     {
-        if (btnSwitchCounterB < 1750)
+        if (btnSwCounterB < RATLLE_SENSITIVITY)
         {
-            ++btnSwitchCounterB;
+            ++btnSwCounterB;
             return BUTTON_NOT_PRESSED;
         }
         
         else
         {
-           btnSwitchCounterB = 0;
-           changeStateFlagB = HIGH;
+           btnSwCounterB = 0;
+           swStateFlagB = HIGH;
            return BUTTON_PRESSED;
         }
     }
     
     else if (GPIO_BUTTON_B == HIGH)
     {
-        if (btnSwitchCounterB == 0)
+        if (btnSwCounterB == 0)
         {
-           changeStateFlagB = LOW;
+           swStateFlagB = LOW;
            return BUTTON_NOT_PRESSED;
         }
         
-        --btnSwitchCounterB;
+        --btnSwCounterB;
     }
+    
+    return BUTTON_NOT_PRESSED;
 }

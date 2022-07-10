@@ -234,7 +234,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;STM32F1_VERSION;CONSTRUCTOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;CONSTRUCTOR_F1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -288,7 +288,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;STM32F1_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;CONSTRUCTOR_F1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -431,8 +431,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\SharedLibs\PlatformDependent\Constructor\Include\Interface_Constructor.h" />
-    <ClInclude Include="..\..\..\SharedLibs\PlatformDependent\Mimic\Include\Interface_Mimic.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Button.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Common.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Executor.h" />
@@ -441,8 +439,6 @@
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Timer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\SharedLibs\PlatformDependent\Constructor\Source\Interface_Constructor.c" />
-    <ClCompile Include="..\..\..\SharedLibs\PlatformDependent\Mimic\Source\Interface_Mimic.c" />
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Button.c" />
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Executor.c" />
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\List.c" />

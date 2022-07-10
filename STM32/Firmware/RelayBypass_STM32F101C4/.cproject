@@ -67,13 +67,11 @@
                                     									
                                     <listOptionValue builtIn="false" value="DEBUG"/>
                                     									
-                                    <listOptionValue builtIn="false" value="STM32F1_VERSION"/>
-                                    									
                                     <listOptionValue builtIn="false" value="USE_HAL_DRIVER"/>
                                     									
                                     <listOptionValue builtIn="false" value="STM32F101x6"/>
                                     									
-                                    <listOptionValue builtIn="false" value="CONSTRUCTOR"/>
+                                    <listOptionValue builtIn="false" value="CONSTRUCTOR_F1"/>
                                     								
                                 </option>
                                 								
@@ -228,6 +226,8 @@
                                     <listOptionValue builtIn="false" value="USE_HAL_DRIVER"/>
                                     									
                                     <listOptionValue builtIn="false" value="STM32F101x6"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="CONSTRUCTOR_F1"/>
                                     								
                                 </option>
                                 								

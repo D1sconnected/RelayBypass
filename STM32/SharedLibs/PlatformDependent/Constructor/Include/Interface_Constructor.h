@@ -3,12 +3,12 @@
 
 #include "../../../RelayBypass/Include/Common.h"
 
-#ifdef STM32F1_VERSION
+#ifdef CONSTRUCTOR_F1
 #include "../../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
 #include "../../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
 #endif
 
-#ifdef STM32L1_VERSION
+#ifdef CONSTRUCTOR_L1
 #include "../../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/gpio.h"
 #include "../../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
 #endif

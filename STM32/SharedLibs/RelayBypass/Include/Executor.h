@@ -7,20 +7,21 @@
 #include "List.h"
 #include "Serial.h"
 
-#ifdef MIMIC
+#ifdef MIMIC_F1
 #include "../../PlatformDependent/Mimic/Include/Interface_Mimic.h"
+#include "../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/gpio.h"
+#include "../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/tim.h"
 #endif
 
-#ifdef CONSTRUCTOR
+#ifdef CONSTRUCTOR_F1
 #include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
-#endif
-
-#ifdef STM32F1_VERSION
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
 #endif
 
-#ifdef STM32L1_VERSION
+
+#ifdef CONSTRUCTOR_L1
+#include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
 #include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/gpio.h"
 #include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
 #endif

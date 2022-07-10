@@ -9,11 +9,16 @@
 //#include "adc.h"
 #include "Common.h"
 
-#ifdef MIMIC
+#ifdef MIMIC_F1
 #include "../../PlatformDependent/Mimic/Include/Interface_Mimic.h"
 #endif
 
-#ifdef CONSTRUCTOR
+#ifdef CONSTRUCTOR_F1
+#include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
+#endif
+
+
+#ifdef CONSTRUCTOR_L1
 #include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
 #endif
 

@@ -36,12 +36,6 @@
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\SharedLibs\PlatformDependent\Mimic\Include\Interface_Mimic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\SharedLibs\PlatformDependent\Constructor\Include\Interface_Constructor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Button.c">
@@ -57,12 +51,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Timer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\SharedLibs\PlatformDependent\Constructor\Source\Interface_Constructor.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\SharedLibs\PlatformDependent\Mimic\Source\Interface_Mimic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

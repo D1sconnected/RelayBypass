@@ -1,12 +1,21 @@
 #ifndef TIMER_HEADER_FILE_H
 #define TIMER_HEADER_FILE_H
 
-#ifdef STM32F1_VERSION
+#ifdef MIMIC_F1
+#include "../../PlatformDependent/Mimic/Include/Interface_Mimic.h"
+#include "../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/gpio.h"
+#include "../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/tim.h"
+#endif
+
+#ifdef CONSTRUCTOR_F1
+#include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
 #endif
 
-#ifdef STM32L1_VERSION
+
+#ifdef CONSTRUCTOR_L1
+#include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
 #include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/gpio.h"
 #include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
 #endif

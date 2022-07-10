@@ -22,8 +22,8 @@
 
 volatile uint16_t   btnSwCounterA   = 0;            // rattle counter for button A
 volatile uint16_t   btnSwCounterB   = 0;            // rattle counter for button B
-volatile uint8_t    swStateFlagA    = LOW;          // switch flag    for FX     A
-volatile uint8_t    swStateFlagB    = LOW;          // switch flag    for FX     B
+volatile uint8_t    swStateFlagA    = LOW;          // switch flag    for FX     A (keeped untill button released)
+volatile uint8_t    swStateFlagB    = LOW;          // switch flag    for FX     B (keeped untill button released)
 
 uint8_t checkButtonA ();
 uint8_t checkButtonB ();
@@ -123,7 +123,9 @@ void main ()
 }
 
 /* 1. If button was pressed (low state) and switch did not occured, we need to deal with rattle. 
- * So increment counter until max value, then set swStateFlag 
+ *    So increment counter on each enter until max value, then set swStateFlag, which will be keeped untill button released.
+ * 2. When button released  (high state) keep lowering counter, untill it's 0. Then update swStateFlag.
+ *    This force pedal to switch only once on actual real-time button press.
  */
 uint8_t checkButtonA ()
 {   
@@ -143,7 +145,7 @@ uint8_t checkButtonA ()
         }
     }
     
-    else if (GPIO_BUTTON_A == HIGH)
+    else if (GPIO_BUTTON_A == HIGH) // swStateFlagA not important
     {
         if (btnSwCounterA == 0)
         {
@@ -175,7 +177,7 @@ uint8_t checkButtonB ()
         }
     }
     
-    else if (GPIO_BUTTON_B == HIGH)
+    else if (GPIO_BUTTON_B == HIGH) // swStateFlagB not important
     {
         if (btnSwCounterB == 0)
         {

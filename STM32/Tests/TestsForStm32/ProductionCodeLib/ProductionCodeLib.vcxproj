@@ -431,8 +431,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\SharedLibs\PlatformDependent\Include\Interface_Constructor.h" />
-    <ClInclude Include="..\..\..\SharedLibs\PlatformDependent\Include\Interface_Mimic.h" />
+    <ClInclude Include="..\..\..\SharedLibs\PlatformDependent\Constructor\Include\Interface_Constructor.h" />
+    <ClInclude Include="..\..\..\SharedLibs\PlatformDependent\Mimic\Include\Interface_Mimic.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Button.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Common.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Executor.h" />
@@ -441,8 +441,8 @@
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Timer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\SharedLibs\PlatformDependent\Source\Interface_Constructor.c" />
-    <ClCompile Include="..\..\..\SharedLibs\PlatformDependent\Source\Interface_Mimic.c" />
+    <ClCompile Include="..\..\..\SharedLibs\PlatformDependent\Constructor\Source\Interface_Constructor.c" />
+    <ClCompile Include="..\..\..\SharedLibs\PlatformDependent\Mimic\Source\Interface_Mimic.c" />
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Button.c" />
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Executor.c" />
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\List.c" />

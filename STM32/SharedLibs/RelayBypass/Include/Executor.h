@@ -8,11 +8,11 @@
 #include "Serial.h"
 
 #ifdef MIMIC
-#include "../../RelayBypass/Include/Interface_Mimic.h"
+#include "../../PlatformDependent/Mimic/Include/Interface_Mimic.h"
 #endif
 
 #ifdef CONSTRUCTOR
-#include "../../PlatformDependent/Include/Interface_Constructor.h"
+#include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
 #endif
 
 #ifdef STM32F1_VERSION

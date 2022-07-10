@@ -1,13 +1,5 @@
 #include "../Include/Serial.h"
 
-#ifdef MIMIC
-#include "../../RelayBypass/Include/Interface_Mimic.h"
-#endif
-
-#ifdef CONSTRUCTOR
-#include "../../PlatformDependent/Include/Interface_Constructor.h"
-#endif
-
 typedef struct SerialStruct
 {
     char rxBuffer[SERIAL_RX_BUFFER_SIZE];

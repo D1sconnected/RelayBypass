@@ -5,6 +5,14 @@
 #include "Common.h"
 #include <string.h>
 
+#ifdef MIMIC
+#include "../../PlatformDependent/Mimic/Include/Interface_Mimic.h"
+#endif
+
+#ifdef CONSTRUCTOR
+#include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
+#endif
+
 #define SERIAL_RX_BUFFER_SIZE	32
 #define SERIAL_TX_BUFFER_SIZE	256
 

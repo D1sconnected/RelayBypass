@@ -72,6 +72,8 @@
                                     <listOptionValue builtIn="false" value="STM32F101x6"/>
                                     									
                                     <listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="STM32F1_VERSION"/>
                                     								
                                 </option>
                                 								

@@ -1,17 +1,16 @@
-// Interface.h
-#ifndef INTERFACE_HEADER_FILE_H
-#define INTERFACE_HEADER_FILE_H
+#ifndef INTERFACE_MIMIC_H
+#define INTERFACE_MIMIC_H
 
-#include "../../RelayBypass/Include/Common.h"
+#include "../../../RelayBypass/Include/Common.h"
 
 #ifdef STM32F1_VERSION
-#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
-#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
+#include "../../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
+#include "../../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
 #endif
 
 #ifdef STM32L1_VERSION
-#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/gpio.h"
-#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
+#include "../../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/gpio.h"
+#include "../../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
 #endif
 
 #define FX_OFF false
@@ -72,12 +71,11 @@ Status Interface_ChangeRoute(char channel);
 
 // Updating LED & RELAY state with HAL_GPIO_WritePin
 // channel - specify FX slot to update
-// colour - specify LED colour of FX slot
 // state - specify GPIO_PIN_SET (ON) or GPIO_PIN_RESET (OFF)
 //
 // Returns:
 // None
-void Interface_UpdateGpioForSwitch(char channel, LedColour colour, GPIO_PinState state);
+void Interface_UpdateGpioForSwitch(char channel, GPIO_PinState state);
 
 // Updating DIR RELAY state with HAL_GPIO_WritePin
 // state - specify GPIO_PIN_SET (ON) or GPIO_PIN_RESET (OFF)
@@ -86,6 +84,6 @@ void Interface_UpdateGpioForSwitch(char channel, LedColour colour, GPIO_PinState
 // None
 void Interface_UpdateGpioForChange(GPIO_PinState state);
 
-void Interface_UpdateGpioForToggle(char channel, LedColour colour);
+void Interface_UpdateGpioForToggle(char channel);
 
 #endif

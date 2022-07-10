@@ -61,7 +61,12 @@ void main ()
 
     /* 1. Check buttonState's -> update btnSwCounter's and update swStateFlag's -> return buttonState's
      * 2. If detected BUTTON_PRESSED -> do routine based on pedalState
-     * 3. Repeat 1-2 in loop
+     * 3. Switch routine sequence:
+     *    3.1 Activate PHET to supress noise & wait PHET_DELAY_HALF
+     *    3.2 Change relay state & led state & wait PHET_DELAY_HALF
+     *    3.3 Change pedal state in programm
+     *    3.4 Deactivate PHET to release sound path
+     * 4. Repeat 1-2 in loop
      */
     while (1)
     {
@@ -75,9 +80,9 @@ void main ()
                 case FX_OFF:
                     GPIO_PHET = HIGH;   
                     __delay_ms(PHET_DELAY_HALF);
-                    pedalStateA = FX_ON; 
                     GPIO_RELE_A = HIGH;
                     GPIO_LED_A = HIGH;
+                    pedalStateA = FX_ON; 
                     __delay_ms(PHET_DELAY_HALF);
                     GPIO_PHET = LOW;
                 break;
@@ -85,9 +90,9 @@ void main ()
                 case FX_ON:
                     GPIO_PHET = HIGH; 
                     __delay_ms(PHET_DELAY_HALF);
-                    pedalStateA = FX_OFF; 
                     GPIO_RELE_A = LOW;
                     GPIO_LED_A = LOW;
+                    pedalStateA = FX_OFF; 
                     __delay_ms(PHET_DELAY_HALF);
                     GPIO_PHET = LOW;
                 break;
@@ -101,9 +106,9 @@ void main ()
                 case FX_OFF:
                     GPIO_PHET = HIGH;   
                     __delay_ms(PHET_DELAY_HALF);
-                    pedalStateB = FX_ON; 
                     GPIO_RELE_B = HIGH;
                     GPIO_LED_B = HIGH;
+                    pedalStateB = FX_ON; 
                     __delay_ms(PHET_DELAY_HALF);
                     GPIO_PHET = LOW;
                 break;
@@ -111,9 +116,9 @@ void main ()
                 case FX_ON:
                     GPIO_PHET = HIGH; 
                     __delay_ms(PHET_DELAY_HALF);
-                    pedalStateB = FX_OFF; 
                     GPIO_RELE_B = LOW;
                     GPIO_LED_B = LOW;
+                    pedalStateB = FX_OFF; 
                     __delay_ms(PHET_DELAY_HALF);
                     GPIO_PHET = LOW;
                 break;

@@ -70,6 +70,7 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define A_SW_3_EXTI_Pin GPIO_PIN_13
 #define A_SW_3_EXTI_GPIO_Port GPIOC
+#define A_SW_3_EXTI_EXTI_IRQn EXTI15_10_IRQn
 #define A_PROG_0_CTRL_Pin GPIO_PIN_14
 #define A_PROG_0_CTRL_GPIO_Port GPIOC
 #define A_PROG_1_CTRL_Pin GPIO_PIN_15
@@ -82,24 +83,29 @@ void Error_Handler(void);
 #define I2C_SELECT_1_GPIO_Port GPIOA
 #define I2C_SELECT_0_Pin GPIO_PIN_3
 #define I2C_SELECT_0_GPIO_Port GPIOA
-#define A_BTN_EXTI_Pin GPIO_PIN_4
-#define A_BTN_EXTI_GPIO_Port GPIOA
+#define A_BTN_Pin GPIO_PIN_4
+#define A_BTN_GPIO_Port GPIOA
+#define A_BTN_EXTI_IRQn EXTI4_IRQn
 #define MCU_TAP_EXTI_Pin GPIO_PIN_5
 #define MCU_TAP_EXTI_GPIO_Port GPIOA
+#define MCU_TAP_EXTI_EXTI_IRQn EXTI9_5_IRQn
 #define B_ADC_POT_Pin GPIO_PIN_6
 #define B_ADC_POT_GPIO_Port GPIOA
 #define A_ADC_POT_Pin GPIO_PIN_7
 #define A_ADC_POT_GPIO_Port GPIOA
-#define A_LED_CTRL_Pin GPIO_PIN_0
-#define A_LED_CTRL_GPIO_Port GPIOB
-#define B_BTN_EXTI_Pin GPIO_PIN_12
-#define B_BTN_EXTI_GPIO_Port GPIOB
-#define B_LED_CTRL_Pin GPIO_PIN_13
-#define B_LED_CTRL_GPIO_Port GPIOB
+#define A_LED_RED_Pin GPIO_PIN_0
+#define A_LED_RED_GPIO_Port GPIOB
+#define B_BTN_Pin GPIO_PIN_12
+#define B_BTN_GPIO_Port GPIOB
+#define B_BTN_EXTI_IRQn EXTI15_10_IRQn
+#define B_LED_GREEN_Pin GPIO_PIN_13
+#define B_LED_GREEN_GPIO_Port GPIOB
 #define B_SW_1_EXTI_Pin GPIO_PIN_14
 #define B_SW_1_EXTI_GPIO_Port GPIOB
+#define B_SW_1_EXTI_EXTI_IRQn EXTI15_10_IRQn
 #define B_SW_3_EXTI_Pin GPIO_PIN_15
 #define B_SW_3_EXTI_GPIO_Port GPIOB
+#define B_SW_3_EXTI_EXTI_IRQn EXTI15_10_IRQn
 #define PHET_CTRL_Pin GPIO_PIN_8
 #define PHET_CTRL_GPIO_Port GPIOA
 #define B_PROG_2_CTRL_Pin GPIO_PIN_9
@@ -118,6 +124,7 @@ void Error_Handler(void);
 #define A_RELE_CTRL_GPIO_Port GPIOB
 #define A_SW_1_EXTI_Pin GPIO_PIN_9
 #define A_SW_1_EXTI_GPIO_Port GPIOB
+#define A_SW_1_EXTI_EXTI_IRQn EXTI9_5_IRQn
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

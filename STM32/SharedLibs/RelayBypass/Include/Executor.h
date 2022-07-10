@@ -6,6 +6,8 @@
 #include "Common.h"
 #include "List.h"
 #include "Serial.h"
+#include "Button.h"
+#include "Timer.h"
 
 #ifdef MIMIC_F1
 #include "../../PlatformDependent/Mimic/Include/Interface_Mimic.h"

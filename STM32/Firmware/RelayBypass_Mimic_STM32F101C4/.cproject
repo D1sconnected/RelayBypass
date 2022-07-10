@@ -73,7 +73,7 @@
                                     									
                                     <listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER"/>
                                     									
-                                    <listOptionValue builtIn="false" value="STM32F1_VERSION"/>
+                                    <listOptionValue builtIn="false" value="MIMIC_F1"/>
                                     								
                                 </option>
                                 								
@@ -141,7 +141,15 @@
                     					
                     <sourceEntries>
                         						
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="IncludeDependet"/>
+                        						
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="SourceDependet"/>
+                        						
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="SourceShared"/>
+                        						
                         <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
+                        						
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="IncludeShared"/>
                         						
                         <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
                         					
@@ -222,6 +230,8 @@
                                     <listOptionValue builtIn="false" value="STM32F101x6"/>
                                     									
                                     <listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="MIMIC_F1"/>
                                     								
                                 </option>
                                 								

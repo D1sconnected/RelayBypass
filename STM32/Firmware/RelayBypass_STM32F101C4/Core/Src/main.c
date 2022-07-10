@@ -102,12 +102,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    status = Executor_Handler(pExecutor);
+      status = Executor_Handler(pExecutor);
 
-    if (status == INVALID_PARAMETERS)
-    {
-        Error_Handler();
-    }
+      if (status == INVALID_PARAMETERS)
+      {
+          Error_Handler();
+      }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

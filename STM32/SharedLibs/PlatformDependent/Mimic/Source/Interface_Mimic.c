@@ -31,19 +31,19 @@ void Interface_UpdateGpioForSwitch(char channel, GPIO_PinState state)
             HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
 
             // Turn PHET ON
-            HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(PHET_CTRL_GPIO_Port, PHET_CTRL_Pin, GPIO_PIN_SET);
 
             // Wait for PHET to turn ON
             HAL_Delay(BYPASS_DELAY);
 
             // Update RELAY state
-            HAL_GPIO_WritePin(A_RELE_GPIO_Port, A_RELE_Pin, state);
+            HAL_GPIO_WritePin(A_RELE_CTRL_GPIO_Port, A_RELE_CTRL_Pin, state);
 
             // Wait for RELAY to switch state
             HAL_Delay(BYPASS_DELAY);
 
             // Turn PHET OFF
-            HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(PHET_CTRL_GPIO_Port, PHET_CTRL_Pin, GPIO_PIN_RESET);
         }
         break;
 
@@ -53,19 +53,19 @@ void Interface_UpdateGpioForSwitch(char channel, GPIO_PinState state)
             HAL_GPIO_TogglePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin);
 
             // Turn PHET ON
-            HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(PHET_CTRL_GPIO_Port, PHET_CTRL_Pin, GPIO_PIN_SET);
 
             // Wait for PHET to turn ON
             HAL_Delay(BYPASS_DELAY);
 
             // Update RELAY state
-            HAL_GPIO_WritePin(B_RELE_GPIO_Port, B_RELE_Pin, state);
+            HAL_GPIO_WritePin(B_RELE_CTRL_GPIO_Port, B_RELE_CTRL_Pin, state);
 
             // Wait for RELAY to switch state
             HAL_Delay(BYPASS_DELAY);
 
             // Turn PHET OFF
-            HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(PHET_CTRL_GPIO_Port, PHET_CTRL_Pin, GPIO_PIN_RESET);
         }
         break;
     }
@@ -73,23 +73,7 @@ void Interface_UpdateGpioForSwitch(char channel, GPIO_PinState state)
 
 void Interface_UpdateGpioForChange(GPIO_PinState state)
 {
-    // Turn PHET ON
-    HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_SET);
-
-    // Wait for PHET to turn ON
-    HAL_Delay(BYPASS_DELAY);
-
-    // Update DIR 0 RELAY state
-    HAL_GPIO_WritePin(DIR0_RELE_GPIO_Port, DIR0_RELE_Pin, state);
-
-    // Update DIR 1 RELAY state
-    HAL_GPIO_WritePin(DIR1_RELE_GPIO_Port, DIR1_RELE_Pin, state);
-
-    // Wait for RELAYs to switch state
-    HAL_Delay(BYPASS_DELAY);
-
-    // Turn PHET OFF
-    HAL_GPIO_WritePin(PHET_GPIO_Port, PHET_Pin, GPIO_PIN_RESET);
+    return;
 }
 
 Status Interface_SwitchChannel(char channel) 

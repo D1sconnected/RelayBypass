@@ -1,6 +1,8 @@
 #ifndef BUTTON_HEADER_FILE_H
 #define BUTTON_HEADER_FILE_H
 
+#include "List.h"
+
 #ifdef MIMIC_F1
 #include "../../PlatformDependent/Mimic/Include/Interface_Mimic.h"
 #include "../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/gpio.h"

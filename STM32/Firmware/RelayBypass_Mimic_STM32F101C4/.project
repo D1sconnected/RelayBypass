@@ -31,14 +31,24 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>Include</name>
+			<name>IncludeShared</name>
 			<type>2</type>
 			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/RelayBypass/Include</locationURI>
 		</link>
 		<link>
-			<name>Source</name>
+			<name>SourceShared</name>
 			<type>2</type>
 			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/RelayBypass/Source</locationURI>
+		</link>
+		<link>
+			<name>SourceDependet</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/PlatformDependent/Mimic/Source</locationURI>
+		</link>
+		<link>
+			<name>IncludeDependet</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/PlatformDependent/Mimic/Include</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

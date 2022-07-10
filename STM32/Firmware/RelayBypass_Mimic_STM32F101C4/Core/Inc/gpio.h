@@ -32,7 +32,9 @@ extern "C" {
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
-
+#include "../../../../SharedLibs/RelayBypass/Include/List.h"
+#include "../../../../SharedLibs/RelayBypass/Include/Common.h"
+#include "../../../../SharedLibs/RelayBypass/Include/Button.h"
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);

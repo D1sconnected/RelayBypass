@@ -476,8 +476,14 @@
     <ClCompile Include="AdcSpy.c" />
     <ClCompile Include="ExecutorTests.cpp" />
     <ClCompile Include="GpioSpy.c" />
-    <ClCompile Include="GpioSpyConstructor.c" />
-    <ClCompile Include="GpioSpyMimic.c" />
+    <ClCompile Include="GpioSpyConstructor.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='F1 Mimic Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GpioSpyMimic.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='F1 Mimic Debug|Win32'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='F1 Constructor Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="SerialSpy.c" />
     <ClCompile Include="SerialTests.cpp" />
     <ClCompile Include="TestsForStm32.cpp" />

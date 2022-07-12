@@ -48,6 +48,12 @@
     <ClCompile Include="TimSpy.c">
       <Filter>HAL Spies\Common</Filter>
     </ClCompile>
+    <ClCompile Include="GpioSpyMimic.c">
+      <Filter>HAL Spies\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GpioSpyConstructor.c">
+      <Filter>HAL Spies\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AdcSpy.h">
@@ -121,6 +127,12 @@
     </ClInclude>
     <ClInclude Include="stm32f1xx_ll_utils.h">
       <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="GpioSpyConstructor.h">
+      <Filter>HAL Spies\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GpioSpyMimic.h">
+      <Filter>HAL Spies\Common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

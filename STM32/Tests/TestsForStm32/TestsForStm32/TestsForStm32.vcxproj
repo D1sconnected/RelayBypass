@@ -476,6 +476,8 @@
     <ClCompile Include="AdcSpy.c" />
     <ClCompile Include="ExecutorTests.cpp" />
     <ClCompile Include="GpioSpy.c" />
+    <ClCompile Include="GpioSpyConstructor.c" />
+    <ClCompile Include="GpioSpyMimic.c" />
     <ClCompile Include="SerialSpy.c" />
     <ClCompile Include="SerialTests.cpp" />
     <ClCompile Include="TestsForStm32.cpp" />
@@ -484,6 +486,8 @@
   <ItemGroup>
     <ClInclude Include="AdcSpy.h" />
     <ClInclude Include="GpioSpy.h" />
+    <ClInclude Include="GpioSpyConstructor.h" />
+    <ClInclude Include="GpioSpyMimic.h" />
     <ClInclude Include="SerialSpy.h" />
     <ClInclude Include="stm32f1xx_hal.h" />
     <ClInclude Include="stm32f1xx_ll_bus.h" />

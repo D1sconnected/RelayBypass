@@ -58,8 +58,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
             changeRouteChannel = CHANNEL_B;
         }
 
-        HAL_GPIO_TogglePin(MCU_PROG_GPIO_Port, MCU_PROG_Pin);
-
         cmdBlock.state = EXECUTOR_STATE_CHANGE_ROUTE;
         cmdBlock.channel = changeRouteChannel;
         cmdBlock.specificator = 0;

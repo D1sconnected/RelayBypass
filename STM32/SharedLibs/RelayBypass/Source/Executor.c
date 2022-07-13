@@ -114,6 +114,12 @@ Status Executor_Handler(Executor *pSelf)
         }
         break;
 
+        case EXECUTOR_STATE_SWITCH_PROGRAM:
+        {
+            return UNSUPPORTED;
+        }
+        break;
+
     }
 
      return NO_COMMAND;

@@ -40,6 +40,11 @@ typedef struct
     GPIO_PinState prog0B;
     GPIO_PinState prog1B;
     GPIO_PinState prog2B;
+    GPIO_PinState switch1A;
+    GPIO_PinState switch3A;
+    GPIO_PinState switch1B;
+    GPIO_PinState switch3B;
+
 } EmulatedGpioStatesStruct;
 
 extern EmulatedGpioStatesStruct emulatedGpio;

@@ -490,7 +490,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='F1 Constructor Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="SerialSpy.c" />
-    <ClCompile Include="SerialTests.cpp" />
+    <ClCompile Include="SerialTests.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='F1 Mimic Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="TestsForStm32.cpp" />
     <ClCompile Include="TimSpy.c" />
   </ItemGroup>

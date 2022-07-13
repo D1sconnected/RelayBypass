@@ -271,7 +271,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CPPUTEST_HOME)\lib\CppUTestd.lib;$(SolutionDir)F1 Debug\ProductionCodeLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(CPPUTEST_HOME)\lib\CppUTestd.lib;$(SolutionDir)F1 Constructor Debug\ProductionCodeLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='F1 Mimic Debug|Win32'">
@@ -280,12 +280,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;MIMIC_F1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Archive\01_Development\01_Github\relay-bypass\STM32\Firmware\RelayBypass_STM32L151C8\Core\Inc;$(SolutionDir)..\..\SharedLibs\RelayBypass\Include;$(CPPUTEST_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Archive\01_Development\01_Github\relay-bypass\STM32\Firmware\RelayBypass_STM32L151C8\Core\Inc;$(SolutionDir)..\..\SharedLibs\RelayBypass\Include;$(CPPUTEST_HOME)\include;$(SolutionDir)..\..\SharedLibs\PlatformDependent\Mimic\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CPPUTEST_HOME)\lib\CppUTestd.lib;$(SolutionDir)F1 Debug\ProductionCodeLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(CPPUTEST_HOME)\lib\CppUTestd.lib;$(SolutionDir)F1 Mimic Debug\ProductionCodeLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='L1 Debug|Win32'">
@@ -497,7 +497,9 @@
   <ItemGroup>
     <ClInclude Include="AdcSpy.h" />
     <ClInclude Include="GpioSpy.h" />
-    <ClInclude Include="GpioSpyConstructor.h" />
+    <ClInclude Include="GpioSpyConstructor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='F1 Mimic Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="GpioSpyMimic.h" />
     <ClInclude Include="SerialSpy.h" />
     <ClInclude Include="stm32f1xx_hal.h" />

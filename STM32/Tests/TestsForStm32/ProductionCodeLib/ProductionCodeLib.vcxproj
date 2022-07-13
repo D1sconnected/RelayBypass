@@ -286,7 +286,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\SharedLibs\RelayBypass\Include;$(SolutionDir)..\..\Tests\TestsForStm32\TestsForStm32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\SharedLibs\RelayBypass\Include;$(SolutionDir)..\..\Tests\TestsForStm32\TestsForStm32;$(SolutionDir)..\..\SharedLibs\PlatformDependent\Mimic\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -495,6 +495,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\SharedLibs\PlatformDependent\Constructor\Include\Interface_Constructor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='F1 Mimic Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SharedLibs\PlatformDependent\Mimic\Include\Interface_Mimic.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Button.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Common.h" />
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Executor.h" />
@@ -503,6 +507,10 @@
     <ClInclude Include="..\..\..\SharedLibs\RelayBypass\Include\Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\SharedLibs\PlatformDependent\Constructor\Source\Interface_Constructor.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='F1 Mimic Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\SharedLibs\PlatformDependent\Mimic\Source\Interface_Mimic.c" />
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Button.c" />
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\Executor.c" />
     <ClCompile Include="..\..\..\SharedLibs\RelayBypass\Source\List.c" />

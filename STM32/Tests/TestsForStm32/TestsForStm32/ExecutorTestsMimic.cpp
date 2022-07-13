@@ -16,7 +16,7 @@ extern "C"
 #endif
 
 #ifdef MIMIC_F1
-#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/main.h"
+#include "../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/main.h"
 #include "stm32f1xx_hal.h"
 #include "../../PlatformDependent/Mimic/Include/Interface_Mimic.h"
 #include "../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/gpio.h"
@@ -74,12 +74,6 @@ TEST(Executor, ShouldHandleSequenceOfSwitchChannelFromButtons)
     // Reset Channel A & Channel B to FX_OFF
     gFxStateA = FX_OFF;
     gFxStateB = FX_OFF;
-    // Set BOOSTER/OVERDRIVE code for Channel A
-    emulatedGpio.codeA0 = GPIO_PIN_SET;
-    emulatedGpio.codeA1 = GPIO_PIN_SET;
-    // Set BOOSTER/OVERDRIVE code for Channel B
-    emulatedGpio.codeB0 = GPIO_PIN_SET;
-    emulatedGpio.codeB1 = GPIO_PIN_SET;
 
     // Call HAL_GPIO_EXTI_Callback
     emulatedGpio.buttonA = GPIO_PIN_RESET;
@@ -99,16 +93,9 @@ TEST(Executor, ShouldHandleSequenceOfSwitchChannelFromButtons)
     // Check Emulated GPIOs changed correctly
     LONGS_EQUAL(GPIO_PIN_SET,   emulatedGpio.releA);
     LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releB);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir0);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir1);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledRedA);
-    LONGS_EQUAL(GPIO_PIN_SET,   emulatedGpio.ledGreenA);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledBlueA);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledRedB);
+    LONGS_EQUAL(GPIO_PIN_SET, emulatedGpio.ledRedA);
     LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledGreenB);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledBlueB);
     LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.phet);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.mcuProg);
 
     //----------ARRANGE #2----------//
     // Call HAL_GPIO_EXTI_Callback
@@ -129,16 +116,9 @@ TEST(Executor, ShouldHandleSequenceOfSwitchChannelFromButtons)
     // Check Emulated GPIOs changed correctly
     LONGS_EQUAL(GPIO_PIN_SET,   emulatedGpio.releA);
     LONGS_EQUAL(GPIO_PIN_SET,   emulatedGpio.releB);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir0);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.releDir1);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledRedA);
-    LONGS_EQUAL(GPIO_PIN_SET,   emulatedGpio.ledGreenA);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledBlueA);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledRedB);
+    LONGS_EQUAL(GPIO_PIN_SET, emulatedGpio.ledRedA);
     LONGS_EQUAL(GPIO_PIN_SET,   emulatedGpio.ledGreenB);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.ledBlueB);
     LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.phet);
-    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.mcuProg);
 }
 
 TEST(Executor, ShouldHandleSwitchChannelFromButtonB)

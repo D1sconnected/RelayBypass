@@ -42,15 +42,9 @@ void HAL_GPIO_WritePin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin, GPIO_PinState Pin
         {
             switch (GPIO_Pin) 
             {
-                case A_RELE_CTRL_Pin: 
+                case PHET_CTRL_Pin:
                 {
-                    emulatedGpio.releA = PinState;
-                }
-                break;
-
-                case A_LED_RED_Pin:
-                {
-                    emulatedGpio.ledRedA = PinState;
+                    emulatedGpio.phet = PinState;
                 }
                 break;
             }
@@ -61,15 +55,27 @@ void HAL_GPIO_WritePin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin, GPIO_PinState Pin
         {
             switch (GPIO_Pin)
             {
-                case PHET_CTRL_Pin:
+                case A_RELE_CTRL_Pin:
                 {
-                    emulatedGpio.phet = PinState;
+                    emulatedGpio.releA = PinState;
+                }
+                break;
+
+                case A_LED_RED_Pin:
+                {
+                    emulatedGpio.ledRedA = PinState;
                 }
                 break;
 
                 case B_LED_GREEN_Pin:
                 {
                     emulatedGpio.ledGreenB = PinState;
+                }
+                break;
+
+                case B_RELE_CTRL_Pin:
+                {
+                    emulatedGpio.releB = PinState;
                 }
                 break;
             }
@@ -80,9 +86,9 @@ void HAL_GPIO_WritePin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin, GPIO_PinState Pin
         {
             switch (GPIO_Pin)
             {
-                case B_RELE_CTRL_Pin:
+                case A_PROG_1_CTRL_Pin:
                 {
-                    emulatedGpio.releB = PinState;
+                    emulatedGpio.prog1A = PinState;
                 }
                 break;
             }
@@ -99,6 +105,19 @@ void HAL_GPIO_TogglePin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin)
         {
             switch (GPIO_Pin)
             {
+                case PHET_CTRL_Pin:
+                {
+                    emulatedGpio.phet = !emulatedGpio.phet;
+                }
+                break;
+            }
+        }
+        break;
+
+        case GPIOB:
+        {
+            switch (GPIO_Pin)
+            {
                 case A_RELE_CTRL_Pin:
                 {
                     emulatedGpio.releA = !emulatedGpio.releA;
@@ -110,35 +129,29 @@ void HAL_GPIO_TogglePin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin)
                     emulatedGpio.ledRedA = !emulatedGpio.ledRedA;
                 }
                 break;
-            }
-        }
-        break;
-
-        case GPIOB:
-        {
-            switch (GPIO_Pin)
-            {
-                case PHET_CTRL_Pin:
-                {
-                    emulatedGpio.phet = !emulatedGpio.phet;
-                }
-                break;
 
                 case B_LED_GREEN_Pin:
                 {
                     emulatedGpio.ledGreenB = !emulatedGpio.ledGreenB;
                 }
                 break;
+
+                case B_RELE_CTRL_Pin:
+                {
+                    emulatedGpio.releB = !emulatedGpio.releB;
+                }
+                break;
             }
         }
         break;
+
         case GPIOC:
         {
             switch (GPIO_Pin)
             {
-                case B_RELE_CTRL_Pin:
+                case A_PROG_1_CTRL_Pin:
                 {
-                    emulatedGpio.releB = !emulatedGpio.releB;
+                    emulatedGpio.prog1A = !emulatedGpio.prog1A;
                 }
                 break;
             }

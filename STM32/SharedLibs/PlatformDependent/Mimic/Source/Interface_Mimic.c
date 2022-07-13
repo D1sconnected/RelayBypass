@@ -76,7 +76,7 @@ void Interface_UpdateGpioForChange(GPIO_PinState state)
     return;
 }
 
-Status Interface_SwitchChannel(char channel) 
+Status Interface_SwitchChannel(char channel)
 {
     
     if ((channel != CHANNEL_A) && (channel != CHANNEL_B)) 

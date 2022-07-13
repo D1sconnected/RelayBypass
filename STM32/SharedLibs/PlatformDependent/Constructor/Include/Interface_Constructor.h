@@ -1,17 +1,16 @@
-// Interface.h
-#ifndef INTERFACE_HEADER_FILE_H
-#define INTERFACE_HEADER_FILE_H
+#ifndef INTERFACE_CONSTRUCTOR_H
+#define INTERFACE_CONSTRUCTOR_H
 
-#include "Common.h"
+#include "../../../RelayBypass/Include/Common.h"
 
-#ifdef STM32F1_VERSION
-#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
-#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
+#ifdef CONSTRUCTOR_F1
+#include "../../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
+#include "../../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
 #endif
 
-#ifdef STM32L1_VERSION
-#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/gpio.h"
-#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
+#ifdef CONSTRUCTOR_L1
+#include "../../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/gpio.h"
+#include "../../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
 #endif
 
 #define FX_OFF false

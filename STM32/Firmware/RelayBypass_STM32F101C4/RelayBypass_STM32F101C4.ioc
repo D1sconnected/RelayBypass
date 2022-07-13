@@ -200,4 +200,3 @@ PB12.Signal=GPIO_Output
 ProjectManager.LibraryCopy=1
 PA3.GPIO_Label=B_BTN
 PB1.GPIOParameters=GPIO_Label
-isbadioc=false

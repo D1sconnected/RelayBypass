@@ -15,6 +15,31 @@ extern "C"
 #include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
 #endif
 
+#ifdef MIMIC_F1
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/main.h"
+#include "stm32f1xx_hal.h"
+#include "../../PlatformDependent/Mimic/Include/Interface_Mimic.h"
+#include "../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/gpio.h"
+#include "../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/tim.h"
+#endif
+
+#ifdef CONSTRUCTOR_F1
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/main.h"
+#include "stm32f1xx_hal.h"
+#include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
+#include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
+#endif
+
+
+#ifdef CONSTRUCTOR_L1
+#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/main.h"
+#include "stm32l1xx_hal.h"
+#include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
+#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/gpio.h"
+#include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
+#endif
+
 #include "Executor.h"
 #include "List.h"
 #include "Serial.h"

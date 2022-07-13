@@ -34,6 +34,12 @@ typedef struct
     GPIO_PinState ledBlueB;
     GPIO_PinState phet;
     GPIO_PinState mcuProg;
+    GPIO_PinState prog0A;
+    GPIO_PinState prog1A;
+    GPIO_PinState prog2A;
+    GPIO_PinState prog0B;
+    GPIO_PinState prog1B;
+    GPIO_PinState prog2B;
 } EmulatedGpioStatesStruct;
 
 extern EmulatedGpioStatesStruct emulatedGpio;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>RelayBypass_STM32F101C4</name>
+	<name>RelayBypass_Mimic_STM32F101C4</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -43,12 +43,12 @@
 		<link>
 			<name>SourceDependet</name>
 			<type>2</type>
-			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/PlatformDependent/Constructor/Source</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/PlatformDependent/Mimic/Source</locationURI>
 		</link>
 		<link>
 			<name>IncludeDependet</name>
 			<type>2</type>
-			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/PlatformDependent/Constructor/Include</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/PlatformDependent/Mimic/Include</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

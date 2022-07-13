@@ -112,8 +112,8 @@ void Error_Handler(void);
 #define B_PROG_2_CTRL_GPIO_Port GPIOA
 #define B_PROG_1_CTRL_Pin GPIO_PIN_10
 #define B_PROG_1_CTRL_GPIO_Port GPIOA
-#define B_PROG_2_CTRLA12_Pin GPIO_PIN_12
-#define B_PROG_2_CTRLA12_GPIO_Port GPIOA
+#define B_PROG_0_CTRL_Pin GPIO_PIN_12
+#define B_PROG_0_CTRL_GPIO_Port GPIOA
 #define MCU_SPI_CS_B_POT_Pin GPIO_PIN_15
 #define MCU_SPI_CS_B_POT_GPIO_Port GPIOA
 #define MCU_SPI_CS_FLASH_Pin GPIO_PIN_6

@@ -8,8 +8,8 @@
 #include "../../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/tim.h"
 #endif
 
-#define FX_OFF false
-#define FX_ON  true
+#define FX_OFF	false
+#define FX_ON	true
 
 // Delay time between PHET & RELAY switching in ms
 #define BYPASS_DELAY 7
@@ -80,5 +80,7 @@ void Interface_UpdateGpioForSwitch(char channel, GPIO_PinState state);
 void Interface_UpdateGpioForChange(GPIO_PinState state);
 
 void Interface_UpdateGpioForToggle(char channel);
+
+Status Interface_SwitchProgram(char channel, char specificator);
 
 #endif

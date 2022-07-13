@@ -11,6 +11,9 @@
 #define CHANNEL_A 'A'
 #define CHANNEL_B 'B'
 
+#define UP		'U'
+#define DOWN	'D'
+
 typedef enum
 {
     OK = 0,

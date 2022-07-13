@@ -116,7 +116,8 @@ Status Executor_Handler(Executor *pSelf)
 
         case EXECUTOR_STATE_SWITCH_PROGRAM:
         {
-            return UNSUPPORTED;
+            status = Interface_SwitchProgram(currentCmdBlock.channel, currentCmdBlock.specificator);
+            return status;
         }
         break;
 

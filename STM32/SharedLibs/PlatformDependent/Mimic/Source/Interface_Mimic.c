@@ -158,3 +158,80 @@ LedColour Interface_GetColour(char channel)
 {
     return NONE;
 }
+
+Status Interface_SwitchProgram(char channel, char specificator) 
+{
+    static uint8_t programA = 0;
+    static uint8_t programB = 0;
+
+    switch (channel)
+    {
+        case CHANNEL_A:
+        {
+            switch (specificator)
+            {
+                case UP:
+                {
+                    programA++;
+
+                    if (programA > 7) 
+                    {
+                        programA = 0;
+                    }
+                }
+                break;
+
+                case DOWN:
+                {
+                    programA--;
+
+                    if (programA == 255)
+                    {
+                        programA = 7;
+                    }
+                }
+                break;
+            }
+
+            HAL_GPIO_WritePin(A_PROG_0_CTRL_GPIO_Port, A_PROG_0_CTRL_Pin, (GPIO_PinState)(programA & 0x01));
+            HAL_GPIO_WritePin(A_PROG_1_CTRL_GPIO_Port, A_PROG_1_CTRL_Pin, (GPIO_PinState)(programA & 0x02));
+            HAL_GPIO_WritePin(A_PROG_2_CTRL_GPIO_Port, A_PROG_2_CTRL_Pin, (GPIO_PinState)(programA & 0x04));
+        }
+        break;
+
+        case CHANNEL_B:
+        {
+            switch (specificator)
+            {
+            case UP:
+            {
+                programB++;
+
+                if (programB > 7)
+                {
+                    programB = 0;
+                }
+            }
+            break;
+
+            case DOWN:
+            {
+                programB--;
+
+                if (programB == 255)
+                {
+                    programB = 7;
+                }
+            }
+            break;
+            }
+
+            HAL_GPIO_WritePin(B_PROG_0_CTRL_GPIO_Port, B_PROG_0_CTRL_Pin, (GPIO_PinState)(programB & 0x01));
+            HAL_GPIO_WritePin(B_PROG_1_CTRL_GPIO_Port, B_PROG_1_CTRL_Pin, (GPIO_PinState)(programB & 0x02));
+            HAL_GPIO_WritePin(B_PROG_2_CTRL_GPIO_Port, B_PROG_2_CTRL_Pin, (GPIO_PinState)(programB & 0x04));
+        }
+        break;
+     }
+
+    return OK;
+}

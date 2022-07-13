@@ -36,9 +36,6 @@
     <ClCompile Include="SerialTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExecutorTests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AdcSpy.c">
       <Filter>HAL Spies\Common</Filter>
     </ClCompile>
@@ -53,6 +50,12 @@
     </ClCompile>
     <ClCompile Include="GpioSpyConstructor.c">
       <Filter>HAL Spies\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="ExecutorTestsConstructor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExecutorTestsMimic.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

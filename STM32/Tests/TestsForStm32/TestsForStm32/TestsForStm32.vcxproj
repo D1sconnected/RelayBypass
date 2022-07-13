@@ -474,7 +474,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AdcSpy.c" />
-    <ClCompile Include="ExecutorTests.cpp" />
+    <ClCompile Include="ExecutorTestsConstructor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='F1 Mimic Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ExecutorTestsMimic.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='F1 Constructor Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GpioSpy.c" />
     <ClCompile Include="GpioSpyConstructor.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='F1 Mimic Debug|Win32'">true</ExcludedFromBuild>

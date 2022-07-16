@@ -54,7 +54,7 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, A_PROG_2_CTRL_Pin|MCU_SPI_CS_A_POT_Pin|I2C_SELECT_1_Pin|I2C_SELECT_0_Pin
-                          |PHET_CTRL_Pin|B_PROG_2_CTRL_Pin|B_PROG_1_CTRL_Pin|B_PROG_2_CTRLA12_Pin
+                          |PHET_CTRL_Pin|B_PROG_2_CTRL_Pin|B_PROG_1_CTRL_Pin|B_PROG_0_CTRL_Pin
                           |MCU_SPI_CS_B_POT_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -78,7 +78,7 @@ void MX_GPIO_Init(void)
                            PAPin PAPin PAPin PAPin
                            PAPin */
   GPIO_InitStruct.Pin = A_PROG_2_CTRL_Pin|MCU_SPI_CS_A_POT_Pin|I2C_SELECT_1_Pin|I2C_SELECT_0_Pin
-                          |PHET_CTRL_Pin|B_PROG_2_CTRL_Pin|B_PROG_1_CTRL_Pin|B_PROG_2_CTRLA12_Pin
+                          |PHET_CTRL_Pin|B_PROG_2_CTRL_Pin|B_PROG_1_CTRL_Pin|B_PROG_0_CTRL_Pin
                           |MCU_SPI_CS_B_POT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;

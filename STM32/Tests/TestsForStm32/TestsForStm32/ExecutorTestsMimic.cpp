@@ -75,13 +75,14 @@ TEST(Executor, ShouldHandle_Switch_FxProgram_Once)
 
     //----------ARRANGE #1----------//
     memset(&emulatedGpio, GPIO_PIN_RESET, sizeof(EmulatedGpioStatesStruct));
+
     // Reset Channel A & Channel B to FX_OFF
     gFxStateA = FX_OFF;
     gFxStateB = FX_OFF;
 
     // Call HAL_GPIO_EXTI_Callback
-    emulatedGpio.switch1A = GPIO_PIN_SET;
-    emulatedGpio.switch3A = GPIO_PIN_RESET;
+    emulatedGpio.switch1A = GPIO_PIN_RESET;
+    emulatedGpio.switch3A = GPIO_PIN_SET;
     HAL_GPIO_EXTI_Callback(A_SW_1_EXTI_Pin);
 
     // Call HAL_TIM_PeriodElapsedCallback

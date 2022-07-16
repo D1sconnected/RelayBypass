@@ -77,7 +77,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         gSwStateB1 = false;
     }
 
-    if (gpioSwStateB3 == GPIO_PIN_RESET && gSwStateB1 == true)
+    if (gpioSwStateB3 == GPIO_PIN_RESET && gSwStateB3 == true)
     {
         cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
         cmdBlock.channel = CHANNEL_B;

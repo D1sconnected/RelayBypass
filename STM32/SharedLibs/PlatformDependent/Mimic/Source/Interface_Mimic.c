@@ -194,8 +194,8 @@ Status Interface_SwitchProgram(char channel, char specificator)
             }
 
             HAL_GPIO_WritePin(A_PROG_0_CTRL_GPIO_Port, A_PROG_0_CTRL_Pin, (GPIO_PinState)(programA & 0x01));
-            HAL_GPIO_WritePin(A_PROG_1_CTRL_GPIO_Port, A_PROG_1_CTRL_Pin, (GPIO_PinState)(programA & 0x02));
-            HAL_GPIO_WritePin(A_PROG_2_CTRL_GPIO_Port, A_PROG_2_CTRL_Pin, (GPIO_PinState)(programA & 0x04));
+            HAL_GPIO_WritePin(A_PROG_1_CTRL_GPIO_Port, A_PROG_1_CTRL_Pin, (GPIO_PinState)((programA & 0x02) >> 1));
+            HAL_GPIO_WritePin(A_PROG_2_CTRL_GPIO_Port, A_PROG_2_CTRL_Pin, (GPIO_PinState)((programA & 0x04) >> 2));
         }
         break;
 
@@ -227,8 +227,8 @@ Status Interface_SwitchProgram(char channel, char specificator)
             }
 
             HAL_GPIO_WritePin(B_PROG_0_CTRL_GPIO_Port, B_PROG_0_CTRL_Pin, (GPIO_PinState)(programB & 0x01));
-            HAL_GPIO_WritePin(B_PROG_1_CTRL_GPIO_Port, B_PROG_1_CTRL_Pin, (GPIO_PinState)(programB & 0x02));
-            HAL_GPIO_WritePin(B_PROG_2_CTRL_GPIO_Port, B_PROG_2_CTRL_Pin, (GPIO_PinState)(programB & 0x04));
+            HAL_GPIO_WritePin(B_PROG_1_CTRL_GPIO_Port, B_PROG_1_CTRL_Pin, (GPIO_PinState)((programB & 0x02) >> 1));
+            HAL_GPIO_WritePin(B_PROG_2_CTRL_GPIO_Port, B_PROG_2_CTRL_Pin, (GPIO_PinState)((programB & 0x04) >> 2));
         }
         break;
      }

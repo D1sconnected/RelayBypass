@@ -41,6 +41,10 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
 
     GPIO_PinState gpioBtnStateA = HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin);
     GPIO_PinState gpioBtnStateB = HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin);
+    GPIO_PinState gpioSwStateA1 = HAL_GPIO_ReadPin(A_SW_1_EXTI_GPIO_Port, A_SW_1_EXTI_Pin);
+    GPIO_PinState gpioSwStateA3 = HAL_GPIO_ReadPin(A_SW_3_EXTI_GPIO_Port, A_SW_3_EXTI_Pin);
+    GPIO_PinState gpioSwStateB1 = HAL_GPIO_ReadPin(B_SW_1_EXTI_GPIO_Port, B_SW_1_EXTI_Pin);
+    GPIO_PinState gpioSwStateB3 = HAL_GPIO_ReadPin(B_SW_3_EXTI_GPIO_Port, B_SW_3_EXTI_Pin);
 
     if (gpioBtnStateA == GPIO_PIN_RESET && gpioBtnStateB == GPIO_PIN_RESET)
     {
@@ -63,6 +67,43 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.specificator = 0;
         Status status = Timer_PushCommand(&cmdBlock);
         gBtnStateB = false;
+    }
+
+    // SW has inverted logic
+    if (gpioSwStateA1 == GPIO_PIN_SET && gSwStateA1 == true)
+    {
+        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        cmdBlock.channel = CHANNEL_A;
+        cmdBlock.specificator = UP;
+        Status status = Timer_PushCommand(&cmdBlock);
+        gSwStateA1 = false;
+    }
+
+    if (gpioSwStateA3 == GPIO_PIN_SET && gSwStateA3 == true)
+    {
+        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        cmdBlock.channel = CHANNEL_A;
+        cmdBlock.specificator = DOWN;
+        Status status = Timer_PushCommand(&cmdBlock);
+        gSwStateA3 = false;
+    }
+
+    if (gpioSwStateB1 == GPIO_PIN_SET && gSwStateB1 == true)
+    {
+        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        cmdBlock.channel = CHANNEL_B;
+        cmdBlock.specificator = UP;
+        Status status = Timer_PushCommand(&cmdBlock);
+        gSwStateB1 = false;
+    }
+
+    if (gpioSwStateB3 == GPIO_PIN_SET && gSwStateB3 == true)
+    {
+        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        cmdBlock.channel = CHANNEL_B;
+        cmdBlock.specificator = DOWN;
+        Status status = Timer_PushCommand(&cmdBlock);
+        gSwStateB3 = false;
     }
 
     if (changeRouteCounter == COUNTS_FOR_CHANGE_ROUTE)

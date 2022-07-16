@@ -67,14 +67,6 @@ TEST(Executor, ShouldNotBeNull)
     CHECK_TRUE(pExecutor);
 }
 
-TEST(Executor, ShouldHandle_Switch_FewPrograms_Up_Then_Down_On_Channel_A_Then_Channel_B)
-{
-    printf("\n\r------------------------------------------------------------------------\n\r");
-    printf("[%s]\n\r", __FUNCTION__);
-    printf("------------------------------------------------------------------------\n\r");
-    //ToDo
-}
-
 TEST(Executor, ShouldHandle_Switch_AllFxProgram_Up_Down_On_Channel_A_Then_Channel_B)
 {
     printf("\n\r------------------------------------------------------------------------\n\r");
@@ -90,14 +82,14 @@ TEST(Executor, ShouldHandle_Switch_AllFxProgram_Up_Down_On_Channel_A_Then_Channe
 
     emulatedGpio.buttonA  = GPIO_PIN_SET;
     emulatedGpio.buttonB  = GPIO_PIN_SET;
-    emulatedGpio.switch1A = GPIO_PIN_SET;
-    emulatedGpio.switch3A = GPIO_PIN_SET;
-    emulatedGpio.switch1B = GPIO_PIN_SET;
-    emulatedGpio.switch3B = GPIO_PIN_SET;
+    emulatedGpio.switch1A = GPIO_PIN_RESET;
+    emulatedGpio.switch3A = GPIO_PIN_RESET;
+    emulatedGpio.switch1B = GPIO_PIN_RESET;
+    emulatedGpio.switch3B = GPIO_PIN_RESET;
 
     // Channel A
-    // Loop For UP case, assume switch1A allways keeps GPIO_PIN_RESET
-    emulatedGpio.switch1A = GPIO_PIN_RESET;
+    // Loop For UP case, assume switch1A allways keeps GPIO_PIN_SET
+    emulatedGpio.switch1A = GPIO_PIN_SET;
     for (int i = 1; i < 8; i++) 
     {
         HAL_GPIO_EXTI_Callback(A_SW_1_EXTI_Pin);
@@ -125,11 +117,11 @@ TEST(Executor, ShouldHandle_Switch_AllFxProgram_Up_Down_On_Channel_A_Then_Channe
         LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.prog1B);
         LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.prog2B);
     }
-    emulatedGpio.switch1A = GPIO_PIN_SET;
+    emulatedGpio.switch1A = GPIO_PIN_RESET;
 
     // Channel A
-    // Loop For DOWN case, assume switch3A allways keeps GPIO_PIN_RESET
-    emulatedGpio.switch3A = GPIO_PIN_RESET;
+    // Loop For DOWN case, assume switch3A allways keeps GPIO_PIN_SET
+    emulatedGpio.switch3A = GPIO_PIN_SET;
     for (int i = 7; i >= 0; i--)
     {
         HAL_GPIO_EXTI_Callback(A_SW_3_EXTI_Pin);
@@ -157,11 +149,11 @@ TEST(Executor, ShouldHandle_Switch_AllFxProgram_Up_Down_On_Channel_A_Then_Channe
         LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.prog1B);
         LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.prog2B);
     }
-    emulatedGpio.switch3A = GPIO_PIN_SET;
+    emulatedGpio.switch3A = GPIO_PIN_RESET;
 
     // Channel B
-    // Loop For UP case, assume switch1B allways keeps GPIO_PIN_RESET
-    emulatedGpio.switch1B = GPIO_PIN_RESET;
+    // Loop For UP case, assume switch1B allways keeps GPIO_PIN_SET
+    emulatedGpio.switch1B = GPIO_PIN_SET;
     for (int i = 1; i <= 8; i++)
     {
         HAL_GPIO_EXTI_Callback(B_SW_1_EXTI_Pin);
@@ -189,11 +181,11 @@ TEST(Executor, ShouldHandle_Switch_AllFxProgram_Up_Down_On_Channel_A_Then_Channe
         LONGS_EQUAL((i & 0x02) >> 1, emulatedGpio.prog1B);
         LONGS_EQUAL((i & 0x04) >> 2, emulatedGpio.prog2B);
     }
-    emulatedGpio.switch1B = GPIO_PIN_SET;
+    emulatedGpio.switch1B = GPIO_PIN_RESET;
 
     // Channel B
-    // Loop For DOWN case, assume switch3B allways keeps GPIO_PIN_RESET
-    emulatedGpio.switch3B = GPIO_PIN_RESET;
+    // Loop For DOWN case, assume switch3B allways keeps GPIO_PIN_SET
+    emulatedGpio.switch3B = GPIO_PIN_SET;
     for (int i = 7; i >= 0; i--)
     {
         HAL_GPIO_EXTI_Callback(B_SW_3_EXTI_Pin);
@@ -221,7 +213,7 @@ TEST(Executor, ShouldHandle_Switch_AllFxProgram_Up_Down_On_Channel_A_Then_Channe
         LONGS_EQUAL((i & 0x02) >> 1, emulatedGpio.prog1B);
         LONGS_EQUAL((i & 0x04) >> 2, emulatedGpio.prog2B);
     }
-    emulatedGpio.switch3B = GPIO_PIN_SET;
+    emulatedGpio.switch3B = GPIO_PIN_RESET;
 }
 
 TEST(Executor, ShouldHandle_Switch_FxProgram_Once)
@@ -240,10 +232,10 @@ TEST(Executor, ShouldHandle_Switch_FxProgram_Once)
     // Call HAL_GPIO_EXTI_Callback
     emulatedGpio.buttonA = GPIO_PIN_SET;
     emulatedGpio.buttonB = GPIO_PIN_SET;
-    emulatedGpio.switch1A = GPIO_PIN_RESET;
-    emulatedGpio.switch3A = GPIO_PIN_SET;
-    emulatedGpio.switch1B = GPIO_PIN_SET;
-    emulatedGpio.switch3B = GPIO_PIN_SET;
+    emulatedGpio.switch1A = GPIO_PIN_SET;
+    emulatedGpio.switch3A = GPIO_PIN_RESET;
+    emulatedGpio.switch1B = GPIO_PIN_RESET;
+    emulatedGpio.switch3B = GPIO_PIN_RESET;
     HAL_GPIO_EXTI_Callback(A_SW_1_EXTI_Pin);
 
     // Call HAL_TIM_PeriodElapsedCallback

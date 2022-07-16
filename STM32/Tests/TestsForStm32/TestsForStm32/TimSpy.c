@@ -50,7 +50,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         gBtnStateB = false;
     }
 
-    if (gpioSwStateA1 == GPIO_PIN_RESET && gSwStateA1 == true)
+    // SW has inverted logic
+    if (gpioSwStateA1 == GPIO_PIN_SET && gSwStateA1 == true)
     {
         cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
         cmdBlock.channel = CHANNEL_A;
@@ -59,7 +60,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         gSwStateA1 = false;
     }
 
-    if (gpioSwStateA3 == GPIO_PIN_RESET && gSwStateA3 == true)
+    if (gpioSwStateA3 == GPIO_PIN_SET && gSwStateA3 == true)
     {
         cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
         cmdBlock.channel = CHANNEL_A;
@@ -68,7 +69,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         gSwStateA3 = false;
     }
 
-    if (gpioSwStateB1 == GPIO_PIN_RESET && gSwStateB1 == true)
+    if (gpioSwStateB1 == GPIO_PIN_SET && gSwStateB1 == true)
     {
         cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
         cmdBlock.channel = CHANNEL_B;
@@ -77,7 +78,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         gSwStateB1 = false;
     }
 
-    if (gpioSwStateB3 == GPIO_PIN_RESET && gSwStateB3 == true)
+    if (gpioSwStateB3 == GPIO_PIN_SET && gSwStateB3 == true)
     {
         cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
         cmdBlock.channel = CHANNEL_B;
@@ -110,5 +111,4 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         status = Timer_PushCommand(&cmdBlock);
 
     }
-
 }

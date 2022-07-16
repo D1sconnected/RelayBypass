@@ -36,9 +36,6 @@
     <ClCompile Include="SerialTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExecutorTests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AdcSpy.c">
       <Filter>HAL Spies\Common</Filter>
     </ClCompile>
@@ -47,6 +44,18 @@
     </ClCompile>
     <ClCompile Include="TimSpy.c">
       <Filter>HAL Spies\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GpioSpyMimic.c">
+      <Filter>HAL Spies\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GpioSpyConstructor.c">
+      <Filter>HAL Spies\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="ExecutorTestsConstructor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExecutorTestsMimic.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +103,39 @@
     </ClInclude>
     <ClInclude Include="stm32l1xx_ll_utils.h">
       <Filter>HAL Spies\L1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_rcc.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_bus.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_cortex.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_dma.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_exti.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_gpio.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_pwr.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_system.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f1xx_ll_utils.h">
+      <Filter>HAL Spies\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="GpioSpyConstructor.h">
+      <Filter>HAL Spies\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GpioSpyMimic.h">
+      <Filter>HAL Spies\Common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

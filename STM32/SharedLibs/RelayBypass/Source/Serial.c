@@ -1,5 +1,4 @@
 #include "../Include/Serial.h"
-#include "../Include/Interface.h"
 
 typedef struct SerialStruct
 {

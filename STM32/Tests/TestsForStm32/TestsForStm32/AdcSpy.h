@@ -8,7 +8,19 @@
 
 //#include "adc.h"
 #include "Common.h"
-#include "Interface.h"
+
+#ifdef MIMIC_F1
+#include "../../PlatformDependent/Mimic/Include/Interface_Mimic.h"
+#endif
+
+#ifdef CONSTRUCTOR_F1
+#include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
+#endif
+
+
+#ifdef CONSTRUCTOR_L1
+#include "../../PlatformDependent/Constructor/Include/Interface_Constructor.h"
+#endif
 
 HAL_StatusTypeDef HAL_ADC_Start(ADC_HandleTypeDef *phadc);
 HAL_StatusTypeDef HAL_ADC_PollForConversion(ADC_HandleTypeDef *pHadc, uint32_t Timeout);

@@ -114,6 +114,13 @@ Status Executor_Handler(Executor *pSelf)
         }
         break;
 
+        case EXECUTOR_STATE_SWITCH_PROGRAM:
+        {
+            status = Interface_SwitchProgram(currentCmdBlock.channel, currentCmdBlock.specificator);
+            return status;
+        }
+        break;
+
     }
 
      return NO_COMMAND;

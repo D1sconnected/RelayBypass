@@ -61,6 +61,9 @@ void writePot(uint8_t val);
 #define BTN_Pin GPIO_PIN_0
 #define BTN_GPIO_Port GPIOA
 #define BTN_EXTI_IRQn EXTI0_IRQn
+#define PBS_Pin GPIO_PIN_15
+#define PBS_GPIO_Port GPIOB
+#define PBS_EXTI_IRQn EXTI15_10_IRQn
 #define LED_BLUE_Pin GPIO_PIN_8
 #define LED_BLUE_GPIO_Port GPIOC
 #define LED_GREEN_Pin GPIO_PIN_9

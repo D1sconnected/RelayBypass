@@ -55,23 +55,17 @@
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-#define MAX_TIME_IN_MS 999
-#define AMOUNT_OF_TIMESTAMPS 2
-
-// TapTempo Vars
-int gIndex = 0; // TimeStamp index
-uint16_t gTapTemp = 0; // Temporary time in ms
 uint16_t gTapResult = 0; // Resulted time ms
-uint16_t gTimeStamp[AMOUNT_OF_TIMESTAMPS] = {0};
+int gStart = 0;
 
 // Press Detection
 int gButtonPressed = false;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim17;
 extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
 
@@ -221,32 +215,28 @@ void SysTick_Handler(void)
 void EXTI0_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI0_IRQn 0 */
-  HAL_TIM_Base_Start_IT(&htim3);
-  gButtonPressed = true;
   /* USER CODE END EXTI0_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
   /* USER CODE BEGIN EXTI0_IRQn 1 */
-
+  HAL_TIM_Base_Start_IT(&htim3);
+  //HAL_NVIC_DisableIRQ(EXTI0_IRQn);
+  gButtonPressed = true;
   /* USER CODE END EXTI0_IRQn 1 */
 }
 
 /**
-  * @brief This function handles TIM1 update interrupt and TIM16 global interrupt.
+  * @brief This function handles TIM1 trigger and commutation interrupts and TIM17 global interrupt.
   */
-void TIM1_UP_TIM16_IRQHandler(void)
+void TIM1_TRG_COM_TIM17_IRQHandler(void)
 {
-  /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 0 */
-  HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
-  gIndex = 0;
-  gTapResult = 0;
-  gTapTemp = 0;
-  memset(&gTimeStamp, 0, sizeof(gTimeStamp));
-      //HAL_UART_Transmit(&huart1, (uint8_t*)"rst\n\r", sizeof("rst\n\r"), 1000);
-  /* USER CODE END TIM1_UP_TIM16_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim1);
-  /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 1 */
+  /* USER CODE BEGIN TIM1_TRG_COM_TIM17_IRQn 0 */
 
-  /* USER CODE END TIM1_UP_TIM16_IRQn 1 */
+  /* USER CODE END TIM1_TRG_COM_TIM17_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim17);
+  /* USER CODE BEGIN TIM1_TRG_COM_TIM17_IRQn 1 */
+  gStart = 0;
+  HAL_TIM_Base_Stop_IT(&htim17);
+  /* USER CODE END TIM1_TRG_COM_TIM17_IRQn 1 */
 }
 
 /**
@@ -259,7 +249,6 @@ void TIM2_IRQHandler(void)
   /* USER CODE END TIM2_IRQn 0 */
   HAL_TIM_IRQHandler(&htim2);
   /* USER CODE BEGIN TIM2_IRQn 1 */
-
   /* USER CODE END TIM2_IRQn 1 */
 }
 
@@ -269,66 +258,46 @@ void TIM2_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM3_IRQn 0 */
-  GPIO_PinState btnState = HAL_GPIO_ReadPin(BTN_GPIO_Port, BTN_Pin);
+    GPIO_PinState btnState = HAL_GPIO_ReadPin(BTN_GPIO_Port, BTN_Pin);
+
+    //__HAL_GPIO_EXTI_CLEAR_IT(BTN_Pin);  // очищаем бит EXTI_PR (бит прерывания)
+    //NVIC_ClearPendingIRQ(EXTI0_IRQn); // очищаем бит NVIC_ICPRx (бит очереди)
+    //HAL_NVIC_SetPriority(EXTI0_IRQn, 1, 0);
+    //HAL_NVIC_EnableIRQ(EXTI0_IRQn);   // включаем внешнее прерывание
+
+    uint16_t current = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
 
   if (btnState == GPIO_PIN_RESET && gButtonPressed == true)
   {
-      // Button press detection via UART
-      HAL_UART_Transmit(&huart1, (uint8_t*)"*\n\r", sizeof("*\n\r"), 1000);
+      HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
 
-      if (gIndex >= AMOUNT_OF_TIMESTAMPS)
+      if (!gStart)
       {
-          gIndex = 0;
+          HAL_TIM_Base_Start_IT(&htim17);
+          gStart++;
+          HAL_UART_Transmit(&huart1, (uint8_t*)"start\n\r", sizeof("start\n\r"), 1000);
       }
-
-      gTimeStamp[gIndex] = (uint16_t)(__HAL_TIM_GetCounter(&htim1));
-
-      if (gIndex > 0)
+      else
       {
-          if (gTimeStamp[gIndex] >= gTimeStamp[gIndex - 1])
-          {
-              gTapTemp = gTimeStamp[gIndex] - gTimeStamp[gIndex - 1];
-          }
-          // We get gTapTemp, so reset timestamp timer - TIM1
-          __HAL_TIM_SetCounter(&htim1, 0);
-      }
-      gIndex++;
-
-      if (gTapTemp <= MAX_TIME_IN_MS)
-      {
-          if (gTapResult == 0)
-          {
-              gTapResult = gTapTemp;
-          }
-          else
-          {
-              gTapResult = (gTapResult + gTapTemp)/2;
-          }
-
-          // Update TIM2 - BPM via LED
-          htim2.Init.Period = gTapResult;
+          gStart = 0;
+          gTapResult = (uint16_t)(__HAL_TIM_GetCounter(&htim17));
+          htim2.Init.Period = (uint32_t)(gTapResult);
           if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
           {
             Error_Handler();
           }
-
-          // Digital Pot update
-          writePot(gTapResult/4); // max 999 ms, 256 steps -> 999/256 = 4
-
-          // Trace via UART
+          HAL_TIM_Base_Stop_IT(&htim17);
           itoa(gTapResult, txBuf, 10);
           txBuf[4] = '\r';
           txBuf[5] = '\n';
-          HAL_UART_Transmit(&huart1, (uint8_t*)txBuf, sizeof(txBuf), 1000);
+          HAL_UART_Transmit(&huart1, (uint8_t*)txBuf, sizeof("txBuf"), 1000);
       }
-
       gButtonPressed = false;
   }
-
   /* USER CODE END TIM3_IRQn 0 */
   HAL_TIM_IRQHandler(&htim3);
   /* USER CODE BEGIN TIM3_IRQn 1 */
-
+  HAL_TIM_Base_Stop_IT(&htim3);
   /* USER CODE END TIM3_IRQn 1 */
 }
 
@@ -344,6 +313,21 @@ void USART1_IRQHandler(void)
   /* USER CODE BEGIN USART1_IRQn 1 */
 
   /* USER CODE END USART1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line[15:10] interrupts.
+  */
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+    HAL_TIM_Base_Start_IT(&htim3);
+    HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
+    gButtonPressed = true;
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+  /* USER CODE END EXTI15_10_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

@@ -28,6 +28,7 @@ extern bool gSwStateA1;
 extern bool gSwStateA3;
 extern bool gSwStateB1;
 extern bool gSwStateB3;
+extern bool gBtnStateTap;
 
 Status Button_PushCommand(StateStruct *pCmd);
 Status Button_HandOverLocalList(Node **pMasterList);

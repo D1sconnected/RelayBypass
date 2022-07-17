@@ -49,6 +49,7 @@ typedef struct
     GPIO_PinState switch3A;
     GPIO_PinState switch1B;
     GPIO_PinState switch3B;
+    GPIO_PinState buttonTap;
 
 } EmulatedGpioStatesStruct;
 

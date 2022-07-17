@@ -1,11 +1,12 @@
 #include "../Include/Button.h"
 
-bool gBtnStateA = false;
-bool gBtnStateB = false;
-bool gSwStateA1 = false;
-bool gSwStateA3 = false;
-bool gSwStateB1 = false;
-bool gSwStateB3 = false;
+bool gBtnStateA     = false;
+bool gBtnStateB     = false;
+bool gSwStateA1     = false;
+bool gSwStateA3     = false;
+bool gSwStateB1     = false;
+bool gSwStateB3     = false;
+bool gBtnStateTap   = false;
 
 static Node *pGpioList = NULL;
 
@@ -43,8 +44,8 @@ void Button_Callback (uint16_t GPIO_Pin)
 {
     HAL_TIM_Base_Start_IT(&htim2);
 
-    int gpioPin = GPIO_Pin & (A_BTN_Pin | B_BTN_Pin | A_SW_1_EXTI_Pin | A_SW_3_EXTI_Pin | B_SW_1_EXTI_Pin | B_SW_3_EXTI_Pin);
-    bool gpioState = (gBtnStateA == false) || (gBtnStateB == false) || (gSwStateA1 == false) || (gSwStateA3 == false) || (gSwStateB1 == false) || (gSwStateB3 == false);
+    int gpioPin = GPIO_Pin & (A_BTN_Pin | B_BTN_Pin | A_SW_1_EXTI_Pin | A_SW_3_EXTI_Pin | B_SW_1_EXTI_Pin | B_SW_3_EXTI_Pin | MCU_TAP_EXTI_Pin);
+    bool gpioState = (gBtnStateA == false) || (gBtnStateB == false) || (gSwStateA1 == false) || (gSwStateA3 == false) || (gSwStateB1 == false) || (gSwStateB3 == false) || (gBtnStateTap == false);
 
     if (gpioPin && gpioState)
     {
@@ -76,6 +77,11 @@ void Button_Callback (uint16_t GPIO_Pin)
         if (GPIO_Pin & B_SW_3_EXTI_Pin)
         {
             gSwStateB3 = true;
+        }
+
+        if (GPIO_Pin & MCU_TAP_EXTI_Pin)
+        {
+            gBtnStateTap = true;
         }
     }
 }

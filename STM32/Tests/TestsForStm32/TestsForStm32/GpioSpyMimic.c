@@ -7,8 +7,8 @@ void HAL_GPIO_EXTI_Callback_Mimic(uint16_t GPIO_Pin)
 {
     HAL_TIM_Base_Start_IT(&htim2);
 
-    int gpioPin = GPIO_Pin & (A_BTN_Pin | B_BTN_Pin | A_SW_1_EXTI_Pin | A_SW_3_EXTI_Pin | B_SW_1_EXTI_Pin | B_SW_3_EXTI_Pin);
-    bool gpioState = (gBtnStateA == false) || (gBtnStateB == false) || (gSwStateA1 == false) || (gSwStateA3 == false) || (gSwStateB1 == false) || (gSwStateB3 == false);
+    int gpioPin = GPIO_Pin & (A_BTN_Pin | B_BTN_Pin | A_SW_1_EXTI_Pin | A_SW_3_EXTI_Pin | B_SW_1_EXTI_Pin | B_SW_3_EXTI_Pin | MCU_TAP_EXTI_Pin);
+    bool gpioState = (gBtnStateA == false) || (gBtnStateB == false) || (gSwStateA1 == false) || (gSwStateA3 == false) || (gSwStateB1 == false) || (gSwStateB3 == false) || (gBtnStateTap == false);
 
     if (gpioPin && gpioState)
     {
@@ -40,6 +40,11 @@ void HAL_GPIO_EXTI_Callback_Mimic(uint16_t GPIO_Pin)
         if (GPIO_Pin & B_SW_3_EXTI_Pin)
         {
             gSwStateB3 = true;
+        }
+
+        if (GPIO_Pin & MCU_TAP_EXTI_Pin)
+        {
+            gBtnStateTap = true;
         }
     }
 }
@@ -74,6 +79,11 @@ GPIO_PinState HAL_GPIO_ReadPin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin)
     else if (GPIOx == B_SW_3_EXTI_GPIO_Port && GPIO_Pin == B_SW_3_EXTI_Pin)
     {
         return emulatedGpio.switch3B;
+    }
+
+    else if (GPIOx == MCU_TAP_EXTI_GPIO_Port && GPIO_Pin == MCU_TAP_EXTI_Pin)
+    {
+        return emulatedGpio.buttonTap;
     }
 }
 

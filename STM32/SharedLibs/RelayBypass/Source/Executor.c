@@ -108,7 +108,7 @@ Status Executor_Handler(Executor *pSelf)
         }
         break;
 
-        case EXECUTOR_STATE_CONFIG_EXT_CTRL_TIM:
+        case EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL:
         {
             return UNSUPPORTED;
         }

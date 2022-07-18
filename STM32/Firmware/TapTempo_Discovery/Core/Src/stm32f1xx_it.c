@@ -257,13 +257,11 @@ void TIM2_IRQHandler(void)
   */
 void TIM3_IRQHandler(void)
 {
+    static uint16_t tap[2] = {0};
+    static uint8_t  i = 0;
+
   /* USER CODE BEGIN TIM3_IRQn 0 */
     GPIO_PinState btnState = HAL_GPIO_ReadPin(BTN_GPIO_Port, BTN_Pin);
-
-    //__HAL_GPIO_EXTI_CLEAR_IT(BTN_Pin);  // очищаем бит EXTI_PR (бит прерывания)
-    //NVIC_ClearPendingIRQ(EXTI0_IRQn); // очищаем бит NVIC_ICPRx (бит очереди)
-    //HAL_NVIC_SetPriority(EXTI0_IRQn, 1, 0);
-    //HAL_NVIC_EnableIRQ(EXTI0_IRQn);   // включаем внешнее прерывание
 
     uint16_t current = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
 
@@ -280,17 +278,33 @@ void TIM3_IRQHandler(void)
       else
       {
           gStart = 0;
-          gTapResult = (uint16_t)(__HAL_TIM_GetCounter(&htim17));
-          htim2.Init.Period = (uint32_t)(gTapResult);
+          tap[i] = (uint16_t)(__HAL_TIM_GetCounter(&htim17));
+
+          if (!i && !tap[1]) // detected first tap ever, other value is 0
+          {
+              htim2.Init.Period = (uint32_t)(tap[0]);
+              i++;
+          }
+          else // normal case
+          {
+              htim2.Init.Period = (uint32_t)((tap[0] + tap[1])/2);
+              i++;
+          }
+
+          if (i > 1)
+          {
+              i = 0;
+          }
+
           if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
           {
             Error_Handler();
           }
           HAL_TIM_Base_Stop_IT(&htim17);
-          itoa(gTapResult, txBuf, 10);
-          txBuf[4] = '\r';
-          txBuf[5] = '\n';
-          HAL_UART_Transmit(&huart1, (uint8_t*)txBuf, sizeof("txBuf"), 1000);
+          //itoa(gTapResult, txBuf, 10);
+          //txBuf[4] = '\r';
+          //txBuf[5] = '\n';
+          //HAL_UART_Transmit(&huart1, (uint8_t*)txBuf, sizeof("txBuf"), 1000);
       }
       gButtonPressed = false;
   }

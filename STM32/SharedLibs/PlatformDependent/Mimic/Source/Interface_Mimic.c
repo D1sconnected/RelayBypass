@@ -3,6 +3,8 @@
 uint8_t gFxStateA = FX_OFF;
 uint8_t gFxStateB = FX_OFF;
 
+uint16_t gCurrentMaxTap = 600;
+
 void Interface_UpdateGpioForToggle(char channel)
 {
     switch (channel)
@@ -196,6 +198,8 @@ Status Interface_SwitchProgram(char channel, char specificator)
             HAL_GPIO_WritePin(A_PROG_0_CTRL_GPIO_Port, A_PROG_0_CTRL_Pin, (GPIO_PinState)(programA & 0x01));
             HAL_GPIO_WritePin(A_PROG_1_CTRL_GPIO_Port, A_PROG_1_CTRL_Pin, (GPIO_PinState)((programA & 0x02) >> 1));
             HAL_GPIO_WritePin(A_PROG_2_CTRL_GPIO_Port, A_PROG_2_CTRL_Pin, (GPIO_PinState)((programA & 0x04) >> 2));
+
+            // ToDo: Read saved TAP_MAX from SPI Flash and store to gCurrentMaxTap
         }
         break;
 
@@ -229,6 +233,8 @@ Status Interface_SwitchProgram(char channel, char specificator)
             HAL_GPIO_WritePin(B_PROG_0_CTRL_GPIO_Port, B_PROG_0_CTRL_Pin, (GPIO_PinState)(programB & 0x01));
             HAL_GPIO_WritePin(B_PROG_1_CTRL_GPIO_Port, B_PROG_1_CTRL_Pin, (GPIO_PinState)((programB & 0x02) >> 1));
             HAL_GPIO_WritePin(B_PROG_2_CTRL_GPIO_Port, B_PROG_2_CTRL_Pin, (GPIO_PinState)((programB & 0x04) >> 2));
+
+            // ToDo: Read saved TAP_MAX from SPI Flash and store to gCurrentMaxTap
         }
         break;
      }
@@ -238,8 +244,12 @@ Status Interface_SwitchProgram(char channel, char specificator)
 
 Status Interface_UpdateTap(char channel, uint16_t number)
 {
-    // ToDo: Read configurated TAP_MAX value
+    // ToDo: Calculate tap coef from max tap
+    
+    float coef = (float)gCurrentMaxTap / (float)256; // Divide max time in ms by digital pot resolution
+    uint8_t value = (uint8_t)((float)number / coef);
     // ToDo: Update DigitalPot
+    Interface_UpdateDigitalPot(channel, value);
     // ToDo: Reconfig Tap timer to blink led on channel
 
     return OK;

@@ -15,7 +15,7 @@
 // Delay time between PHET & RELAY switching in ms
 #define BYPASS_DELAY 7
 
-// Digital Pot CMD to Write Data
+// Digital Pot 
 #define MCP41010_CMD_WRITE	0x11
 
 typedef enum 

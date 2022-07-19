@@ -19,4 +19,6 @@ void HAL_GPIO_WritePin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin, GPIO_PinState Pin
 void HAL_GPIO_TogglePin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin);
 void HAL_GPIO_EXTI_Callback_Mimic(uint16_t GPIO_Pin);
 
+HAL_StatusTypeDef HAL_SPI_Transmit_Mimic(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+
 #endif

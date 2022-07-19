@@ -235,3 +235,42 @@ Status Interface_SwitchProgram(char channel, char specificator)
 
     return OK;
 }
+
+Status Interface_UpdateTap(char channel, uint16_t number)
+{
+    // ToDo: Read configurated TAP_MAX value
+    // ToDo: Update DigitalPot
+    // ToDo: Reconfig Tap timer to blink led on channel
+
+    return OK;
+}
+
+Status Interface_UpdateDigitalPot(char channel, uint8_t value)
+{
+    uint8_t cmd = MCP41010_CMD_WRITE;
+
+    HAL_StatusTypeDef status = -1;
+
+    switch (channel) 
+    {
+        case CHANNEL_A: 
+        {
+            HAL_GPIO_WritePin(MCU_SPI_CS_A_POT_GPIO_Port, MCU_SPI_CS_A_POT_Pin, GPIO_PIN_RESET);
+            status =  HAL_SPI_Transmit(&hspi1, &cmd, sizeof(cmd), 5000);
+            status += HAL_SPI_Transmit(&hspi1, &value, sizeof(value), 5000);
+            HAL_GPIO_WritePin(MCU_SPI_CS_A_POT_GPIO_Port, MCU_SPI_CS_A_POT_Pin, GPIO_PIN_SET);
+        }
+        break;
+
+        case CHANNEL_B:
+        {
+            HAL_GPIO_WritePin(MCU_SPI_CS_B_POT_GPIO_Port, MCU_SPI_CS_B_POT_Pin, GPIO_PIN_RESET);
+            status =  HAL_SPI_Transmit(&hspi1, &cmd, sizeof(cmd), 5000);
+            status += HAL_SPI_Transmit(&hspi1, &value, sizeof(value), 5000);
+            HAL_GPIO_WritePin(MCU_SPI_CS_B_POT_GPIO_Port, MCU_SPI_CS_B_POT_Pin, GPIO_PIN_SET);
+        }
+        break;
+    }
+
+    return status;
+}

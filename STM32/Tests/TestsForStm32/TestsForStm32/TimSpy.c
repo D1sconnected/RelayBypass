@@ -20,7 +20,7 @@ uint16_t __HAL_TIM_GetCounter(TIM_HandleTypeDef *pHtim)
 {
     srand(time(NULL));
     uint16_t tap = (rand() % 100 + 1) * 10; // from 10 to 1000
-    printf("tap: %u\n\r", tap);
+    //printf("tap: %u\n\r", tap);
 
     return tap;
 }
@@ -77,6 +77,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
             cmdBlock.channel = CHANNEL_A; // ToDo: get channel from configuration 
             cmdBlock.specificator = 0;
             cmdBlock.number = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
+            Status status = Timer_PushCommand(&cmdBlock);
             HAL_TIM_Base_Stop_IT(&htim3);
         }
         gBtnStateTap = false;

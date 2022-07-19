@@ -100,7 +100,7 @@ TEST(Executor, ShouldHandle_UpdateDigitalPot_By_Tap_Tempo)
     // Check FSM returned OK status
     LONGS_EQUAL(OK, status);
 
-    //ToDo: TapSpy check
+    // ToDo: Update CppUtest to use CHECK_COMPARE macro to check 10 < tap < 1000
 }
 
 TEST(Executor, ShouldHandle_Switch_AllFxProgram_Up_Down_On_Channel_A_Then_Channel_B)

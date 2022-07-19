@@ -110,7 +110,8 @@ Status Executor_Handler(Executor *pSelf)
 
         case EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL:
         {
-            return UNSUPPORTED;
+            status = Interface_UpdateTap(currentCmdBlock.channel, currentCmdBlock.number);
+            return status;
         }
         break;
 

@@ -242,3 +242,26 @@ void HAL_GPIO_TogglePin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin)
         break;
     }
 }
+
+HAL_StatusTypeDef HAL_SPI_Transmit_Mimic(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout) 
+{
+    static bool cmdReceived = false;
+
+    if (hspi == NULL || pData == NULL) 
+    {
+        return HAL_ERROR;
+    }
+
+    if (cmdReceived) 
+    {
+        emulatedDigitalPot = *pData;
+        cmdReceived = false;
+    }
+
+    if ((*pData == MCP41010_CMD_WRITE) && !cmdReceived) 
+    {
+        cmdReceived = true;
+    }
+
+    return HAL_OK;
+}

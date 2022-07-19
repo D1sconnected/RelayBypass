@@ -52,6 +52,11 @@ typedef struct TIM_HandleTypeDef
     uint8_t timeMs;
 } TIM_HandleTypeDef;
 
+typedef struct SPI_HandleTypeDef
+{
+    uint8_t freq;
+} SPI_HandleTypeDef;
+
 // ToDo: Place to different files
 void HAL_Delay(uint32_t Delay);
 

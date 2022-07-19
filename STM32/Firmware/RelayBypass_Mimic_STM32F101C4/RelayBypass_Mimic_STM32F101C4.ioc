@@ -278,4 +278,3 @@ ProjectManager.LibraryCopy=1
 PA3.GPIO_Label=I2C_SELECT_0
 PA7.Signal=ADCx_IN7
 PA6.Locked=true
-isbadioc=true

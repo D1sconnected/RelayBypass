@@ -101,6 +101,21 @@ int main(void)
   {
       Error_Handler();
   }
+
+  /* Reload values & Config platform */
+  /* 1. Switch I2C EEPROM based on pressed A button, B EEPROM selected by default */
+  GPIO_PinState btnA = HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin);
+  if (!btnA)
+  {
+      StateStruct localCmdBlock;
+      localCmdBlock.state = EXECUTOR_STATE_SWITCH_I2C_EEPROM;
+      localCmdBlock.channel = CHANNEL_A;
+      status = Executor_PushCommand(pExecutor, &localCmdBlock);
+  }
+
+  /* 2. Load saved data from SPI flash */
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -305,6 +305,7 @@ void TIM3_IRQHandler(void)
           //txBuf[4] = '\r';
           //txBuf[5] = '\n';
           //HAL_UART_Transmit(&huart1, (uint8_t*)txBuf, sizeof("txBuf"), 1000);
+          float example = 0;
       }
       gButtonPressed = false;
   }

@@ -1,9 +1,9 @@
 #include "../Include/Interface_Mimic.h"
 
-uint8_t gFxStateA = FX_OFF;
-uint8_t gFxStateB = FX_OFF;
+uint8_t gFxStateA = FX_OFF;     // ToDo: load from memory
+uint8_t gFxStateB = FX_OFF;     // ToDo: load from memory
 
-uint16_t gCurrentMaxTap = 600;
+uint16_t gCurrentMaxTap = 1000;  // ToDo: load from memory
 
 void Interface_UpdateGpioForToggle(char channel)
 {
@@ -242,19 +242,6 @@ Status Interface_SwitchProgram(char channel, char specificator)
     return OK;
 }
 
-Status Interface_UpdateTap(char channel, uint16_t number)
-{
-    // ToDo: Calculate tap coef from max tap
-    
-    float coef = (float)gCurrentMaxTap / (float)256; // Divide max time in ms by digital pot resolution
-    uint8_t value = (uint8_t)((float)number / coef);
-    // ToDo: Update DigitalPot
-    Interface_UpdateDigitalPot(channel, value);
-    // ToDo: Reconfig Tap timer to blink led on channel
-
-    return OK;
-}
-
 Status Interface_UpdateDigitalPot(char channel, uint8_t value)
 {
     uint8_t cmd = MCP41010_CMD_WRITE;
@@ -282,5 +269,22 @@ Status Interface_UpdateDigitalPot(char channel, uint8_t value)
         break;
     }
 
-    return status;
+    if (!status) 
+    {
+        return OK;
+    }
+
+    return FAIL;
+}
+
+Status Interface_UpdateTap(char channel, uint16_t number)
+{
+    // ToDo: Calculate tap coef from max tap
+
+    float coef = (float)gCurrentMaxTap / (float)256; // Divide max time in ms by digital pot resolution
+    uint8_t value = (uint8_t)((float)number / coef);
+    Interface_UpdateDigitalPot(channel, value);
+    // ToDo: Reconfig Tap timer to blink led on channel
+
+    return OK;
 }

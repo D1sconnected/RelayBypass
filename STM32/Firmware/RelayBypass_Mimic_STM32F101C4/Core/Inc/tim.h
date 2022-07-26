@@ -28,16 +28,16 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "../../../../SharedLibs/RelayBypass/Include/List.h"
+#include "../../../../SharedLibs/RelayBypass/Include/Common.h"
+#include "../../../../SharedLibs/RelayBypass/Include/Timer.h"
 /* USER CODE END Includes */
 
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN Private defines */
-#include "../../../../SharedLibs/RelayBypass/Include/List.h"
-#include "../../../../SharedLibs/RelayBypass/Include/Common.h"
-#include "../../../../SharedLibs/RelayBypass/Include/Timer.h"
+extern bool gTappedOnce;
 /* USER CODE END Private defines */
 
 void MX_TIM2_Init(void);

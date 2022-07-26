@@ -6,6 +6,7 @@
 #ifdef MIMIC_F1
 #include "../../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/gpio.h"
 #include "../../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/tim.h"
+#include "../../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/spi.h"
 #endif
 
 #define FX_OFF	false
@@ -13,6 +14,9 @@
 
 // Delay time between PHET & RELAY switching in ms
 #define BYPASS_DELAY 7
+
+// Digital Pot 
+#define MCP41010_CMD_WRITE	0x11
 
 typedef enum 
 {
@@ -82,5 +86,9 @@ void Interface_UpdateGpioForChange(GPIO_PinState state);
 void Interface_UpdateGpioForToggle(char channel);
 
 Status Interface_SwitchProgram(char channel, char specificator);
+Status Interface_SwitchEeprom(char channel);
+Status Interface_UpdateDigitalPot(char channel, uint8_t value);
+Status Interface_UpdateTap(char channel, uint16_t number);
+
 
 #endif

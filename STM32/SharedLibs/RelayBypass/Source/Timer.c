@@ -45,6 +45,7 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
     GPIO_PinState gpioSwStateA3 = HAL_GPIO_ReadPin(A_SW_3_EXTI_GPIO_Port, A_SW_3_EXTI_Pin);
     GPIO_PinState gpioSwStateB1 = HAL_GPIO_ReadPin(B_SW_1_EXTI_GPIO_Port, B_SW_1_EXTI_Pin);
     GPIO_PinState gpioSwStateB3 = HAL_GPIO_ReadPin(B_SW_3_EXTI_GPIO_Port, B_SW_3_EXTI_Pin);
+    GPIO_PinState gpioBtnStateTap   = HAL_GPIO_ReadPin(MCU_TAP_EXTI_GPIO_Port, MCU_TAP_EXTI_Pin);
 
     if (gpioBtnStateA == GPIO_PIN_RESET && gpioBtnStateB == GPIO_PIN_RESET)
     {
@@ -56,7 +57,7 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.specificator = 0;
-        Status status = Timer_PushCommand(&cmdBlock);
+        Timer_PushCommand(&cmdBlock);
         gBtnStateA = false;
     }
 
@@ -65,8 +66,28 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.specificator = 0;
-        Status status = Timer_PushCommand(&cmdBlock);
+        Timer_PushCommand(&cmdBlock);
         gBtnStateB = false;
+    }
+
+    if (gpioBtnStateTap == GPIO_PIN_RESET && gBtnStateTap == true)
+    {
+        if (!gTappedOnce)
+        {
+            gTappedOnce = true;
+            HAL_TIM_Base_Start_IT(&htim3);
+        }
+        else
+        {
+            gTappedOnce = false;
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL;
+            cmdBlock.channel = CHANNEL_A; // ToDo: get channel from configuration
+            cmdBlock.specificator = 0;
+            cmdBlock.number = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
+            Timer_PushCommand(&cmdBlock);
+            HAL_TIM_Base_Stop_IT(&htim3);
+        }
+        gBtnStateTap = false;
     }
 
     // SW has inverted logic
@@ -75,7 +96,7 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.specificator = UP;
-        Status status = Timer_PushCommand(&cmdBlock);
+        Timer_PushCommand(&cmdBlock);
         gSwStateA1 = false;
     }
 
@@ -84,7 +105,7 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.specificator = DOWN;
-        Status status = Timer_PushCommand(&cmdBlock);
+        Timer_PushCommand(&cmdBlock);
         gSwStateA3 = false;
     }
 
@@ -93,7 +114,7 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.specificator = UP;
-        Status status = Timer_PushCommand(&cmdBlock);
+        Timer_PushCommand(&cmdBlock);
         gSwStateB1 = false;
     }
 
@@ -102,7 +123,7 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.specificator = DOWN;
-        Status status = Timer_PushCommand(&cmdBlock);
+        Timer_PushCommand(&cmdBlock);
         gSwStateB3 = false;
     }
 
@@ -123,12 +144,12 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_CHANGE_ROUTE;
         cmdBlock.channel = changeRouteChannel;
         cmdBlock.specificator = 0;
-        Status status = Timer_PushCommand(&cmdBlock);
+        Timer_PushCommand(&cmdBlock);
         changeRouteCounter = 0;
 
         cmdBlock.state = EXECUTOR_STATE_TOGGLE_CHANNEL;
         cmdBlock.channel = changeRouteChannel;
         cmdBlock.specificator = 0;
-        status = Timer_PushCommand(&cmdBlock);
+        Timer_PushCommand(&cmdBlock);
     }
 }

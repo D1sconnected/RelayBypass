@@ -5,16 +5,19 @@
 #ifdef MIMIC_F1
 #include "../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/gpio.h"
 #include "../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/tim.h"
+#include "stm32f1xx_hal.h"
 #endif
 
 #ifdef CONSTRUCTOR_F1
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/gpio.h"
 #include "../../../Firmware/RelayBypass_STM32F101C4/Core/Inc/tim.h"
+#include "stm32f1xx_hal.h"
 #endif
 
 #ifdef CONSTRUCTOR_L1
 #include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/tim.h"
 #include "../../../Firmware/RelayBypass_STM32L151C8/Core/Inc/gpio.h"
+#include "stm32l1xx_hal.h"
 #endif
 
 #include "../../../SharedLibs/RelayBypass/Include/Button.h"
@@ -49,14 +52,20 @@ typedef struct
     GPIO_PinState switch3A;
     GPIO_PinState switch1B;
     GPIO_PinState switch3B;
+    GPIO_PinState buttonTap;
+    GPIO_PinState i2cSel0;
+    GPIO_PinState i2cSel1;
 
 } EmulatedGpioStatesStruct;
 
 extern EmulatedGpioStatesStruct emulatedGpio;
+extern uint8_t                  emulatedDigitalPot;
 
 GPIO_PinState HAL_GPIO_ReadPin(uint8_t GPIOx, uint16_t GPIO_Pin);
 void HAL_GPIO_WritePin(uint8_t GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState);
 void HAL_GPIO_TogglePin(uint8_t GPIOx, uint16_t GPIO_Pin);
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
+
+HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout); // ToDo Move to separate SpiSpy?
 
 #endif

@@ -37,6 +37,8 @@ typedef struct ExecutorStruct
 Executor * Executor_Create(void);
 void Executor_Destroy(Executor *pSelf);
 
+Status Executor_PushCommand(Executor *pSelf, StateStruct* pCmd);
+
 // Executor FSM, which handles commands from pSelf->pExecutorList
 // pSelf � pointer to object with Executor type
 // 

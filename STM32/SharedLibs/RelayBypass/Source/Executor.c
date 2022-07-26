@@ -18,6 +18,18 @@ void Executor_Destroy(Executor *pSelf)
     pSelf = NULL;
 }
 
+Status Executor_PushCommand(Executor *pSelf, StateStruct* pCmd)
+{
+    if (pSelf == NULL || pCmd == NULL)
+    {
+        return INVALID_PARAMETERS;
+    }
+
+    List_PushBack(&pSelf->pExecutorList, *pCmd);
+
+    return OK;
+}
+
 Status Executor_Handler(Executor *pSelf) 
 {
     if (pSelf == NULL)
@@ -108,9 +120,10 @@ Status Executor_Handler(Executor *pSelf)
         }
         break;
 
-        case EXECUTOR_STATE_CONFIG_EXT_CTRL_TIM:
+        case EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL:
         {
-            return UNSUPPORTED;
+            status = Interface_UpdateTap(currentCmdBlock.channel, currentCmdBlock.number);
+            return status;
         }
         break;
 
@@ -121,6 +134,12 @@ Status Executor_Handler(Executor *pSelf)
         }
         break;
 
+        case EXECUTOR_STATE_SWITCH_I2C_EEPROM:
+        {
+            status = Interface_SwitchEeprom(currentCmdBlock.channel);
+            return status;
+        }
+        break;
     }
 
      return NO_COMMAND;

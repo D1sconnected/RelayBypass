@@ -1,7 +1,9 @@
 #include "../Include/Interface_Mimic.h"
 
-uint8_t gFxStateA = FX_OFF;
-uint8_t gFxStateB = FX_OFF;
+uint8_t gFxStateA = FX_OFF;     // ToDo: load from memory
+uint8_t gFxStateB = FX_OFF;     // ToDo: load from memory
+
+uint16_t gCurrentMaxTap = 1000;  // ToDo: load from memory
 
 void Interface_UpdateGpioForToggle(char channel)
 {
@@ -196,6 +198,8 @@ Status Interface_SwitchProgram(char channel, char specificator)
             HAL_GPIO_WritePin(A_PROG_0_CTRL_GPIO_Port, A_PROG_0_CTRL_Pin, (GPIO_PinState)(programA & 0x01));
             HAL_GPIO_WritePin(A_PROG_1_CTRL_GPIO_Port, A_PROG_1_CTRL_Pin, (GPIO_PinState)((programA & 0x02) >> 1));
             HAL_GPIO_WritePin(A_PROG_2_CTRL_GPIO_Port, A_PROG_2_CTRL_Pin, (GPIO_PinState)((programA & 0x04) >> 2));
+
+            // ToDo: Read saved TAP_MAX from SPI Flash and store to gCurrentMaxTap
         }
         break;
 
@@ -229,9 +233,80 @@ Status Interface_SwitchProgram(char channel, char specificator)
             HAL_GPIO_WritePin(B_PROG_0_CTRL_GPIO_Port, B_PROG_0_CTRL_Pin, (GPIO_PinState)(programB & 0x01));
             HAL_GPIO_WritePin(B_PROG_1_CTRL_GPIO_Port, B_PROG_1_CTRL_Pin, (GPIO_PinState)((programB & 0x02) >> 1));
             HAL_GPIO_WritePin(B_PROG_2_CTRL_GPIO_Port, B_PROG_2_CTRL_Pin, (GPIO_PinState)((programB & 0x04) >> 2));
+
+            // ToDo: Read saved TAP_MAX from SPI Flash and store to gCurrentMaxTap
         }
         break;
      }
+
+    return OK;
+}
+
+Status Interface_SwitchEeprom(char channel)
+{
+    switch (channel)
+    {
+        case CHANNEL_A:
+        {
+            HAL_GPIO_WritePin(I2C_SELECT_0_GPIO_Port, I2C_SELECT_0_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(I2C_SELECT_1_GPIO_Port, I2C_SELECT_1_Pin, GPIO_PIN_SET);
+        }
+        break;
+
+        case CHANNEL_B:
+        {
+            HAL_GPIO_WritePin(I2C_SELECT_0_GPIO_Port, I2C_SELECT_0_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(I2C_SELECT_1_GPIO_Port, I2C_SELECT_1_Pin, GPIO_PIN_RESET);
+        }
+        break;
+    }
+
+    return OK;
+}
+
+Status Interface_UpdateDigitalPot(char channel, uint8_t value)
+{
+    uint8_t cmd = MCP41010_CMD_WRITE;
+
+    HAL_StatusTypeDef status = -1;
+
+    switch (channel) 
+    {
+        case CHANNEL_A: 
+        {
+            HAL_GPIO_WritePin(MCU_SPI_CS_A_POT_GPIO_Port, MCU_SPI_CS_A_POT_Pin, GPIO_PIN_RESET);
+            status =  HAL_SPI_Transmit(&hspi1, &cmd, sizeof(cmd), 5000);
+            status += HAL_SPI_Transmit(&hspi1, &value, sizeof(value), 5000);
+            HAL_GPIO_WritePin(MCU_SPI_CS_A_POT_GPIO_Port, MCU_SPI_CS_A_POT_Pin, GPIO_PIN_SET);
+        }
+        break;
+
+        case CHANNEL_B:
+        {
+            HAL_GPIO_WritePin(MCU_SPI_CS_B_POT_GPIO_Port, MCU_SPI_CS_B_POT_Pin, GPIO_PIN_RESET);
+            status =  HAL_SPI_Transmit(&hspi1, &cmd, sizeof(cmd), 5000);
+            status += HAL_SPI_Transmit(&hspi1, &value, sizeof(value), 5000);
+            HAL_GPIO_WritePin(MCU_SPI_CS_B_POT_GPIO_Port, MCU_SPI_CS_B_POT_Pin, GPIO_PIN_SET);
+        }
+        break;
+    }
+
+    if (!status) 
+    {
+        return OK;
+    }
+
+    return FAIL;
+}
+
+Status Interface_UpdateTap(char channel, uint16_t number)
+{
+    // ToDo: Calculate tap coef from max tap
+
+    float coef = (float)gCurrentMaxTap / (float)256; // Divide max time in ms by digital pot resolution
+    uint8_t value = (uint8_t)((float)number / coef);
+    Interface_UpdateDigitalPot(channel, value);
+    // ToDo: Reconfig Tap timer to blink led on channel
 
     return OK;
 }

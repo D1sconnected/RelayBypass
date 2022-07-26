@@ -67,6 +67,99 @@ TEST(Executor, ShouldNotBeNull)
     CHECK_TRUE(pExecutor);
 }
 
+TEST(Executor, ShouldHandle_Switch_I2C_EEPROM)
+{
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
+    //----------ARRANGE #1----------//
+    memset(&emulatedGpio, GPIO_PIN_RESET, sizeof(EmulatedGpioStatesStruct));
+
+    // Reset Channel A & Channel B to FX_OFF
+    gFxStateA = FX_OFF;
+    gFxStateB = FX_OFF;
+
+    emulatedGpio.buttonA = GPIO_PIN_SET;
+    emulatedGpio.buttonB = GPIO_PIN_SET;
+    emulatedGpio.buttonTap = GPIO_PIN_RESET;
+    
+    // Directly push I2C switch command from 'main' to Executor
+    StateStruct localCmdBlock;
+    localCmdBlock.state = EXECUTOR_STATE_SWITCH_I2C_EEPROM;
+    localCmdBlock.channel = CHANNEL_A;
+    localCmdBlock.specificator = NULL;
+
+    Status status = Executor_PushCommand(pExecutor, &localCmdBlock);
+
+    //----------ACT #1----------//
+    // Call Executor_Handler with pointer to Executor's List
+    status = Executor_Handler(pExecutor);
+
+    //----------ASSERT #1----------//
+    // Check FSM returned OK status
+    LONGS_EQUAL(OK, status);
+    // Check Emulated GPIOs changed correctly
+    LONGS_EQUAL(GPIO_PIN_SET, emulatedGpio.i2cSel0);
+    LONGS_EQUAL(GPIO_PIN_SET, emulatedGpio.i2cSel1);
+
+    // Check Switch to B
+    //----------ARRANGE #2----------//
+    // Directly push I2C switch command from 'main' to Executor
+    localCmdBlock.state = EXECUTOR_STATE_SWITCH_I2C_EEPROM;
+    localCmdBlock.channel = CHANNEL_B;
+    localCmdBlock.specificator = NULL;
+
+    status = Executor_PushCommand(pExecutor, &localCmdBlock);
+
+    //----------ACT #2----------//
+    // Call Executor_Handler with pointer to Executor's List
+    status = Executor_Handler(pExecutor);
+
+    //----------ASSERT #2----------//
+    // Check FSM returned OK status
+    LONGS_EQUAL(OK, status);
+    // Check Emulated GPIOs changed correctly
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.i2cSel0);
+    LONGS_EQUAL(GPIO_PIN_RESET, emulatedGpio.i2cSel1);
+}
+
+TEST(Executor, ShouldHandle_UpdateDigitalPot_By_Tap_Tempo)
+{
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
+    //----------ARRANGE #1----------//
+    memset(&emulatedGpio, GPIO_PIN_RESET, sizeof(EmulatedGpioStatesStruct));
+
+    // Reset Channel A & Channel B to FX_OFF
+    gFxStateA = FX_OFF;
+    gFxStateB = FX_OFF;
+
+    emulatedGpio.buttonA = GPIO_PIN_SET;
+    emulatedGpio.buttonB = GPIO_PIN_SET;
+    emulatedGpio.buttonTap = GPIO_PIN_RESET;
+
+    // First tap
+    HAL_GPIO_EXTI_Callback(MCU_TAP_EXTI_Pin); 
+    HAL_TIM_PeriodElapsedCallback(&htim2);
+
+    // Second tap
+    HAL_GPIO_EXTI_Callback(MCU_TAP_EXTI_Pin);
+    HAL_TIM_PeriodElapsedCallback(&htim2);
+
+    //----------ACT #1----------//
+    // Call Executor_Handler with pointer to Executor's List
+    Status status = Executor_Handler(pExecutor);
+
+    //----------ASSERT #1----------//
+    // Check FSM returned OK status
+    LONGS_EQUAL(OK, status);
+
+    // ToDo: Update CppUtest to use CHECK_COMPARE macro to check 10 < tap < 1000
+}
+
 TEST(Executor, ShouldHandle_Switch_AllFxProgram_Up_Down_On_Channel_A_Then_Channel_B)
 {
     printf("\n\r------------------------------------------------------------------------\n\r");

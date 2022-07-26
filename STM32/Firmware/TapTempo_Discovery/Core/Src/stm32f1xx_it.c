@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
@@ -23,6 +23,8 @@
 #include "stm32f1xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "usart.h"
+#include "stdbool.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,11 +55,18 @@
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+uint16_t gTapResult = 0; // Resulted time ms
+int gStart = 0;
+
+// Press Detection
+int gButtonPressed = false;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim17;
+extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -201,32 +210,33 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles EXTI line4 interrupt.
+  * @brief This function handles EXTI line0 interrupt.
   */
-void EXTI4_IRQHandler(void)
+void EXTI0_IRQHandler(void)
 {
-  /* USER CODE BEGIN EXTI4_IRQn 0 */
-
-  /* USER CODE END EXTI4_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
-  /* USER CODE BEGIN EXTI4_IRQn 1 */
-
-  /* USER CODE END EXTI4_IRQn 1 */
+  /* USER CODE BEGIN EXTI0_IRQn 0 */
+  /* USER CODE END EXTI0_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+  /* USER CODE BEGIN EXTI0_IRQn 1 */
+  HAL_TIM_Base_Start_IT(&htim3);
+  //HAL_NVIC_DisableIRQ(EXTI0_IRQn);
+  gButtonPressed = true;
+  /* USER CODE END EXTI0_IRQn 1 */
 }
 
 /**
-  * @brief This function handles EXTI line[9:5] interrupts.
+  * @brief This function handles TIM1 trigger and commutation interrupts and TIM17 global interrupt.
   */
-void EXTI9_5_IRQHandler(void)
+void TIM1_TRG_COM_TIM17_IRQHandler(void)
 {
-  /* USER CODE BEGIN EXTI9_5_IRQn 0 */
+  /* USER CODE BEGIN TIM1_TRG_COM_TIM17_IRQn 0 */
 
-  /* USER CODE END EXTI9_5_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_9);
-  /* USER CODE BEGIN EXTI9_5_IRQn 1 */
-
-  /* USER CODE END EXTI9_5_IRQn 1 */
+  /* USER CODE END TIM1_TRG_COM_TIM17_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim17);
+  /* USER CODE BEGIN TIM1_TRG_COM_TIM17_IRQn 1 */
+  gStart = 0;
+  HAL_TIM_Base_Stop_IT(&htim17);
+  /* USER CODE END TIM1_TRG_COM_TIM17_IRQn 1 */
 }
 
 /**
@@ -235,11 +245,10 @@ void EXTI9_5_IRQHandler(void)
 void TIM2_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM2_IRQn 0 */
-
+  HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
   /* USER CODE END TIM2_IRQn 0 */
   HAL_TIM_IRQHandler(&htim2);
   /* USER CODE BEGIN TIM2_IRQn 1 */
-
   /* USER CODE END TIM2_IRQn 1 */
 }
 
@@ -248,13 +257,77 @@ void TIM2_IRQHandler(void)
   */
 void TIM3_IRQHandler(void)
 {
-  /* USER CODE BEGIN TIM3_IRQn 0 */
+    static uint16_t tap[2] = {0};
+    static uint8_t  i = 0;
 
+  /* USER CODE BEGIN TIM3_IRQn 0 */
+    GPIO_PinState btnState = HAL_GPIO_ReadPin(BTN_GPIO_Port, BTN_Pin);
+
+    uint16_t current = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
+
+  if (btnState == GPIO_PIN_RESET && gButtonPressed == true)
+  {
+      HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
+
+      if (!gStart)
+      {
+          HAL_TIM_Base_Start_IT(&htim17);
+          gStart++;
+          HAL_UART_Transmit(&huart1, (uint8_t*)"start\n\r", sizeof("start\n\r"), 1000);
+      }
+      else
+      {
+          gStart = 0;
+          tap[i] = (uint16_t)(__HAL_TIM_GetCounter(&htim17));
+
+          if (!i && !tap[1]) // detected first tap ever, other value is 0
+          {
+              htim2.Init.Period = (uint32_t)(tap[0]);
+              i++;
+          }
+          else // normal case
+          {
+              htim2.Init.Period = (uint32_t)((tap[0] + tap[1])/2);
+              i++;
+          }
+
+          if (i > 1)
+          {
+              i = 0;
+          }
+
+          if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+          {
+            Error_Handler();
+          }
+          HAL_TIM_Base_Stop_IT(&htim17);
+          //itoa(gTapResult, txBuf, 10);
+          //txBuf[4] = '\r';
+          //txBuf[5] = '\n';
+          //HAL_UART_Transmit(&huart1, (uint8_t*)txBuf, sizeof("txBuf"), 1000);
+          float example = 0;
+      }
+      gButtonPressed = false;
+  }
   /* USER CODE END TIM3_IRQn 0 */
   HAL_TIM_IRQHandler(&htim3);
   /* USER CODE BEGIN TIM3_IRQn 1 */
-
+  HAL_TIM_Base_Stop_IT(&htim3);
   /* USER CODE END TIM3_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USART1 global interrupt.
+  */
+void USART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART1_IRQn 0 */
+
+  /* USER CODE END USART1_IRQn 0 */
+  HAL_UART_IRQHandler(&huart1);
+  /* USER CODE BEGIN USART1_IRQn 1 */
+
+  /* USER CODE END USART1_IRQn 1 */
 }
 
 /**
@@ -263,14 +336,12 @@ void TIM3_IRQHandler(void)
 void EXTI15_10_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
-
+    HAL_TIM_Base_Start_IT(&htim3);
+    HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
+    gButtonPressed = true;
   /* USER CODE END EXTI15_10_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_14);
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
-
   /* USER CODE END EXTI15_10_IRQn 1 */
 }
 

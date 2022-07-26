@@ -6,9 +6,10 @@
 
 typedef struct
 {
-	ExecutorState state;
-	char channel;
-	char specificator;
+	ExecutorState state; // Executor Command
+	char channel;		 // Execute on 'A' or 'B' channel
+	char specificator;   // Optional condition
+	uint16_t number;	 // Optional value
 } StateStruct;
 
 typedef struct Node 

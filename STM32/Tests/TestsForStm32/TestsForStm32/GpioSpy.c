@@ -8,9 +8,12 @@
 #include "GpioSpyMimic.h"
 #endif
 
+SPI_HandleTypeDef hspi1;
+
 static Node *pGpioList = NULL;
 
 EmulatedGpioStatesStruct emulatedGpio = {0};
+uint8_t                  emulatedDigitalPot = 0;
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
@@ -53,6 +56,17 @@ void HAL_GPIO_TogglePin(uint8_t GPIOx, uint16_t GPIO_Pin)
 
     #ifdef MIMIC_F1
         HAL_GPIO_TogglePin_Mimic(GPIOx, GPIO_Pin);
+    #endif
+}
+
+HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout) 
+{
+    #ifdef CONSTRUCTOR_F1
+        HAL_SPI_Transmit_Constructor(hspi, pData, Size, Timeout);
+    #endif
+
+    #ifdef MIMIC_F1
+        HAL_SPI_Transmit_Mimic(hspi, pData, Size, Timeout);
     #endif
 }
 

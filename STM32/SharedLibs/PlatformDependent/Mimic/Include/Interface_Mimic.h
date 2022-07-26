@@ -86,6 +86,7 @@ void Interface_UpdateGpioForChange(GPIO_PinState state);
 void Interface_UpdateGpioForToggle(char channel);
 
 Status Interface_SwitchProgram(char channel, char specificator);
+Status Interface_SwitchEeprom(char channel);
 Status Interface_UpdateDigitalPot(char channel, uint8_t value);
 Status Interface_UpdateTap(char channel, uint16_t number);
 

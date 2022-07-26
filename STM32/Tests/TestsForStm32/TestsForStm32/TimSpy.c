@@ -4,7 +4,7 @@ TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 static Node *pTimList = NULL;
 
-static bool tappedOnce = false;
+bool gTappedOnce = false;
 
 HAL_StatusTypeDef HAL_TIM_Base_Start_IT(TIM_HandleTypeDef *pHtim) 
 {
@@ -65,14 +65,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 
     if (gpioBtnStateTap == GPIO_PIN_RESET && gBtnStateTap == true)
     {   
-        if (!tappedOnce)
+        if (!gTappedOnce)
         {
-            tappedOnce = true;
+            gTappedOnce = true;
             HAL_TIM_Base_Start_IT(&htim3);
         }
         else 
         {
-            tappedOnce = false;
+            gTappedOnce = false;
             cmdBlock.state = EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL;
             cmdBlock.channel = CHANNEL_A; // ToDo: get channel from configuration 
             cmdBlock.specificator = 0;

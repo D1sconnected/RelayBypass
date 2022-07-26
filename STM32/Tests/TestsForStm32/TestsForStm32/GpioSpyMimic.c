@@ -124,6 +124,18 @@ void HAL_GPIO_WritePin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin, GPIO_PinState Pin
                     emulatedGpio.prog2B = PinState;
                 }
                 break;
+
+                case I2C_SELECT_0_Pin:
+                {
+                    emulatedGpio.i2cSel0 = PinState;
+                }
+                break;
+
+                case I2C_SELECT_1_Pin:
+                {
+                    emulatedGpio.i2cSel1 = PinState;
+                }
+                break;
             }
         }
         break;

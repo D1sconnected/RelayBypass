@@ -242,6 +242,28 @@ Status Interface_SwitchProgram(char channel, char specificator)
     return OK;
 }
 
+Status Interface_SwitchEeprom(char channel)
+{
+    switch (channel)
+    {
+        case CHANNEL_A:
+        {
+            HAL_GPIO_WritePin(I2C_SELECT_0_GPIO_Port, I2C_SELECT_0_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(I2C_SELECT_1_GPIO_Port, I2C_SELECT_1_Pin, GPIO_PIN_SET);
+        }
+        break;
+
+        case CHANNEL_B:
+        {
+            HAL_GPIO_WritePin(I2C_SELECT_0_GPIO_Port, I2C_SELECT_0_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(I2C_SELECT_1_GPIO_Port, I2C_SELECT_1_Pin, GPIO_PIN_RESET);
+        }
+        break;
+    }
+
+    return OK;
+}
+
 Status Interface_UpdateDigitalPot(char channel, uint8_t value)
 {
     uint8_t cmd = MCP41010_CMD_WRITE;

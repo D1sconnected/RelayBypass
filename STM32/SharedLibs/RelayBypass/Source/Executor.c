@@ -140,6 +140,12 @@ Status Executor_Handler(Executor *pSelf)
             return status;
         }
         break;
+
+        case EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_ADC:
+        {
+            status = Interface_UpdateDigitalPot(currentCmdBlock.channel, (uint8_t)(currentCmdBlock.number / 16));
+            return status;
+        }
     }
 
      return NO_COMMAND;

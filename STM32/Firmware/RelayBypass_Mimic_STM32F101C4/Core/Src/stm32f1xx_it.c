@@ -189,7 +189,7 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
   static uint8_t adcCheck = 0;
   adcCheck++;
-  if (adcCheck == 250)
+  if (adcCheck == 50)
   {
       adcCheck = 0;
       HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcData, 2);

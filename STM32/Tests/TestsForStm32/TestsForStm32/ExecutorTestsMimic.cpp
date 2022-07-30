@@ -46,6 +46,7 @@ extern "C"
 #include "SerialSpy.h"
 #include "GpioSpy.h"
 #include "TimSpy.h"
+#include "AdcSpy.h"
 }
 
 TEST_GROUP(Executor)
@@ -65,6 +66,38 @@ TEST_GROUP(Executor)
 TEST(Executor, ShouldNotBeNull)
 {
     CHECK_TRUE(pExecutor);
+}
+
+TEST(Executor, ShouldHandle_Update_DigitalPot_From_ADC)
+{
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
+    //----------ARRANGE #1----------//
+    memset(&emulatedGpio, GPIO_PIN_RESET, sizeof(EmulatedGpioStatesStruct));
+
+    // Reset Channel A & Channel B to FX_OFF
+    gFxStateA = FX_OFF;
+    gFxStateB = FX_OFF;
+
+    emulatedGpio.buttonA = GPIO_PIN_SET;
+    emulatedGpio.buttonB = GPIO_PIN_SET;
+    emulatedGpio.buttonTap = GPIO_PIN_RESET;
+
+    // Put data & call ADC callback
+    adcData[0] = 2150;
+    adcData[1] = 2000;
+    HAL_ADC_ConvCpltCallback(&hadc1);
+
+    //----------ACT #1----------//
+    // Call Executor_Handler with pointer to Executor's List
+    Status status = Executor_Handler(pExecutor);
+
+    //----------ASSERT #1----------//
+    // Check FSM returned OK status
+    LONGS_EQUAL(OK, status);
+
 }
 
 TEST(Executor, ShouldHandle_Switch_I2C_EEPROM)

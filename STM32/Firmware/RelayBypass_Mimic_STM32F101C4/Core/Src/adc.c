@@ -21,6 +21,8 @@
 #include "adc.h"
 
 /* USER CODE BEGIN 0 */
+#include "../../../../SharedLibs/RelayBypass/Include/Executor.h"
+
 uint16_t adcData[2] = {0}; // 2 channels
 /* USER CODE END 0 */
 
@@ -146,16 +148,32 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 }
 
 /* USER CODE BEGIN 1 */
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
-    static uint16_t potA = 0;
-    static uint16_t potB = 0;
+    static uint16_t adcPotA = 0;
+    static uint16_t adcPotB = 0;
 
-    if(hadc->Instance == ADC1)
+    StateStruct cmdBlock = {0};
+
+    if ((adcData[0] / 16) != (adcPotA / 16))
     {
-        potA = adcData[0];
-        potB = adcData[1];
+        adcPotA = adcData[0];
+        cmdBlock.state = EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_ADC;
+        cmdBlock.channel = CHANNEL_A;
+        cmdBlock.number = adcPotA;
+        Button_PushCommand(&cmdBlock); // ToDo: rename
     }
+
+    if ((adcData[1] / 16) != (adcPotB / 16))
+    {
+        adcPotB = adcData[1];
+        cmdBlock.state = EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_ADC;
+        cmdBlock.channel = CHANNEL_B;
+        cmdBlock.number = adcPotB;
+        Button_PushCommand(&cmdBlock);  // ToDo: rename
+    }
+
+    return;
 }
 /* USER CODE END 1 */
 

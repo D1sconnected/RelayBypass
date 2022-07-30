@@ -11,6 +11,7 @@
 
 #ifdef MIMIC_F1
 #include "../../PlatformDependent/Mimic/Include/Interface_Mimic.h"
+#include "../../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/adc.h"
 #endif
 
 #ifdef CONSTRUCTOR_F1
@@ -25,5 +26,7 @@
 HAL_StatusTypeDef HAL_ADC_Start(ADC_HandleTypeDef *phadc);
 HAL_StatusTypeDef HAL_ADC_PollForConversion(ADC_HandleTypeDef *pHadc, uint32_t Timeout);
 HAL_StatusTypeDef HAL_ADC_Stop(ADC_HandleTypeDef *pHadc);
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc);
 
 #endif

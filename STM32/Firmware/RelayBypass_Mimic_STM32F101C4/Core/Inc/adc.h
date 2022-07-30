@@ -28,7 +28,7 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+extern uint16_t adcData[2];
 /* USER CODE END Includes */
 
 extern ADC_HandleTypeDef hadc1;

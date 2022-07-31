@@ -30,7 +30,7 @@ void Interface_UpdateGpioForSwitch(char channel, GPIO_PinState state)
         case CHANNEL_A:
         {
             // Update LED state
-            HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+            HAL_GPIO_WritePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin, state);
 
             // Turn PHET ON
             HAL_GPIO_WritePin(PHET_CTRL_GPIO_Port, PHET_CTRL_Pin, GPIO_PIN_SET);
@@ -52,7 +52,7 @@ void Interface_UpdateGpioForSwitch(char channel, GPIO_PinState state)
         case CHANNEL_B:
         {
             // Update LED state
-            HAL_GPIO_TogglePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin);
+            HAL_GPIO_WritePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin, state);
 
             // Turn PHET ON
             HAL_GPIO_WritePin(PHET_CTRL_GPIO_Port, PHET_CTRL_Pin, GPIO_PIN_SET);

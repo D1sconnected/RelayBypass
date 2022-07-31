@@ -21,7 +21,8 @@
 #include "tim.h"
 
 /* USER CODE BEGIN 0 */
-bool gTappedOnce = false;
+bool     gTappedOnce = false;
+uint16_t gTimeStamp = 0;
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim2;
@@ -44,7 +45,7 @@ void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 35999;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 250;
+  htim2.Init.Period = 125;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -189,6 +190,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     {
         gTappedOnce = false;
         HAL_TIM_Base_Stop_IT(htim);
+        __HAL_TIM_SetCounter(&htim3, 0);
     }
 
 }

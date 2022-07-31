@@ -79,13 +79,24 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         }
         else
         {
+            if (gTimeStamp)
+            {
+                uint16_t temp = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
+                gTimeStamp = (gTimeStamp + temp)/2;
+            }
+            else
+            {
+                gTimeStamp = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
+            }
+
             gTappedOnce = false;
             cmdBlock.state = EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL;
             cmdBlock.channel = CHANNEL_A; // ToDo: get channel from configuration
             cmdBlock.specificator = 0;
-            cmdBlock.number = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
+            cmdBlock.number = gTimeStamp;
             Timer_PushCommand(&cmdBlock);
             HAL_TIM_Base_Stop_IT(&htim3);
+            __HAL_TIM_SetCounter(&htim3, 0);
         }
         gBtnStateTap = false;
     }

@@ -155,18 +155,18 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 
     StateStruct cmdBlock = {0};
 
-    if ((adcData[0] / 16) != (adcPotA / 16))
+    if ((adcData[1] / 16) != (adcPotA / 16))
     {
-        adcPotA = adcData[0];
+        adcPotA = adcData[1];
         cmdBlock.state = EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_ADC;
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.number = adcPotA;
         Button_PushCommand(&cmdBlock); // ToDo: rename
     }
 
-    if ((adcData[1] / 16) != (adcPotB / 16))
+    if ((adcData[0] / 16) != (adcPotB / 16))
     {
-        adcPotB = adcData[1];
+        adcPotB = adcData[0];
         cmdBlock.state = EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_ADC;
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.number = adcPotB;

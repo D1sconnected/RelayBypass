@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "adc.h"
+#include "tim.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -187,13 +188,31 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-  static uint8_t adcCheck = 0;
+  static uint8_t  adcCheck = 0;
+  static uint16_t tapStampA = 0;
+
   adcCheck++;
   if (adcCheck == 50)
   {
       adcCheck = 0;
       HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcData, 2);
   }
+
+  if (gFxStateA)
+  {
+      tapStampA++;
+      if (tapStampA == gTimeStamp && tapStampA != 0)
+      {
+          HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+          tapStampA = 0;
+      }
+
+      if (tapStampA == 1000)
+      {
+          tapStampA = 0;
+      }
+  }
+
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */

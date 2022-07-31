@@ -37,7 +37,8 @@ extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN Private defines */
-extern bool gTappedOnce;
+extern bool     gTappedOnce;
+extern uint16_t gTimeStamp;
 /* USER CODE END Private defines */
 
 void MX_TIM2_Init(void);

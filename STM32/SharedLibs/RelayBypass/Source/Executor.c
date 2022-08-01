@@ -146,6 +146,12 @@ Status Executor_Handler(Executor *pSelf)
             status = Interface_UpdateDigitalPot(currentCmdBlock.channel, (uint8_t)(currentCmdBlock.number / 16));
             return status;
         }
+
+        case EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP:
+        {
+            status = Interface_UpdateMaxTimeForTap(currentCmdBlock.channel, currentCmdBlock.specificator, currentCmdBlock.number);
+            return status;
+        }
     }
 
      return NO_COMMAND;

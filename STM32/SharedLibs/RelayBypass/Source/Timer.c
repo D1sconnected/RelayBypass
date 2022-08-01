@@ -39,12 +39,12 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
     static uint8_t changeRouteCounter = 0;
     static char changeRouteChannel = CHANNEL_A;
 
-    GPIO_PinState gpioBtnStateA = HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin);
-    GPIO_PinState gpioBtnStateB = HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin);
-    GPIO_PinState gpioSwStateA1 = HAL_GPIO_ReadPin(A_SW_1_EXTI_GPIO_Port, A_SW_1_EXTI_Pin);
-    GPIO_PinState gpioSwStateA3 = HAL_GPIO_ReadPin(A_SW_3_EXTI_GPIO_Port, A_SW_3_EXTI_Pin);
-    GPIO_PinState gpioSwStateB1 = HAL_GPIO_ReadPin(B_SW_1_EXTI_GPIO_Port, B_SW_1_EXTI_Pin);
-    GPIO_PinState gpioSwStateB3 = HAL_GPIO_ReadPin(B_SW_3_EXTI_GPIO_Port, B_SW_3_EXTI_Pin);
+    GPIO_PinState gpioBtnStateA     = HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin);
+    GPIO_PinState gpioBtnStateB     = HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin);
+    GPIO_PinState gpioSwStateA1     = HAL_GPIO_ReadPin(A_SW_1_EXTI_GPIO_Port, A_SW_1_EXTI_Pin);
+    GPIO_PinState gpioSwStateA3     = HAL_GPIO_ReadPin(A_SW_3_EXTI_GPIO_Port, A_SW_3_EXTI_Pin);
+    GPIO_PinState gpioSwStateB1     = HAL_GPIO_ReadPin(B_SW_1_EXTI_GPIO_Port, B_SW_1_EXTI_Pin);
+    GPIO_PinState gpioSwStateB3     = HAL_GPIO_ReadPin(B_SW_3_EXTI_GPIO_Port, B_SW_3_EXTI_Pin);
     GPIO_PinState gpioBtnStateTap   = HAL_GPIO_ReadPin(MCU_TAP_EXTI_GPIO_Port, MCU_TAP_EXTI_Pin);
 
     if (gpioBtnStateA == GPIO_PIN_RESET && gpioBtnStateB == GPIO_PIN_RESET)

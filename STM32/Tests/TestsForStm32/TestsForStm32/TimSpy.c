@@ -4,7 +4,8 @@ TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 static Node *pTimList = NULL;
 
-bool gTappedOnce = false;
+bool     gTappedOnce = false;
+uint16_t gTimeStamp = 0;
 
 HAL_StatusTypeDef HAL_TIM_Base_Start_IT(TIM_HandleTypeDef *pHtim) 
 {
@@ -14,6 +15,11 @@ HAL_StatusTypeDef HAL_TIM_Base_Start_IT(TIM_HandleTypeDef *pHtim)
 HAL_StatusTypeDef HAL_TIM_Base_Stop_IT(TIM_HandleTypeDef *pHtim) 
 {
 	return HAL_OK;
+}
+
+void __HAL_TIM_SetCounter(TIM_HandleTypeDef *pHtim, uint16_t value)
+{
+    return;
 }
 
 uint16_t __HAL_TIM_GetCounter(TIM_HandleTypeDef *pHtim)

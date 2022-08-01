@@ -89,6 +89,7 @@ Status Interface_SwitchProgram(char channel, char specificator);
 Status Interface_SwitchEeprom(char channel);
 Status Interface_UpdateDigitalPot(char channel, uint8_t value);
 Status Interface_UpdateTap(char channel, uint16_t number);
+Status Interface_UpdateMaxTimeForTap(char channel, char specificator, uint16_t prog);
 
 
 #endif

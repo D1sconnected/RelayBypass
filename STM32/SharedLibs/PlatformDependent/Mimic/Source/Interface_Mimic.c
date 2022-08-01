@@ -310,3 +310,76 @@ Status Interface_UpdateTap(char channel, uint16_t number)
 
     return OK;
 }
+
+Status Interface_UpdateMaxTimeForTap(char channel, char specificator, uint16_t prog)
+{
+    static uint8_t timeA[8] = {0};
+    static uint8_t timeB[8] = {0};
+    static bool    loadOnce = false;
+
+    if (specificator == WRITE) 
+    {
+        //ToDo: Write locals timeA & timeB to to SPI memory
+    }
+
+    if (!loadOnce) 
+    {
+        //ToDo: Load from SPI memory to locals timeA & timeB
+        loadOnce = true;
+    }
+
+    switch (channel)
+    {
+        case CHANNEL_A:
+        {
+            switch (specificator)
+            {
+                case UP:
+                {
+                    if (timeA[prog] != 1000) 
+                    {
+                        timeA[prog] += 50;
+                    }
+                }
+                break;
+
+                case DOWN:
+                {
+                    if (timeA[prog] != 0)
+                    {
+                        timeA[prog] -= 50;
+                    }
+                }
+                break;
+            }
+        }
+        break;
+
+        case CHANNEL_B:
+        {
+            switch (specificator)
+            {
+                case UP:
+                {
+                    if (timeB[prog] != 1000)
+                    {
+                        timeB[prog] += 50;
+                    }
+                }
+                break;
+
+                case DOWN:
+                {
+                    if (timeB[prog] != 0)
+                    {
+                        timeB[prog] -= 50;
+                    }
+                }
+                break;
+            }
+        }
+        break;
+    }
+
+    return OK;
+}

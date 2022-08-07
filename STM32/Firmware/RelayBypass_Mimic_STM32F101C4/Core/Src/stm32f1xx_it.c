@@ -190,7 +190,10 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
   static uint8_t  adcCheck = 0;
   static uint16_t tapStampA = 0;
+  static uint16_t tapStampB = 0;
+  static uint16_t tapConfig = 0;
 
+  // Run ADC DMA conversion every 50 ms
   adcCheck++;
   if (adcCheck == 50)
   {
@@ -198,10 +201,22 @@ void SysTick_Handler(void)
       HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcData, 2);
   }
 
-  if (gFxStateA)
+  // Check for both buttons pressed to enter special mode
+  if (!HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin) && !HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin))
+  {
+      tapConfig++;
+      if (tapConfig == 1000)
+      {
+          gTapConfigMode = !gTapConfigMode;
+          tapConfig = 0;
+      }
+  }
+
+  // Toggle led on channel A if it's active & gTapStamp present
+  if (gFxStateA && gTapStamp)
   {
       tapStampA++;
-      if (tapStampA == gTimeStamp && tapStampA != 0)
+      if (tapStampA == gTapStamp && tapStampA != 0)
       {
           HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
           tapStampA = 0;
@@ -212,6 +227,23 @@ void SysTick_Handler(void)
           tapStampA = 0;
       }
   }
+
+  // Toggle led on channel B if it's active & gTapStamp present
+//  if (gFxStateB)
+//  {
+//      tapStampB++;
+//      if (tapStampB == gTimeStamp && tapStampB != 0)
+//      {
+//          HAL_GPIO_TogglePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin);
+//          tapStampA = 0;
+//      }
+//
+//      if (tapStampB == 1000)
+//      {
+//          tapStampB = 0;
+//      }
+//  }
+
 
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();

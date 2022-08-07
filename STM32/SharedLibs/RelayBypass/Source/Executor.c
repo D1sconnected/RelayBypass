@@ -143,13 +143,14 @@ Status Executor_Handler(Executor *pSelf)
 
         case EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_ADC:
         {
+            gTapStamp = 0; // Reset global tap
             status = Interface_UpdateDigitalPot(currentCmdBlock.channel, (uint8_t)(currentCmdBlock.number / 16));
             return status;
         }
 
         case EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP:
         {
-            status = Interface_UpdateMaxTimeForTap(currentCmdBlock.channel, currentCmdBlock.specificator, currentCmdBlock.number);
+            status = Interface_UpdateMaxTimeForTap(currentCmdBlock.channel, currentCmdBlock.specificator);
             return status;
         }
     }

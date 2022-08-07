@@ -22,7 +22,8 @@
 
 /* USER CODE BEGIN 0 */
 bool     gTappedOnce = false;
-uint16_t gTimeStamp = 0;
+bool     gTapConfigMode = false;
+uint16_t gTapStamp = 0;
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim2;

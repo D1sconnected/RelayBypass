@@ -79,21 +79,21 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         }
         else
         {
-            if (gTimeStamp)
+            if (gTapStamp)
             {
                 uint16_t temp = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
-                gTimeStamp = (gTimeStamp + temp)/2;
+                gTapStamp = (gTapStamp + temp)/2;
             }
             else
             {
-                gTimeStamp = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
+                gTapStamp = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
             }
 
             gTappedOnce = false;
             cmdBlock.state = EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL;
             cmdBlock.channel = CHANNEL_A; // ToDo: get channel from configuration
             cmdBlock.specificator = 0;
-            cmdBlock.number = gTimeStamp;
+            cmdBlock.number = gTapStamp;
             Timer_PushCommand(&cmdBlock);
             HAL_TIM_Base_Stop_IT(&htim3);
             __HAL_TIM_SetCounter(&htim3, 0);
@@ -104,7 +104,16 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
     // SW has inverted logic
     if (gpioSwStateA1 == GPIO_PIN_SET && gSwStateA1 == true)
     {
-        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        if (gTapConfigMode)
+        {
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP;
+        }
+
+        else
+        {
+            cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        }
+
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.specificator = UP;
         Timer_PushCommand(&cmdBlock);
@@ -113,7 +122,16 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
 
     if (gpioSwStateA3 == GPIO_PIN_SET && gSwStateA3 == true)
     {
-        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        if (gTapConfigMode)
+        {
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP;
+        }
+
+        else
+        {
+            cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        }
+
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.specificator = DOWN;
         Timer_PushCommand(&cmdBlock);
@@ -122,7 +140,16 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
 
     if (gpioSwStateB1 == GPIO_PIN_SET && gSwStateB1 == true)
     {
-        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        if (gTapConfigMode)
+        {
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP;
+        }
+
+        else
+        {
+            cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        }
+
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.specificator = UP;
         Timer_PushCommand(&cmdBlock);
@@ -131,7 +158,16 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
 
     if (gpioSwStateB3 == GPIO_PIN_SET && gSwStateB3 == true)
     {
-        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        if (gTapConfigMode)
+        {
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP;
+        }
+
+        else
+        {
+            cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        }
+
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.specificator = DOWN;
         Timer_PushCommand(&cmdBlock);

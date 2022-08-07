@@ -18,6 +18,12 @@
 // Digital Pot 
 #define MCP41010_CMD_WRITE	0x11
 
+// FV-1 DSP
+#define FV1_MAX_PROGS 8
+#define FV1_MAX_TIME  1000
+#define FV1_MIN_TIME  50
+#define FV1_TAP_STEP  50
+
 typedef enum 
 {
 	RED,
@@ -89,7 +95,7 @@ Status Interface_SwitchProgram(char channel, char specificator);
 Status Interface_SwitchEeprom(char channel);
 Status Interface_UpdateDigitalPot(char channel, uint8_t value);
 Status Interface_UpdateTap(char channel, uint16_t number);
-Status Interface_UpdateMaxTimeForTap(char channel, char specificator, uint16_t prog);
+Status Interface_UpdateMaxTimeForTap(char channel, char specificator);
 
 
 #endif

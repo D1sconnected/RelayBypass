@@ -85,6 +85,36 @@ GPIO_PinState HAL_GPIO_ReadPin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin)
     {
         return emulatedGpio.buttonTap;
     }
+
+    else if (GPIOx == A_PROG_0_CTRL_GPIO_Port && GPIO_Pin == A_PROG_0_CTRL_Pin)
+    {
+        return emulatedGpio.prog0A;
+    }
+
+    else if (GPIOx == A_PROG_1_CTRL_GPIO_Port && GPIO_Pin == A_PROG_1_CTRL_Pin)
+    {
+        return emulatedGpio.prog1A;
+    }
+
+    else if (GPIOx == A_PROG_2_CTRL_GPIO_Port && GPIO_Pin == A_PROG_2_CTRL_Pin)
+    {
+        return emulatedGpio.prog2A;
+    }
+
+    else if (GPIOx == B_PROG_0_CTRL_GPIO_Port && GPIO_Pin == B_PROG_0_CTRL_Pin)
+    {
+        return emulatedGpio.prog0B;
+    }
+
+    else if (GPIOx == B_PROG_1_CTRL_GPIO_Port && GPIO_Pin == B_PROG_1_CTRL_Pin)
+    {
+        return emulatedGpio.prog1B;
+    }
+
+    else if (GPIOx == B_PROG_2_CTRL_GPIO_Port && GPIO_Pin == B_PROG_2_CTRL_Pin)
+    {
+        return emulatedGpio.prog2B;
+    }
 }
 
 void HAL_GPIO_WritePin_Mimic(uint8_t GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState) 

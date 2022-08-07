@@ -311,10 +311,10 @@ Status Interface_UpdateTap(char channel, uint16_t number)
     return OK;
 }
 
-Status Interface_UpdateMaxTimeForTap(char channel, char specificator, uint16_t prog)
+Status Interface_UpdateMaxTimeForTap(char channel, char specificator)
 {
-    static uint8_t timeA[8] = {0};
-    static uint8_t timeB[8] = {0};
+    static uint8_t timeA[FV1_MAX_PROGS] = {0};
+    static uint8_t timeB[FV1_MAX_PROGS] = {0};
     static bool    loadOnce = false;
 
     if (specificator == WRITE) 
@@ -328,26 +328,32 @@ Status Interface_UpdateMaxTimeForTap(char channel, char specificator, uint16_t p
         loadOnce = true;
     }
 
+
+    uint8_t prog = 0;
     switch (channel)
     {
         case CHANNEL_A:
         {
+            prog += (HAL_GPIO_ReadPin(A_PROG_0_CTRL_GPIO_Port, A_PROG_0_CTRL_Pin));
+            prog += (HAL_GPIO_ReadPin(A_PROG_1_CTRL_GPIO_Port, A_PROG_1_CTRL_Pin) << 1);
+            prog += (HAL_GPIO_ReadPin(A_PROG_2_CTRL_GPIO_Port, A_PROG_2_CTRL_Pin) << 2);
+
             switch (specificator)
             {
                 case UP:
                 {
-                    if (timeA[prog] != 1000) 
+                    if (timeA[prog] != FV1_MAX_TIME)
                     {
-                        timeA[prog] += 50;
+                        timeA[prog] += FV1_TAP_STEP;
                     }
                 }
                 break;
 
                 case DOWN:
                 {
-                    if (timeA[prog] != 0)
+                    if (timeA[prog] != FV1_MIN_TIME)
                     {
-                        timeA[prog] -= 50;
+                        timeA[prog] -= FV1_TAP_STEP;
                     }
                 }
                 break;
@@ -357,22 +363,26 @@ Status Interface_UpdateMaxTimeForTap(char channel, char specificator, uint16_t p
 
         case CHANNEL_B:
         {
+            prog += (HAL_GPIO_ReadPin(B_PROG_0_CTRL_GPIO_Port, B_PROG_0_CTRL_Pin));
+            prog += (HAL_GPIO_ReadPin(B_PROG_1_CTRL_GPIO_Port, B_PROG_1_CTRL_Pin) << 1);
+            prog += (HAL_GPIO_ReadPin(B_PROG_2_CTRL_GPIO_Port, B_PROG_2_CTRL_Pin) << 2);
+
             switch (specificator)
             {
                 case UP:
                 {
-                    if (timeB[prog] != 1000)
+                    if (timeB[prog] != FV1_MAX_TIME)
                     {
-                        timeB[prog] += 50;
+                        timeB[prog] += FV1_TAP_STEP;
                     }
                 }
                 break;
 
                 case DOWN:
                 {
-                    if (timeB[prog] != 0)
+                    if (timeB[prog] != FV1_MIN_TIME)
                     {
-                        timeB[prog] -= 50;
+                        timeB[prog] -= FV1_TAP_STEP;
                     }
                 }
                 break;

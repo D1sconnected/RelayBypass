@@ -1,9 +1,14 @@
 #include "../Include/Interface_Mimic.h"
 
-uint8_t gFxStateA = FX_OFF;     // ToDo: load from memory
-uint8_t gFxStateB = FX_OFF;     // ToDo: load from memory
+volatile uint8_t gFxStateA = FX_OFF;     // ToDo: load from memory
+volatile uint8_t gFxStateB = FX_OFF;     // ToDo: load from memory
 
-uint16_t gCurrentMaxTap = 1000;  // ToDo: load from memory
+volatile uint16_t gCurrentMaxTap = 1000;  // ToDo: load from memory
+
+volatile uint8_t gProgramA = 0;
+volatile uint8_t gProgramB = 0;
+volatile uint16_t gTimeA[FV1_MAX_PROGS] = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000}; //ToDo: temp values, would be reloaded from SPI
+volatile uint16_t gTimeB[FV1_MAX_PROGS] = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
 
 void Interface_UpdateGpioForToggle(char channel)
 {
@@ -163,9 +168,6 @@ LedColour Interface_GetColour(char channel)
 
 Status Interface_SwitchProgram(char channel, char specificator) 
 {
-    static uint8_t programA = 0;
-    static uint8_t programB = 0;
-
     switch (channel)
     {
         case CHANNEL_A:
@@ -174,30 +176,30 @@ Status Interface_SwitchProgram(char channel, char specificator)
             {
                 case UP:
                 {
-                    programA++;
+                    gProgramA++;
 
-                    if (programA > 7) 
+                    if (gProgramA > 7)
                     {
-                        programA = 0;
+                        gProgramA = 0;
                     }
                 }
                 break;
 
                 case DOWN:
                 {
-                    programA--;
+                    gProgramA--;
 
-                    if (programA == 255)
+                    if (gProgramA == 255)
                     {
-                        programA = 7;
+                        gProgramA = 7;
                     }
                 }
                 break;
             }
 
-            HAL_GPIO_WritePin(A_PROG_0_CTRL_GPIO_Port, A_PROG_0_CTRL_Pin, (GPIO_PinState)(programA & 0x01));
-            HAL_GPIO_WritePin(A_PROG_1_CTRL_GPIO_Port, A_PROG_1_CTRL_Pin, (GPIO_PinState)((programA & 0x02) >> 1));
-            HAL_GPIO_WritePin(A_PROG_2_CTRL_GPIO_Port, A_PROG_2_CTRL_Pin, (GPIO_PinState)((programA & 0x04) >> 2));
+            HAL_GPIO_WritePin(A_PROG_0_CTRL_GPIO_Port, A_PROG_0_CTRL_Pin, (GPIO_PinState)(gProgramA & 0x01));
+            HAL_GPIO_WritePin(A_PROG_1_CTRL_GPIO_Port, A_PROG_1_CTRL_Pin, (GPIO_PinState)((gProgramA & 0x02) >> 1));
+            HAL_GPIO_WritePin(A_PROG_2_CTRL_GPIO_Port, A_PROG_2_CTRL_Pin, (GPIO_PinState)((gProgramA & 0x04) >> 2));
 
             // ToDo: Read saved TAP_MAX from SPI Flash and store to gCurrentMaxTap
         }
@@ -209,30 +211,30 @@ Status Interface_SwitchProgram(char channel, char specificator)
             {
             case UP:
             {
-                programB++;
+                gProgramB++;
 
-                if (programB > 7)
+                if (gProgramB > 7)
                 {
-                    programB = 0;
+                    gProgramB = 0;
                 }
             }
             break;
 
             case DOWN:
             {
-                programB--;
+                gProgramB--;
 
-                if (programB == 255)
+                if (gProgramB == 255)
                 {
-                    programB = 7;
+                    gProgramB = 7;
                 }
             }
             break;
             }
 
-            HAL_GPIO_WritePin(B_PROG_0_CTRL_GPIO_Port, B_PROG_0_CTRL_Pin, (GPIO_PinState)(programB & 0x01));
-            HAL_GPIO_WritePin(B_PROG_1_CTRL_GPIO_Port, B_PROG_1_CTRL_Pin, (GPIO_PinState)((programB & 0x02) >> 1));
-            HAL_GPIO_WritePin(B_PROG_2_CTRL_GPIO_Port, B_PROG_2_CTRL_Pin, (GPIO_PinState)((programB & 0x04) >> 2));
+            HAL_GPIO_WritePin(B_PROG_0_CTRL_GPIO_Port, B_PROG_0_CTRL_Pin, (GPIO_PinState)(gProgramB & 0x01));
+            HAL_GPIO_WritePin(B_PROG_1_CTRL_GPIO_Port, B_PROG_1_CTRL_Pin, (GPIO_PinState)((gProgramB & 0x02) >> 1));
+            HAL_GPIO_WritePin(B_PROG_2_CTRL_GPIO_Port, B_PROG_2_CTRL_Pin, (GPIO_PinState)((gProgramB & 0x04) >> 2));
 
             // ToDo: Read saved TAP_MAX from SPI Flash and store to gCurrentMaxTap
         }
@@ -313,8 +315,6 @@ Status Interface_UpdateTap(char channel, uint16_t number)
 
 Status Interface_UpdateMaxTimeForTap(char channel, char specificator)
 {
-    static uint8_t timeA[FV1_MAX_PROGS] = {0};
-    static uint8_t timeB[FV1_MAX_PROGS] = {0};
     static bool    loadOnce = false;
 
     if (specificator == WRITE) 
@@ -327,7 +327,6 @@ Status Interface_UpdateMaxTimeForTap(char channel, char specificator)
         //ToDo: Load from SPI memory to locals timeA & timeB
         loadOnce = true;
     }
-
 
     uint8_t prog = 0;
     switch (channel)
@@ -342,18 +341,18 @@ Status Interface_UpdateMaxTimeForTap(char channel, char specificator)
             {
                 case UP:
                 {
-                    if (timeA[prog] != FV1_MAX_TIME)
+                    if (gTimeA[prog] != FV1_MAX_TIME)
                     {
-                        timeA[prog] += FV1_TAP_STEP;
+                        gTimeA[prog] += FV1_TAP_STEP;
                     }
                 }
                 break;
 
                 case DOWN:
                 {
-                    if (timeA[prog] != FV1_MIN_TIME)
+                    if (gTimeA[prog] != FV1_MIN_TIME)
                     {
-                        timeA[prog] -= FV1_TAP_STEP;
+                        gTimeA[prog] -= FV1_TAP_STEP;
                     }
                 }
                 break;
@@ -371,18 +370,18 @@ Status Interface_UpdateMaxTimeForTap(char channel, char specificator)
             {
                 case UP:
                 {
-                    if (timeB[prog] != FV1_MAX_TIME)
+                    if (gTimeB[prog] != FV1_MAX_TIME)
                     {
-                        timeB[prog] += FV1_TAP_STEP;
+                        gTimeB[prog] += FV1_TAP_STEP;
                     }
                 }
                 break;
 
                 case DOWN:
                 {
-                    if (timeB[prog] != FV1_MIN_TIME)
+                    if (gTimeB[prog] != FV1_MIN_TIME)
                     {
-                        timeB[prog] -= FV1_TAP_STEP;
+                        gTimeB[prog] -= FV1_TAP_STEP;
                     }
                 }
                 break;

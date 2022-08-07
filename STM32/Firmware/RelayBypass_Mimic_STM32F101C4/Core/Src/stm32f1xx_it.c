@@ -212,17 +212,31 @@ void SysTick_Handler(void)
       }
   }
 
-  // Toggle led on channel A if it's active & gTapStamp present
-  if (gFxStateA && gTapStamp)
+  // Toggle led on channel A
+  if (gFxStateA)
   {
       tapStampA++;
-      if (tapStampA == gTapStamp && tapStampA != 0)
+
+      // Represent current max time of selected program
+      if (gTapConfigMode)
       {
-          HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
-          tapStampA = 0;
+          if (tapStampA == gTimeA[gProgramA] && tapStampA != 0)
+          {
+              HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+              tapStampA = 0;
+          }
+      }
+      // Represent tapped time on channel
+      else if (gTapStamp)
+      {
+          if (tapStampA == gTapStamp && tapStampA != 0)
+          {
+              HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+              tapStampA = 0;
+          }
       }
 
-      if (tapStampA == 1000)
+      if (tapStampA == 1001)
       {
           tapStampA = 0;
       }

@@ -32,8 +32,13 @@ typedef enum
 	NONE
 } LedColour;
 
-extern uint8_t gFxStateA;
-extern uint8_t gFxStateB;
+extern volatile uint8_t gFxStateA;
+extern volatile uint8_t gFxStateB;
+
+extern volatile uint8_t gProgramA;
+extern volatile uint8_t gProgramB;
+extern volatile uint16_t gTimeA[FV1_MAX_PROGS];
+extern volatile uint16_t gTimeB[FV1_MAX_PROGS];
 
 /*
 typedef struct InterfaceStruct Interface;

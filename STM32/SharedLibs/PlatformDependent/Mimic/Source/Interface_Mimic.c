@@ -1,12 +1,10 @@
 #include "../Include/Interface_Mimic.h"
 
-volatile uint8_t gFxStateA = FX_OFF;     // ToDo: load from memory
-volatile uint8_t gFxStateB = FX_OFF;     // ToDo: load from memory
+volatile uint8_t  gFxStateA = FX_OFF;     // ToDo: load from memory
+volatile uint8_t  gFxStateB = FX_OFF;     // ToDo: load from memory
 
-volatile uint16_t gCurrentMaxTap = 1000;  // ToDo: load from memory
-
-volatile uint8_t gProgramA = 0;
-volatile uint8_t gProgramB = 0;
+volatile uint8_t  gProgramA = 0;
+volatile uint8_t  gProgramB = 0;
 volatile uint16_t gTimeA[FV1_MAX_PROGS] = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000}; //ToDo: temp values, would be reloaded from SPI
 volatile uint16_t gTimeB[FV1_MAX_PROGS] = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
 
@@ -156,6 +154,20 @@ Status Interface_ToggleChannel(char channel)
     return OK;
 }
 
+Status Interface_ToggleBothChannels(void)
+{
+    for (uint8_t i = 0; i <= 3; i++)
+    {
+        HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
+        HAL_GPIO_TogglePin(A_RELE_CTRL_GPIO_Port, A_RELE_CTRL_Pin);
+        HAL_GPIO_TogglePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin);
+        HAL_GPIO_TogglePin(B_RELE_CTRL_GPIO_Port, B_RELE_CTRL_Pin);
+        HAL_Delay(200);
+    }
+
+    return OK;
+}
+
 Status Interface_ChangeRoute(char channel) 
 {
     return OK;
@@ -178,7 +190,7 @@ Status Interface_SwitchProgram(char channel, char specificator)
                 {
                     gProgramA++;
 
-                    if (gProgramA > 7)
+                    if (gProgramA > FV1_MAX_PROGS - 1)
                     {
                         gProgramA = 0;
                     }
@@ -189,9 +201,9 @@ Status Interface_SwitchProgram(char channel, char specificator)
                 {
                     gProgramA--;
 
-                    if (gProgramA == 255)
+                    if (!gProgramA)
                     {
-                        gProgramA = 7;
+                        gProgramA = FV1_MAX_PROGS - 1;
                     }
                 }
                 break;
@@ -213,7 +225,7 @@ Status Interface_SwitchProgram(char channel, char specificator)
             {
                 gProgramB++;
 
-                if (gProgramB > 7)
+                if (gProgramB > FV1_MAX_PROGS - 1)
                 {
                     gProgramB = 0;
                 }
@@ -224,9 +236,9 @@ Status Interface_SwitchProgram(char channel, char specificator)
             {
                 gProgramB--;
 
-                if (gProgramB == 255)
+                if (!gProgramB)
                 {
-                    gProgramB = 7;
+                    gProgramB = FV1_MAX_PROGS - 1;
                 }
             }
             break;
@@ -303,29 +315,38 @@ Status Interface_UpdateDigitalPot(char channel, uint8_t value)
 
 Status Interface_UpdateTap(char channel, uint16_t number)
 {
-    // ToDo: Calculate tap coef from max tap
+    // Get [maxTap] for selected [gProgram]
+    uint16_t maxTap = 0;
+    if (channel == 'A')
+    {
+        maxTap = gTimeA[gProgramA];
+    }
+    else
+    {
+        maxTap = gTimeB[gProgramB];
+    }
 
-    float coef = (float)gCurrentMaxTap / (float)256; // Divide max time in ms by digital pot resolution
+    // Suppress larger [number] to [maxTap]
+    if (number > maxTap)
+    {
+        number = maxTap;
+    }
+
+    // Divide [maxTap] in ms by [digital pot resolution]
+    float coef = (float)maxTap / (float)(MCP41010_RESOLUTION);
     uint8_t value = (uint8_t)((float)number / coef);
-    Interface_UpdateDigitalPot(channel, value);
-    // ToDo: Reconfig Tap timer to blink led on channel
 
-    return OK;
+    // Finally, update digital pot with calculated step from 0..MCP41010_RESOLUTION i.e. [value]
+    Status status = Interface_UpdateDigitalPot(channel, value);
+
+    return status;
 }
 
 Status Interface_UpdateMaxTimeForTap(char channel, char specificator)
 {
-    static bool    loadOnce = false;
-
     if (specificator == WRITE) 
     {
         //ToDo: Write locals timeA & timeB to to SPI memory
-    }
-
-    if (!loadOnce) 
-    {
-        //ToDo: Load from SPI memory to locals timeA & timeB
-        loadOnce = true;
     }
 
     uint8_t prog = 0;

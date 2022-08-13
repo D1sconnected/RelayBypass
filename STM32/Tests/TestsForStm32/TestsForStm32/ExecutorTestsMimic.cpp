@@ -74,6 +74,7 @@ TEST(Executor, ShouldHandle_Configurate_Tap_Max_Time)
     printf("[%s]\n\r", __FUNCTION__);
     printf("------------------------------------------------------------------------\n\r");
 
+
     //----------ARRANGE #1----------//
     memset(&emulatedGpio, GPIO_PIN_RESET, sizeof(EmulatedGpioStatesStruct));
 

@@ -192,6 +192,7 @@ void SysTick_Handler(void)
   static uint16_t tapStampA = 0;
   static uint16_t tapStampB = 0;
   static uint16_t tapConfig = 0;
+  static StateStruct cmdBlock = { 0 };
 
   // Run ADC DMA conversion every 50 ms
   adcCheck++;
@@ -205,10 +206,13 @@ void SysTick_Handler(void)
   if (!HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin) && !HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin))
   {
       tapConfig++;
-      if (tapConfig == 1000)
+      if (tapConfig == 3000)
       {
           gTapConfigMode = !gTapConfigMode;
           tapConfig = 0;
+
+          cmdBlock.state = EXECUTOR_STATE_TOGGLE_BOTH_CHANNELS;
+          Button_PushCommand(&cmdBlock); // ToDo: Refactor
       }
   }
 

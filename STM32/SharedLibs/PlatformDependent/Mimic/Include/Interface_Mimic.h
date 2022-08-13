@@ -16,13 +16,14 @@
 #define BYPASS_DELAY 7
 
 // Digital Pot 
+#define MCP41010_RESOLUTION 256
 #define MCP41010_CMD_WRITE	0x11
 
 // FV-1 DSP
 #define FV1_MAX_PROGS 8
 #define FV1_MAX_TIME  1000
-#define FV1_MIN_TIME  50
-#define FV1_TAP_STEP  50
+#define FV1_MIN_TIME  100
+#define FV1_TAP_STEP  100
 
 typedef enum 
 {
@@ -102,5 +103,6 @@ Status Interface_UpdateDigitalPot(char channel, uint8_t value);
 Status Interface_UpdateTap(char channel, uint16_t number);
 Status Interface_UpdateMaxTimeForTap(char channel, char specificator);
 
+Status Interface_ToggleBothChannels(void);
 
 #endif

@@ -21,9 +21,9 @@
 #include "tim.h"
 
 /* USER CODE BEGIN 0 */
-bool     gTappedOnce = false;
-bool     gTapConfigMode = false;
-uint16_t gTapStamp = 0;
+volatile bool     gTappedOnce = false;
+volatile bool     gTapConfigMode = false;
+volatile uint16_t gTapStamp = 0;
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim2;

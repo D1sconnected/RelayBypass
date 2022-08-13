@@ -84,6 +84,13 @@ Status Executor_Handler(Executor *pSelf)
         }
         break;
 
+        case EXECUTOR_STATE_TOGGLE_BOTH_CHANNELS:
+        {
+            status = Interface_ToggleBothChannels();
+            return status;
+        }
+        break;
+
         case EXECUTOR_STATE_GET_CHANNEL:
         {
             return UNSUPPORTED;

@@ -23,7 +23,9 @@
 /* USER CODE BEGIN 0 */
 volatile bool     gTappedOnce = false;
 volatile bool     gTapConfigMode = false;
-volatile uint16_t gTapStamp = 0;
+volatile uint16_t gTapStampA = 0;
+volatile uint16_t gTapStampB = 0;
+volatile uint16_t *gTapPointer = &gTapStampA;
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim2;

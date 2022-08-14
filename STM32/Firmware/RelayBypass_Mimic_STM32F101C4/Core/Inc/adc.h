@@ -28,13 +28,24 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-extern uint16_t adcData[2];
+#ifdef MIMIC_F1
+#include "../../../../SharedLibs/PlatformDependent/Mimic/Include/Interface_Mimic.h"
+#endif
+
+#ifdef CONSTRUCTOR_F1
+#include "../../../../SharedLibs/Constructor/Include/Interface_Constructor.h"
+#endif
+
+
+#ifdef CONSTRUCTOR_L1
+#include "../../../../SharedLibs/Constructor/Include/Interface_Constructor.h"
+#endif
 /* USER CODE END Includes */
 
 extern ADC_HandleTypeDef hadc1;
 
 /* USER CODE BEGIN Private defines */
-
+extern uint16_t adcData[NUMBER_OF_CHANNELS];
 /* USER CODE END Private defines */
 
 void MX_ADC1_Init(void);

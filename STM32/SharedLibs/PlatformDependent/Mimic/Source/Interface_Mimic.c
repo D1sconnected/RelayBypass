@@ -145,16 +145,19 @@ Status Interface_ToggleChannel(char channel)
         return INVALID_FORMAT;
     }
 
+    GPIO_PinState state = GPIO_PIN_SET;
+
     for (uint8_t i = 0; i <= 3; i++)
     {
-        Interface_UpdateGpioForToggle(channel);
-        HAL_Delay(300);
+        Interface_UpdateGpioForSwitch(channel, state);
+        state = !state;
+        HAL_Delay(200);
     }
 
     return OK;
 }
 
-Status Interface_ToggleBothChannels(void)
+Status Interface_ToggleForConfigMode(void)
 {
     for (uint8_t i = 0; i <= 3; i++)
     {
@@ -164,6 +167,11 @@ Status Interface_ToggleBothChannels(void)
         HAL_GPIO_TogglePin(B_RELE_CTRL_GPIO_Port, B_RELE_CTRL_Pin);
         HAL_Delay(200);
     }
+
+    // Turn Channel A 'ON'
+    Interface_UpdateGpioForSwitch(CHANNEL_A, GPIO_PIN_SET);
+    // Turn Channel B 'ON'
+    Interface_UpdateGpioForSwitch(CHANNEL_B, GPIO_PIN_SET);
 
     return OK;
 }
@@ -278,8 +286,10 @@ Status Interface_SwitchEeprom(char channel)
     return OK;
 }
 
+// ToDo: value is inverting before send due inverted connection on board
 Status Interface_UpdateDigitalPot(char channel, uint8_t value)
 {
+    uint8_t invertedValue = ~value;
     uint8_t cmd = MCP41010_CMD_WRITE;
 
     HAL_StatusTypeDef status = -1;
@@ -290,7 +300,7 @@ Status Interface_UpdateDigitalPot(char channel, uint8_t value)
         {
             HAL_GPIO_WritePin(MCU_SPI_CS_A_POT_GPIO_Port, MCU_SPI_CS_A_POT_Pin, GPIO_PIN_RESET);
             status =  HAL_SPI_Transmit(&hspi1, &cmd, sizeof(cmd), 5000);
-            status += HAL_SPI_Transmit(&hspi1, &value, sizeof(value), 5000);
+            status += HAL_SPI_Transmit(&hspi1, &invertedValue, sizeof(invertedValue), 5000);
             HAL_GPIO_WritePin(MCU_SPI_CS_A_POT_GPIO_Port, MCU_SPI_CS_A_POT_Pin, GPIO_PIN_SET);
         }
         break;
@@ -299,7 +309,7 @@ Status Interface_UpdateDigitalPot(char channel, uint8_t value)
         {
             HAL_GPIO_WritePin(MCU_SPI_CS_B_POT_GPIO_Port, MCU_SPI_CS_B_POT_Pin, GPIO_PIN_RESET);
             status =  HAL_SPI_Transmit(&hspi1, &cmd, sizeof(cmd), 5000);
-            status += HAL_SPI_Transmit(&hspi1, &value, sizeof(value), 5000);
+            status += HAL_SPI_Transmit(&hspi1, &invertedValue, sizeof(invertedValue), 5000);
             HAL_GPIO_WritePin(MCU_SPI_CS_B_POT_GPIO_Port, MCU_SPI_CS_B_POT_Pin, GPIO_PIN_SET);
         }
         break;
@@ -326,7 +336,7 @@ Status Interface_UpdateTap(char channel, uint16_t number)
         maxTap = gTimeB[gProgramB];
     }
 
-    // Suppress larger [number] to [maxTap]
+    // Suppress number to maxTap
     if (number > maxTap)
     {
         number = maxTap;
@@ -334,7 +344,8 @@ Status Interface_UpdateTap(char channel, uint16_t number)
 
     // Divide [maxTap] in ms by [digital pot resolution]
     float coef = (float)maxTap / (float)(MCP41010_RESOLUTION);
-    uint8_t value = (uint8_t)((float)number / coef);
+    float floatNumber = (float)number;
+    uint8_t value = (uint8_t)(floatNumber / coef);
 
     // Finally, update digital pot with calculated step from 0..MCP41010_RESOLUTION i.e. [value]
     Status status = Interface_UpdateDigitalPot(channel, value);

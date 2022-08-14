@@ -23,8 +23,6 @@
 #include "stm32f1xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "adc.h"
-#include "tim.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -188,30 +186,31 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-  static uint8_t  adcCheck = 0;
-  static uint16_t tapStampA = 0;
-  static uint16_t tapStampB = 0;
-  static uint16_t tapConfig = 0;
+  static uint8_t  adcCheck  = 0; // counter to trigger dma on adc
+  static uint16_t tapStampA = 0; // counter to represent tap on channel A
+  static uint16_t tapStampB = 0; // counter to represent tap on channel B
+  static uint16_t tapConfig = 0; // counter to switch in configuration mode
+
   static StateStruct cmdBlock = { 0 };
 
   // Run ADC DMA conversion every 50 ms
   adcCheck++;
-  if (adcCheck == 50)
+  if (adcCheck == SYSTICK_START_ADC)
   {
       adcCheck = 0;
-      HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcData, 2);
+      HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcData, NUMBER_OF_CHANNELS);
   }
 
   // Check for both buttons pressed to enter special mode
   if (!HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin) && !HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin))
   {
       tapConfig++;
-      if (tapConfig == 3000)
+      if (tapConfig == SYSTICK_SWITCH_MODE)
       {
           gTapConfigMode = !gTapConfigMode;
           tapConfig = 0;
 
-          cmdBlock.state = EXECUTOR_STATE_TOGGLE_BOTH_CHANNELS;
+          cmdBlock.state = EXECUTOR_STATE_TOGGLE_FOR_CONFIG_MODE;
           Button_PushCommand(&cmdBlock); // ToDo: Refactor
       }
   }
@@ -220,7 +219,6 @@ void SysTick_Handler(void)
   if (gFxStateA)
   {
       tapStampA++;
-
       // Represent current max time of selected program
       if (gTapConfigMode)
       {
@@ -231,37 +229,49 @@ void SysTick_Handler(void)
           }
       }
       // Represent tapped time on channel
-      else if (gTapStamp)
+      else if (gTapStampA)
       {
-          if (tapStampA == gTapStamp && tapStampA != 0)
+          if (tapStampA == gTapStampA && tapStampA != 0)
           {
               HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
               tapStampA = 0;
           }
       }
 
-      if (tapStampA == 1001)
+      if (tapStampA == FV1_MAX_TIME)
       {
           tapStampA = 0;
       }
   }
 
-  // Toggle led on channel B if it's active & gTapStamp present
-//  if (gFxStateB)
-//  {
-//      tapStampB++;
-//      if (tapStampB == gTimeStamp && tapStampB != 0)
-//      {
-//          HAL_GPIO_TogglePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin);
-//          tapStampA = 0;
-//      }
-//
-//      if (tapStampB == 1000)
-//      {
-//          tapStampB = 0;
-//      }
-//  }
+  // Toggle led on channel B
+  if (gFxStateB)
+  {
+      tapStampB++;
+      // Represent current max time of selected program
+      if (gTapConfigMode)
+      {
+          if (tapStampB == gTimeB[gProgramA] && tapStampB != 0)
+          {
+              HAL_GPIO_TogglePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin);
+              tapStampB = 0;
+          }
+      }
+      // Represent tapped time on channel
+      else if (gTapStampB)
+      {
+          if (tapStampB == gTapStampB && tapStampB != 0)
+          {
+              HAL_GPIO_TogglePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin);
+              tapStampB = 0;
+          }
+      }
 
+      if (tapStampB == FV1_MAX_TIME)
+      {
+          tapStampB = 0;
+      }
+  }
 
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();

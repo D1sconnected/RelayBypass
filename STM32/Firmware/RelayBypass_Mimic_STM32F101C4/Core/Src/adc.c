@@ -23,7 +23,7 @@
 /* USER CODE BEGIN 0 */
 #include "../../../../SharedLibs/RelayBypass/Include/Executor.h"
 
-uint16_t adcData[2] = {0}; // 2 channels
+uint16_t adcData[NUMBER_OF_CHANNELS] = {0}; // 2 channels
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;

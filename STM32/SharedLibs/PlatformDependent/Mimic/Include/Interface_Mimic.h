@@ -16,7 +16,7 @@
 #define BYPASS_DELAY 7
 
 // Digital Pot 
-#define MCP41010_RESOLUTION 256
+#define MCP41010_RESOLUTION 255
 #define MCP41010_CMD_WRITE	0x11
 
 // FV-1 DSP
@@ -24,6 +24,11 @@
 #define FV1_MAX_TIME  1000
 #define FV1_MIN_TIME  100
 #define FV1_TAP_STEP  100
+
+// Time for events by systick in ms
+#define SYSTICK_START_ADC   50
+#define SYSTICK_SWITCH_MODE 3000
+
 
 typedef enum 
 {
@@ -103,6 +108,6 @@ Status Interface_UpdateDigitalPot(char channel, uint8_t value);
 Status Interface_UpdateTap(char channel, uint16_t number);
 Status Interface_UpdateMaxTimeForTap(char channel, char specificator);
 
-Status Interface_ToggleBothChannels(void);
+Status Interface_ToggleForConfigMode(void);
 
 #endif

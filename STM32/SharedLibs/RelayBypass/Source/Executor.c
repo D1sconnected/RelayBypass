@@ -84,9 +84,9 @@ Status Executor_Handler(Executor *pSelf)
         }
         break;
 
-        case EXECUTOR_STATE_TOGGLE_BOTH_CHANNELS:
+        case EXECUTOR_STATE_TOGGLE_FOR_CONFIG_MODE:
         {
-            status = Interface_ToggleBothChannels();
+            status = Interface_ToggleForConfigMode();
             return status;
         }
         break;
@@ -150,7 +150,17 @@ Status Executor_Handler(Executor *pSelf)
 
         case EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_ADC:
         {
-            gTapStamp = 0; // Reset global tap
+            float adcCoef = 4.096;
+
+            if (currentCmdBlock.channel == CHANNEL_A)
+            {
+                gTapStampA = (uint16_t)((float)currentCmdBlock.number/adcCoef); // Reset global tap
+            }
+            else
+            {
+                gTapStampB = (uint16_t)((float)currentCmdBlock.number/adcCoef); // Reset global tap
+            }
+
             status = Interface_UpdateDigitalPot(currentCmdBlock.channel, (uint8_t)(currentCmdBlock.number / 16));
             return status;
         }

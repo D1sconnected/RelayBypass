@@ -72,6 +72,18 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
 
     if (gpioBtnStateTap == GPIO_PIN_RESET && gBtnStateTap == true)
     {
+        if (gTapConfigMode)
+        {
+            // Switch tap channel
+            gTapPointer = (gTapPointer == &gTapStampA) ? &gTapStampB : &gTapStampA;
+
+            cmdBlock.state = EXECUTOR_STATE_TOGGLE_CHANNEL;
+            cmdBlock.channel = (gTapPointer == &gTapStampA) ? CHANNEL_A : CHANNEL_B;
+            Timer_PushCommand(&cmdBlock);
+
+            return;
+        }
+
         if (!gTappedOnce)
         {
             gTappedOnce = true;
@@ -79,21 +91,21 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         }
         else
         {
-            if (gTapStamp)
+            if (*gTapPointer)
             {
                 uint16_t temp = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
-                gTapStamp = (gTapStamp + temp)/2;
+                *gTapPointer = (*gTapPointer + temp)/2;
             }
             else
             {
-                gTapStamp = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
+                *gTapPointer = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
             }
 
             gTappedOnce = false;
             cmdBlock.state = EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL;
-            cmdBlock.channel = CHANNEL_A; // ToDo: get channel from configuration
+            cmdBlock.channel = (gTapPointer == &gTapStampA) ? CHANNEL_A : CHANNEL_B;
             cmdBlock.specificator = 0;
-            cmdBlock.number = gTapStamp;
+            cmdBlock.number = *gTapPointer;
             Timer_PushCommand(&cmdBlock);
             HAL_TIM_Base_Stop_IT(&htim3);
             __HAL_TIM_SetCounter(&htim3, 0);

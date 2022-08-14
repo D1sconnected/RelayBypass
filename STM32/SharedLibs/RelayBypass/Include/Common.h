@@ -6,15 +6,14 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define NUMBER_OF_SLOTS 2
-
+#define NUMBER_OF_CHANNELS 2
 #define CHANNEL_A 'A'
 #define CHANNEL_B 'B'
 
-#define UP		'U'
-#define DOWN	'D'
+#define UP		  'U'
+#define DOWN	  'D'
 
-#define WRITE   'W'
+#define WRITE     'W'
 
 typedef enum
 {
@@ -47,7 +46,8 @@ typedef enum
 	EXECUTOR_STATE_SWITCH_I2C_EEPROM,
 	EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_ADC,
 	EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP,
-	EXECUTOR_STATE_TOGGLE_BOTH_CHANNELS
+	EXECUTOR_STATE_TOGGLE_FOR_CONFIG_MODE,
+	EXECUTOR_STATE_TOGGLE_FOR_TAP_CHANGE
 } ExecutorState;
 
 #endif

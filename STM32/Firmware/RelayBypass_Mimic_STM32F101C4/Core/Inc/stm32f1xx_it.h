@@ -28,7 +28,21 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "adc.h"
+#include "tim.h"
 
+#ifdef MIMIC_F1
+#include "../../../../SharedLibs/PlatformDependent/Mimic/Include/Interface_Mimic.h"
+#endif
+
+#ifdef CONSTRUCTOR_F1
+#include "../../../../SharedLibs/Constructor/Include/Interface_Constructor.h"
+#endif
+
+
+#ifdef CONSTRUCTOR_L1
+#include "../../../../SharedLibs/Constructor/Include/Interface_Constructor.h"
+#endif
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

@@ -325,18 +325,39 @@ Status Interface_UpdateDigitalPot(char channel, uint8_t value)
 
 Status Interface_UpdateDigitalPotByAdc(char channel, uint16_t number)
 {
-    float adcCoef = 4.096;
+    // ADC calculation never changes, so we need to re-calculate only led indication
+    uint8_t value = (uint8_t)(number / ADC_TO_POT_COEF);
+    number = number/ADC_TO_MS_COEF;
 
+    // Get [maxTap] for selected [gProgram]
+    uint16_t maxTap = 0;
     if (channel == CHANNEL_A)
     {
-        gTapLedA = (uint16_t)((float)number/adcCoef); // Reset global led indicator
+        maxTap = gTimeA[gProgramA];
     }
     else
     {
-        gTapLedB = (uint16_t)((float)number/adcCoef); // Reset global led indicator
+        maxTap = gTimeB[gProgramB];
     }
 
-    Status status = Interface_UpdateDigitalPot(channel, (uint8_t)(number / 16));
+    // Suppress number to maxTap
+    if (number > maxTap)
+    {
+        number = maxTap;
+    }
+
+    // Update Led indicator
+    if (channel == CHANNEL_A)
+    {
+        gTapLedA = (uint16_t)((float)number);
+    }
+    else
+    {
+        gTapLedB = (uint16_t)((float)number);
+    }
+
+    // Finally, update digital pot with calculated step from 0..MCP41010_RESOLUTION i.e. [value]
+    Status status = Interface_UpdateDigitalPot(channel, value);
     return status;
 }
 

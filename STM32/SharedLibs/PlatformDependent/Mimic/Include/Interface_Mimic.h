@@ -29,6 +29,8 @@
 #define SYSTICK_START_ADC   50
 #define SYSTICK_SWITCH_MODE 3000
 
+#define ADC_TO_MS_COEF      4.096
+#define ADC_TO_POT_COEF     16
 
 typedef enum 
 {

@@ -237,11 +237,11 @@ void SysTick_Handler(void)
                 HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
                 tapStampA = 0;
             }
+        }
 
-            if (tapStampA == FV1_MAX_TIME)
-            {
-                tapStampA = 0;
-            }
+        if (tapStampA == FV1_MAX_TIME)
+        {
+            tapStampA = 0;
         }
     }
 

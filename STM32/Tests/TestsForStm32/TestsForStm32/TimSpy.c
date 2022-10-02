@@ -6,6 +6,8 @@ static Node *pTimList = NULL;
 
 volatile bool     gTappedOnce    = false;
 volatile bool     gTapConfigMode = false;
+volatile uint16_t gTapLedA = 0;
+volatile uint16_t gTapLedB = 0;
 volatile uint16_t gTapStampA = 0;
 volatile uint16_t gTapStampB = 0;
 volatile uint16_t *gTapPointer = &gTapStampA;
@@ -84,7 +86,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         else 
         {
             gTappedOnce = false;
-            cmdBlock.state = EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL;
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_TAP;
             cmdBlock.channel = CHANNEL_A; // ToDo: get channel from configuration 
             cmdBlock.specificator = 0;
             cmdBlock.number = (uint16_t)(__HAL_TIM_GetCounter(&htim3));

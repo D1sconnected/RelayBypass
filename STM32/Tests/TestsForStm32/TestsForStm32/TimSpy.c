@@ -4,8 +4,12 @@ TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 static Node *pTimList = NULL;
 
-bool     gTappedOnce    = false;
-bool     gTapConfigMode = false;
+volatile bool     gTappedOnce    = false;
+volatile bool     gTapConfigMode = false;
+volatile uint16_t gTapStampA = 0;
+volatile uint16_t gTapStampB = 0;
+volatile uint16_t *gTapPointer = &gTapStampA;
+
 uint16_t gTimeStamp = 0;
 
 HAL_StatusTypeDef HAL_TIM_Base_Start_IT(TIM_HandleTypeDef *pHtim) 

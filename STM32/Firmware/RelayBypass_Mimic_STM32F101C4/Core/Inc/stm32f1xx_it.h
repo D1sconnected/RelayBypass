@@ -28,7 +28,21 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "adc.h"
+#include "tim.h"
 
+#ifdef MIMIC_F1
+#include "../../../../SharedLibs/PlatformDependent/Mimic/Include/Interface_Mimic.h"
+#endif
+
+#ifdef CONSTRUCTOR_F1
+#include "../../../../SharedLibs/Constructor/Include/Interface_Constructor.h"
+#endif
+
+
+#ifdef CONSTRUCTOR_L1
+#include "../../../../SharedLibs/Constructor/Include/Interface_Constructor.h"
+#endif
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -57,6 +71,7 @@ void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
 void EXTI4_IRQHandler(void);
+void DMA1_Channel1_IRQHandler(void);
 void EXTI9_5_IRQHandler(void);
 void TIM2_IRQHandler(void);
 void TIM3_IRQHandler(void);

@@ -39,12 +39,12 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
     static uint8_t changeRouteCounter = 0;
     static char changeRouteChannel = CHANNEL_A;
 
-    GPIO_PinState gpioBtnStateA = HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin);
-    GPIO_PinState gpioBtnStateB = HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin);
-    GPIO_PinState gpioSwStateA1 = HAL_GPIO_ReadPin(A_SW_1_EXTI_GPIO_Port, A_SW_1_EXTI_Pin);
-    GPIO_PinState gpioSwStateA3 = HAL_GPIO_ReadPin(A_SW_3_EXTI_GPIO_Port, A_SW_3_EXTI_Pin);
-    GPIO_PinState gpioSwStateB1 = HAL_GPIO_ReadPin(B_SW_1_EXTI_GPIO_Port, B_SW_1_EXTI_Pin);
-    GPIO_PinState gpioSwStateB3 = HAL_GPIO_ReadPin(B_SW_3_EXTI_GPIO_Port, B_SW_3_EXTI_Pin);
+    GPIO_PinState gpioBtnStateA     = HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin);
+    GPIO_PinState gpioBtnStateB     = HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin);
+    GPIO_PinState gpioSwStateA1     = HAL_GPIO_ReadPin(A_SW_1_EXTI_GPIO_Port, A_SW_1_EXTI_Pin);
+    GPIO_PinState gpioSwStateA3     = HAL_GPIO_ReadPin(A_SW_3_EXTI_GPIO_Port, A_SW_3_EXTI_Pin);
+    GPIO_PinState gpioSwStateB1     = HAL_GPIO_ReadPin(B_SW_1_EXTI_GPIO_Port, B_SW_1_EXTI_Pin);
+    GPIO_PinState gpioSwStateB3     = HAL_GPIO_ReadPin(B_SW_3_EXTI_GPIO_Port, B_SW_3_EXTI_Pin);
     GPIO_PinState gpioBtnStateTap   = HAL_GPIO_ReadPin(MCU_TAP_EXTI_GPIO_Port, MCU_TAP_EXTI_Pin);
 
     if (gpioBtnStateA == GPIO_PIN_RESET && gpioBtnStateB == GPIO_PIN_RESET)
@@ -72,6 +72,18 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
 
     if (gpioBtnStateTap == GPIO_PIN_RESET && gBtnStateTap == true)
     {
+        if (gTapConfigMode)
+        {
+            // Switch tap channel
+            gTapPointer = (gTapPointer == &gTapStampA) ? &gTapStampB : &gTapStampA;
+
+            cmdBlock.state = EXECUTOR_STATE_TOGGLE_CHANNEL;
+            cmdBlock.channel = (gTapPointer == &gTapStampA) ? CHANNEL_A : CHANNEL_B;
+            Timer_PushCommand(&cmdBlock);
+
+            return;
+        }
+
         if (!gTappedOnce)
         {
             gTappedOnce = true;
@@ -79,13 +91,24 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         }
         else
         {
+            if (*gTapPointer)
+            {
+                uint16_t temp = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
+                *gTapPointer = (*gTapPointer + temp)/2;
+            }
+            else
+            {
+                *gTapPointer = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
+            }
+
             gTappedOnce = false;
-            cmdBlock.state = EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL;
-            cmdBlock.channel = CHANNEL_A; // ToDo: get channel from configuration
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_TAP;
+            cmdBlock.channel = (gTapPointer == &gTapStampA) ? CHANNEL_A : CHANNEL_B;
             cmdBlock.specificator = 0;
-            cmdBlock.number = (uint16_t)(__HAL_TIM_GetCounter(&htim3));
+            cmdBlock.number = *gTapPointer;
             Timer_PushCommand(&cmdBlock);
             HAL_TIM_Base_Stop_IT(&htim3);
+            __HAL_TIM_SetCounter(&htim3, 0);
         }
         gBtnStateTap = false;
     }
@@ -93,7 +116,16 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
     // SW has inverted logic
     if (gpioSwStateA1 == GPIO_PIN_SET && gSwStateA1 == true)
     {
-        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        if (gTapConfigMode)
+        {
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP;
+        }
+
+        else
+        {
+            cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        }
+
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.specificator = UP;
         Timer_PushCommand(&cmdBlock);
@@ -102,7 +134,16 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
 
     if (gpioSwStateA3 == GPIO_PIN_SET && gSwStateA3 == true)
     {
-        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        if (gTapConfigMode)
+        {
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP;
+        }
+
+        else
+        {
+            cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        }
+
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.specificator = DOWN;
         Timer_PushCommand(&cmdBlock);
@@ -111,7 +152,16 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
 
     if (gpioSwStateB1 == GPIO_PIN_SET && gSwStateB1 == true)
     {
-        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        if (gTapConfigMode)
+        {
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP;
+        }
+
+        else
+        {
+            cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        }
+
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.specificator = UP;
         Timer_PushCommand(&cmdBlock);
@@ -120,7 +170,16 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
 
     if (gpioSwStateB3 == GPIO_PIN_SET && gSwStateB3 == true)
     {
-        cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        if (gTapConfigMode)
+        {
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP;
+        }
+
+        else
+        {
+            cmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+        }
+
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.specificator = DOWN;
         Timer_PushCommand(&cmdBlock);

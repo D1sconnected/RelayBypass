@@ -21,7 +21,13 @@
 #include "tim.h"
 
 /* USER CODE BEGIN 0 */
-bool gTappedOnce = false;
+volatile bool     gTappedOnce = false;          // flag to detect first tap
+volatile bool     gTapConfigMode = false;       // flag to detect entering in config mode
+volatile uint16_t gTapLedA = 0;                 // tapStamp to represent led indicaton on channel A
+volatile uint16_t gTapLedB = 0;                 // tapStamp to represent led indicaton on channel B
+volatile uint16_t gTapStampA = 0;               // tapStamp to represent tap value on channel A
+volatile uint16_t gTapStampB = 0;               // tapStamp to represent tap value on channel B
+volatile uint16_t *gTapPointer = &gTapStampA;   // pointer to work with gTapStampA or gTapStampB
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim2;
@@ -44,7 +50,7 @@ void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 35999;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 250;
+  htim2.Init.Period = 125;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -189,6 +195,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     {
         gTappedOnce = false;
         HAL_TIM_Base_Stop_IT(htim);
+        __HAL_TIM_SetCounter(&htim3, 0);
     }
 
 }

@@ -10,7 +10,7 @@ bool gBtnStateTap   = false;
 
 static Node *pGpioList = NULL;
 
-Status Button_PushCommand(StateStruct *pCmd)
+Status Button_PushCommand(StateStruct *pCmd) // Rename to button & switch & pot
 {
     if (pCmd == NULL)
     {

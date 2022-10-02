@@ -46,6 +46,7 @@ extern "C"
 #include "SerialSpy.h"
 #include "GpioSpy.h"
 #include "TimSpy.h"
+#include "AdcSpy.h"
 }
 
 TEST_GROUP(Executor)
@@ -65,6 +66,88 @@ TEST_GROUP(Executor)
 TEST(Executor, ShouldNotBeNull)
 {
     CHECK_TRUE(pExecutor);
+}
+
+TEST(Executor, ShouldHandle_Configurate_Tap_Max_Time)
+{
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
+
+    //----------ARRANGE #1----------//
+    memset(&emulatedGpio, GPIO_PIN_RESET, sizeof(EmulatedGpioStatesStruct));
+
+    // Reset Channel A & Channel B to FX_OFF
+    gFxStateA = FX_OFF;
+    gFxStateB = FX_OFF;
+
+    emulatedGpio.buttonA = GPIO_PIN_SET;
+    emulatedGpio.buttonB = GPIO_PIN_SET;
+    emulatedGpio.switch1A = GPIO_PIN_RESET;
+    emulatedGpio.switch3A = GPIO_PIN_RESET;
+    emulatedGpio.switch1B = GPIO_PIN_RESET;
+    emulatedGpio.switch3B = GPIO_PIN_RESET;
+
+    // Assume user hold tap button for 2 seconds (calculated by sys tick) and entered special configuration mode
+    // ToDo: Set special flag to choose alternative SW functions
+    gTapConfigMode = true;
+    emulatedGpio.switch1A = GPIO_PIN_SET;
+
+    // Set selected prog
+    emulatedGpio.prog0A = GPIO_PIN_SET;
+    emulatedGpio.prog1A = GPIO_PIN_SET;
+    emulatedGpio.prog2A = GPIO_PIN_SET;
+
+    // Increase max time on channel A up to 50 ms
+    HAL_GPIO_EXTI_Callback(A_SW_1_EXTI_Pin);
+    HAL_TIM_PeriodElapsedCallback(&htim2);
+
+    //----------ACT #1----------//
+    // Call Executor_Handler with pointer to Executor's List
+    Status status = Executor_Handler(pExecutor);
+
+    //----------ASSERT #1----------//
+    // Check FSM returned OK status
+    LONGS_EQUAL(OK, status);
+
+    // ToDo: Reset flag -> Call save to SPI
+    gTapConfigMode = false;
+    emulatedGpio.switch1A = GPIO_PIN_RESET;
+    // ToDo: Check value changed in SPI emulator
+
+}
+
+TEST(Executor, ShouldHandle_Update_DigitalPot_From_ADC)
+{
+    printf("\n\r------------------------------------------------------------------------\n\r");
+    printf("[%s]\n\r", __FUNCTION__);
+    printf("------------------------------------------------------------------------\n\r");
+
+    //----------ARRANGE #1----------//
+    memset(&emulatedGpio, GPIO_PIN_RESET, sizeof(EmulatedGpioStatesStruct));
+
+    // Reset Channel A & Channel B to FX_OFF
+    gFxStateA = FX_OFF;
+    gFxStateB = FX_OFF;
+
+    emulatedGpio.buttonA = GPIO_PIN_SET;
+    emulatedGpio.buttonB = GPIO_PIN_SET;
+    emulatedGpio.buttonTap = GPIO_PIN_RESET;
+
+    // Put data & call ADC callback
+    adcData[0] = 2150;
+    adcData[1] = 2000;
+    HAL_ADC_ConvCpltCallback(&hadc1);
+
+    //----------ACT #1----------//
+    // Call Executor_Handler with pointer to Executor's List
+    Status status = Executor_Handler(pExecutor);
+
+    //----------ASSERT #1----------//
+    // Check FSM returned OK status
+    LONGS_EQUAL(OK, status);
+
 }
 
 TEST(Executor, ShouldHandle_Switch_I2C_EEPROM)

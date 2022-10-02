@@ -84,6 +84,13 @@ Status Executor_Handler(Executor *pSelf)
         }
         break;
 
+        case EXECUTOR_STATE_TOGGLE_FOR_CONFIG_MODE:
+        {
+            status = Interface_ToggleForConfigMode();
+            return status;
+        }
+        break;
+
         case EXECUTOR_STATE_GET_CHANNEL:
         {
             return UNSUPPORTED;
@@ -120,9 +127,9 @@ Status Executor_Handler(Executor *pSelf)
         }
         break;
 
-        case EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL:
+        case EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_TAP:
         {
-            status = Interface_UpdateTap(currentCmdBlock.channel, currentCmdBlock.number);
+            status = Interface_UpdateDigitalPotByTap(currentCmdBlock.channel, currentCmdBlock.number);
             return status;
         }
         break;
@@ -140,6 +147,18 @@ Status Executor_Handler(Executor *pSelf)
             return status;
         }
         break;
+
+        case EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_ADC:
+        {
+            status = Interface_UpdateDigitalPotByAdc(currentCmdBlock.channel, currentCmdBlock.number);
+            return status;
+        }
+
+        case EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP:
+        {
+            status = Interface_UpdateMaxTimeForTap(currentCmdBlock.channel, currentCmdBlock.specificator);
+            return status;
+        }
     }
 
      return NO_COMMAND;

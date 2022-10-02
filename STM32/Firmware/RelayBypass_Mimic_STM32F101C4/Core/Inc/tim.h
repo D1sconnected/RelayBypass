@@ -37,7 +37,13 @@ extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN Private defines */
-extern bool gTappedOnce;
+extern volatile bool      gTappedOnce;    // flag to detect first tap
+extern volatile bool      gTapConfigMode; // flag to detect entering in config mode
+extern volatile uint16_t  gTapLedA;       // tapStamp to represent led indicaton on channel A
+extern volatile uint16_t  gTapLedB;       // tapStamp to represent led indicaton on channel B
+extern volatile uint16_t  gTapStampA;     // tapStamp to represent tap value on channel A
+extern volatile uint16_t  gTapStampB;     // tapStamp to represent tap value on channel B
+extern volatile uint16_t *gTapPointer;    // pointer to work with gTapStampA or gTapStampB
 /* USER CODE END Private defines */
 
 void MX_TIM2_Init(void);

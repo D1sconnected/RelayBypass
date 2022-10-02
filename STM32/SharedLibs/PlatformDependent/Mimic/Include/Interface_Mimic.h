@@ -16,7 +16,21 @@
 #define BYPASS_DELAY 7
 
 // Digital Pot 
+#define MCP41010_RESOLUTION 255
 #define MCP41010_CMD_WRITE	0x11
+
+// FV-1 DSP
+#define FV1_MAX_PROGS 8
+#define FV1_MAX_TIME  1000
+#define FV1_MIN_TIME  100
+#define FV1_TAP_STEP  100
+
+// Time for events by systick in ms
+#define SYSTICK_START_ADC   50
+#define SYSTICK_SWITCH_MODE 3000
+
+#define ADC_TO_MS_COEF      4.096
+#define ADC_TO_POT_COEF     16
 
 typedef enum 
 {
@@ -26,8 +40,13 @@ typedef enum
 	NONE
 } LedColour;
 
-extern uint8_t gFxStateA;
-extern uint8_t gFxStateB;
+extern volatile uint8_t gFxStateA;
+extern volatile uint8_t gFxStateB;
+
+extern volatile uint8_t gProgramA;
+extern volatile uint8_t gProgramB;
+extern volatile uint16_t gTimeA[FV1_MAX_PROGS];
+extern volatile uint16_t gTimeB[FV1_MAX_PROGS];
 
 /*
 typedef struct InterfaceStruct Interface;
@@ -88,7 +107,10 @@ void Interface_UpdateGpioForToggle(char channel);
 Status Interface_SwitchProgram(char channel, char specificator);
 Status Interface_SwitchEeprom(char channel);
 Status Interface_UpdateDigitalPot(char channel, uint8_t value);
-Status Interface_UpdateTap(char channel, uint16_t number);
+Status Interface_UpdateDigitalPotByTap(char channel, uint16_t number);
+Status Interface_UpdateDigitalPotByAdc(char channel, uint16_t number);
+Status Interface_UpdateMaxTimeForTap(char channel, char specificator);
 
+Status Interface_ToggleForConfigMode(void);
 
 #endif

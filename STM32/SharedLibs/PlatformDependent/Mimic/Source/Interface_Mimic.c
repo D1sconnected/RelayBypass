@@ -323,7 +323,7 @@ Status Interface_UpdateDigitalPot(char channel, uint8_t value)
     return FAIL;
 }
 
-Status Interface_UpdateDigitalPotFromAdc(char channel, uint16_t number)
+Status Interface_UpdateDigitalPotByAdc(char channel, uint16_t number)
 {
     float adcCoef = 4.096;
 
@@ -340,7 +340,7 @@ Status Interface_UpdateDigitalPotFromAdc(char channel, uint16_t number)
     return status;
 }
 
-Status Interface_UpdateDigitalPotFromTap(char channel, uint16_t number)
+Status Interface_UpdateDigitalPotByTap(char channel, uint16_t number)
 {
     // Get [maxTap] for selected [gProgram]
     uint16_t maxTap = 0;

@@ -105,8 +105,8 @@ void Interface_UpdateGpioForToggle(char channel);
 Status Interface_SwitchProgram(char channel, char specificator);
 Status Interface_SwitchEeprom(char channel);
 Status Interface_UpdateDigitalPot(char channel, uint8_t value);
-Status Interface_UpdateDigitalPotFromTap(char channel, uint16_t number);
-Status Interface_UpdateDigitalPotFromAdc(char channel, uint16_t number);
+Status Interface_UpdateDigitalPotByTap(char channel, uint16_t number);
+Status Interface_UpdateDigitalPotByAdc(char channel, uint16_t number);
 Status Interface_UpdateMaxTimeForTap(char channel, char specificator);
 
 Status Interface_ToggleForConfigMode(void);

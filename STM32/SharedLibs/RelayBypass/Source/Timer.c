@@ -102,7 +102,7 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
             }
 
             gTappedOnce = false;
-            cmdBlock.state = EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL;
+            cmdBlock.state = EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_TAP;
             cmdBlock.channel = (gTapPointer == &gTapStampA) ? CHANNEL_A : CHANNEL_B;
             cmdBlock.specificator = 0;
             cmdBlock.number = *gTapPointer;

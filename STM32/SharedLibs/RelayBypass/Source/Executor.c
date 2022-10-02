@@ -127,9 +127,9 @@ Status Executor_Handler(Executor *pSelf)
         }
         break;
 
-        case EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL:
+        case EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_TAP:
         {
-            status = Interface_UpdateDigitalPotFromTap(currentCmdBlock.channel, currentCmdBlock.number);
+            status = Interface_UpdateDigitalPotByTap(currentCmdBlock.channel, currentCmdBlock.number);
             return status;
         }
         break;
@@ -150,7 +150,7 @@ Status Executor_Handler(Executor *pSelf)
 
         case EXECUTOR_STATE_UPDATE_DIGITAL_POT_BY_ADC:
         {
-            status = Interface_UpdateDigitalPotFromAdc(currentCmdBlock.channel, currentCmdBlock.number);
+            status = Interface_UpdateDigitalPotByAdc(currentCmdBlock.channel, currentCmdBlock.number);
             return status;
         }
 

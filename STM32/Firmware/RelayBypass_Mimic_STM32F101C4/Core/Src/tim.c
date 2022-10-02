@@ -21,11 +21,13 @@
 #include "tim.h"
 
 /* USER CODE BEGIN 0 */
-volatile bool     gTappedOnce = false;
-volatile bool     gTapConfigMode = false;
-volatile uint16_t gTapStampA = 0;
-volatile uint16_t gTapStampB = 0;
-volatile uint16_t *gTapPointer = &gTapStampA;
+volatile bool     gTappedOnce = false;          // flag to detect first tap
+volatile bool     gTapConfigMode = false;       // flag to detect entering in config mode
+volatile uint16_t gTapLedA = 0;                 // tapStamp to represent led indicaton on channel A
+volatile uint16_t gTapLedB = 0;                 // tapStamp to represent led indicaton on channel B
+volatile uint16_t gTapStampA = 0;               // tapStamp to represent tap value on channel A
+volatile uint16_t gTapStampB = 0;               // tapStamp to represent tap value on channel B
+volatile uint16_t *gTapPointer = &gTapStampA;   // pointer to work with gTapStampA or gTapStampB
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim2;

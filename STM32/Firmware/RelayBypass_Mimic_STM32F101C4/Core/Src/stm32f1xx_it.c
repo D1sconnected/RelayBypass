@@ -230,16 +230,16 @@ void SysTick_Handler(void)
         }
 
         // Represent tapped time on channel
-        else if (gTapStampA)
+        else if (gTapLedA)
         {
-            if (tapStampA == gTapStampA && tapStampA != 0)
+            if (tapStampA == gTapLedA && tapStampA != 0)
             {
                 HAL_GPIO_TogglePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin);
                 tapStampA = 0;
             }
         }
 
-        if (tapStampA == FV1_MAX_TIME)
+        if (tapStampA > gTimeA[gProgramA])
         {
             tapStampA = 0;
         }
@@ -261,16 +261,16 @@ void SysTick_Handler(void)
         }
 
         // Represent tapped time on channel
-        else if (gTapStampB)
+        else if (gTapLedB)
         {
-            if (tapStampB == gTapStampB && tapStampB != 0)
+            if (tapStampB == gTapLedB && tapStampB != 0)
             {
                 HAL_GPIO_TogglePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin);
                 tapStampB = 0;
             }
         }
 
-        if (tapStampB == FV1_MAX_TIME)
+        if (tapStampB > gTimeB[gProgramA])
         {
             tapStampB = 0;
         }

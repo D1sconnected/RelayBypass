@@ -129,6 +129,15 @@ Status Executor_Handler(Executor *pSelf)
 
         case EXECUTOR_STATE_UPDATE_TAP_ON_CHANNEL:
         {
+            if (currentCmdBlock.channel == CHANNEL_A)
+            {
+                gTapLedA = (uint16_t)((float)currentCmdBlock.number); // Reset global led indicator
+            }
+            else
+            {
+                gTapLedB = (uint16_t)((float)currentCmdBlock.number); // Reset global led indicator
+            }
+
             status = Interface_UpdateTap(currentCmdBlock.channel, currentCmdBlock.number);
             return status;
         }
@@ -154,11 +163,11 @@ Status Executor_Handler(Executor *pSelf)
 
             if (currentCmdBlock.channel == CHANNEL_A)
             {
-                gTapStampA = (uint16_t)((float)currentCmdBlock.number/adcCoef); // Reset global tap
+                gTapLedA = (uint16_t)((float)currentCmdBlock.number/adcCoef); // Reset global led indicator
             }
             else
             {
-                gTapStampB = (uint16_t)((float)currentCmdBlock.number/adcCoef); // Reset global tap
+                gTapLedB = (uint16_t)((float)currentCmdBlock.number/adcCoef); // Reset global led indicator
             }
 
             status = Interface_UpdateDigitalPot(currentCmdBlock.channel, (uint8_t)(currentCmdBlock.number / 16));

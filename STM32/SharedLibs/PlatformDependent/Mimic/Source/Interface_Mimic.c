@@ -327,7 +327,7 @@ Status Interface_UpdateTap(char channel, uint16_t number)
 {
     // Get [maxTap] for selected [gProgram]
     uint16_t maxTap = 0;
-    if (channel == 'A')
+    if (channel == CHANNEL_A)
     {
         maxTap = gTimeA[gProgramA];
     }

@@ -33,7 +33,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+extern uint8_t RxBuffer[32];
+extern uint8_t EEPROM_StatusByte;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -117,7 +118,22 @@ int main(void)
   }
 
   /* 2. Load saved data from SPI flash */
-  EepromM95_Test();
+  uint8_t TxBuffer[32] = "TEST THIS COOL EEPROM STM SPI ++";
+
+  EEPROM_SPI_INIT(&hspi1);
+  EEPROM_SPI_WriteBuffer(TxBuffer, (uint16_t)0x01, (uint16_t)32);
+  EEPROM_SPI_ReadBuffer (RxBuffer, (uint16_t)0x01, (uint16_t)32);
+//  EEPROM_SPI_WaitStandbyState();
+//  uint8_t rdsr = EEPROM_RDSR;
+//  uint8_t st[2] = {0};
+//  EEPROM_CS_LOW();
+//  HAL_SPI_Transmit(&hspi1, &rdsr, (uint16_t)sizeof(uint8_t), 200);
+//  while (HAL_SPI_Receive(&hspi1, st, (uint16_t)sizeof(st), 200) == HAL_BUSY)
+//  {
+//      HAL_Delay(1);
+//  };
+//  EEPROM_CS_HIGH();
+
   /*ADC-DMA test*/
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcData, 2);
 

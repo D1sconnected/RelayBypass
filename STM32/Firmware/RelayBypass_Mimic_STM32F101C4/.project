@@ -30,6 +30,16 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
 	<linkedResources>
+        <link>
+			<name>IncludeEepromM95</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/EepromM95/Include</locationURI>
+		</link>
+		<link>
+			<name>SourceEepromM95</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/SharedLibs/EepromM95/Source</locationURI>
+		</link>
 		<link>
 			<name>IncludeShared</name>
 			<type>2</type>

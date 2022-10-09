@@ -28,6 +28,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "../../../../SharedLibs/RelayBypass/Include/Executor.h"
+#include "../../../../SharedLibs/EepromM95/Include/EepromM95.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -116,7 +117,7 @@ int main(void)
   }
 
   /* 2. Load saved data from SPI flash */
-
+  EepromM95_Test();
   /*ADC-DMA test*/
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcData, 2);
 

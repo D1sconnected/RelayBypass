@@ -1,11 +1,11 @@
 #include "../Include/Interface_Mimic.h"
 
-volatile uint8_t  gFxStateA = FX_OFF;     // ToDo: load from memory
-volatile uint8_t  gFxStateB = FX_OFF;     // ToDo: load from memory
+volatile uint8_t  gFxStateA = FX_OFF;
+volatile uint8_t  gFxStateB = FX_OFF;
 
 volatile uint8_t  gProgramA = 0;
 volatile uint8_t  gProgramB = 0;
-volatile uint16_t gTimeA[FV1_MAX_PROGS] = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000}; //ToDo: temp values, would be reloaded from SPI
+volatile uint16_t gTimeA[FV1_MAX_PROGS] = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
 volatile uint16_t gTimeB[FV1_MAX_PROGS] = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
 
 void Interface_UpdateGpioForToggle(char channel)

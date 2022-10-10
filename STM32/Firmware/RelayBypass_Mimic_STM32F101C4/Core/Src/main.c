@@ -118,21 +118,21 @@ int main(void)
   }
 
   /* 2. Load saved data from SPI flash */
-  uint8_t TxBuffer[32] = "TEST THIS COOL EEPROM STM SPI ++";
-
+  uint8_t initData[EEPROM_PAGESIZE] = {0};
   EEPROM_SPI_INIT(&hspi1);
-  EEPROM_SPI_WriteBuffer(TxBuffer, (uint16_t)0x01, (uint16_t)32);
-  EEPROM_SPI_ReadBuffer (RxBuffer, (uint16_t)0x01, (uint16_t)32);
-//  EEPROM_SPI_WaitStandbyState();
-//  uint8_t rdsr = EEPROM_RDSR;
-//  uint8_t st[2] = {0};
-//  EEPROM_CS_LOW();
-//  HAL_SPI_Transmit(&hspi1, &rdsr, (uint16_t)sizeof(uint8_t), 200);
-//  while (HAL_SPI_Receive(&hspi1, st, (uint16_t)sizeof(st), 200) == HAL_BUSY)
-//  {
-//      HAL_Delay(1);
-//  };
-//  EEPROM_CS_HIGH();
+
+  // Default write values - perform only once, comment on prod
+//  EEPROM_SPI_WriteBuffer((uint8_t*)gTimeA, (uint16_t)EEPROM_A_PROGS_ADDR,   (uint16_t)sizeof(gTimeA));
+//  EEPROM_SPI_WriteBuffer((uint8_t*)gTimeB, (uint16_t)EEPROM_B_PROGS_ADDR,   (uint16_t)sizeof(gTimeB));
+//  EEPROM_SPI_WriteBuffer(initData,         (uint16_t)EEPROM_INIT_DATA_ADDR, (uint16_t)sizeof(initData));
+
+  EEPROM_SPI_ReadBuffer((uint8_t*)gTimeA, (uint16_t)EEPROM_A_PROGS_ADDR,   (uint16_t)sizeof(gTimeA));
+  EEPROM_SPI_ReadBuffer((uint8_t*)gTimeB, (uint16_t)EEPROM_B_PROGS_ADDR,   (uint16_t)sizeof(gTimeB));
+  EEPROM_SPI_ReadBuffer(initData,         (uint16_t)EEPROM_INIT_DATA_ADDR, (uint16_t)sizeof(initData));
+  gFxStateA = initData[EEPROM_A_FX_STATE_BYTE];
+  gFxStateB = initData[EEPROM_B_FX_STATE_BYTE];
+  gProgramA = initData[EEPROM_A_FX_PROG_BYTE];
+  gProgramB = initData[EEPROM_B_FX_PROG_BYTE];
 
   /*ADC-DMA test*/
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcData, 2);

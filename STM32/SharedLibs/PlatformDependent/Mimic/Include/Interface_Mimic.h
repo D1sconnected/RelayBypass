@@ -2,6 +2,7 @@
 #define INTERFACE_MIMIC_H
 
 #include "../../../RelayBypass/Include/Common.h"
+#include "../../../EepromM95/Include/EepromM95.h"
 
 #ifdef MIMIC_F1
 #include "../../../../Firmware/RelayBypass_Mimic_STM32F101C4/Core/Inc/gpio.h"
@@ -37,8 +38,9 @@
 #define FV1_TAP_STEP  100
 
 // Time for events by systick in ms
-#define SYSTICK_START_ADC   50
-#define SYSTICK_SWITCH_MODE 3000
+#define SYSTICK_START_ADC    50
+#define SYSTICK_SWITCH_MODE  3000
+#define SYSTICK_CHECK_STATUS 15000
 
 #define ADC_TO_MS_COEF      4.096
 #define ADC_TO_POT_COEF     16
@@ -121,7 +123,7 @@ Status Interface_UpdateDigitalPot(char channel, uint8_t value);
 Status Interface_UpdateDigitalPotByTap(char channel, uint16_t number);
 Status Interface_UpdateDigitalPotByAdc(char channel, uint16_t number);
 Status Interface_UpdateMaxTimeForTap(char channel, char specificator);
-
 Status Interface_ToggleForConfigMode(void);
+Status Interface_SaveToEeprom(uint16_t addr);
 
 #endif

@@ -468,3 +468,56 @@ Status Interface_UpdateMaxTimeForTap(char channel, char specificator)
 
     return OK;
 }
+
+Status Interface_SaveToEeprom(uint16_t addr)
+{
+    uint8_t buf[EEPROM_PAGESIZE] = {0};
+
+    switch(addr)
+    {
+        case EEPROM_A_PROGS_ADDR:
+        {
+            memcpy(buf, (uint8_t*)gTimeA, sizeof(gTimeA));
+        }
+        break;
+
+        case EEPROM_B_PROGS_ADDR:
+        {
+            memcpy(buf, (uint8_t*)gTimeB, sizeof(gTimeB));
+        }
+        break;
+
+        case EEPROM_INIT_DATA_ADDR:
+        {
+            buf[EEPROM_A_FX_STATE_BYTE] = gFxStateA;
+            buf[EEPROM_B_FX_STATE_BYTE] = gFxStateB;
+            buf[EEPROM_A_FX_PROG_BYTE]  = gProgramA;
+            buf[EEPROM_B_FX_PROG_BYTE]  = gProgramB;
+        }
+        break;
+    }
+
+    EEPROM_SPI_WriteBuffer(buf, addr, (uint16_t)sizeof(buf));
+
+    return OK; // ToDo: check EEPROM_SPI_WriteBuffer status
+}
+
+Status Interface_CheckFxAndProgData()
+{
+    uint8_t buf[EEPROM_PAGESIZE] = {0};
+    EEPROM_SPI_ReadBuffer(buf, (uint16_t)EEPROM_INIT_DATA_ADDR, (uint16_t)sizeof(buf));
+
+    if (buf[EEPROM_A_FX_STATE_BYTE] != gFxStateA ||
+        buf[EEPROM_B_FX_STATE_BYTE] != gFxStateB ||
+        buf[EEPROM_A_FX_PROG_BYTE]  != gProgramA ||
+        buf[EEPROM_B_FX_PROG_BYTE]  != gProgramB)
+    {
+        buf[EEPROM_A_FX_STATE_BYTE] = gFxStateA;
+        buf[EEPROM_B_FX_STATE_BYTE] = gFxStateB;
+        buf[EEPROM_A_FX_PROG_BYTE]  = gProgramA;
+        buf[EEPROM_B_FX_PROG_BYTE]  = gProgramB;
+        EEPROM_SPI_WriteBuffer(buf, (uint16_t)EEPROM_INIT_DATA_ADDR, (uint16_t)sizeof(buf));
+    }
+
+    return OK;
+}

@@ -153,12 +153,28 @@ Status Executor_Handler(Executor *pSelf)
             status = Interface_UpdateDigitalPotByAdc(currentCmdBlock.channel, currentCmdBlock.number);
             return status;
         }
+        break;
 
         case EXECUTOR_STATE_UPDATE_MAX_TIME_FOR_TAP:
         {
             status = Interface_UpdateMaxTimeForTap(currentCmdBlock.channel, currentCmdBlock.specificator);
             return status;
         }
+        break;
+
+        case EXECUTOR_STATE_SAVE_TO_EEPROM:
+        {
+            status = Interface_SaveToEeprom(currentCmdBlock.number);
+            return status;
+        }
+        break;
+
+        case EXECUTOR_STATE_UPDATE_FX_AND_PROG_DATA:
+        {
+            status = Interface_CheckFxAndProgData();
+            return status;
+        }
+        break;
     }
 
      return NO_COMMAND;

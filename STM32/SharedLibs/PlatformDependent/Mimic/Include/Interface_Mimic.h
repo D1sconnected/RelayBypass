@@ -125,5 +125,6 @@ Status Interface_UpdateDigitalPotByAdc(char channel, uint16_t number);
 Status Interface_UpdateMaxTimeForTap(char channel, char specificator);
 Status Interface_ToggleForConfigMode(void);
 Status Interface_SaveToEeprom(uint16_t addr);
+Status Interface_CheckFxAndProgData(void);
 
 #endif

@@ -186,19 +186,29 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-    static uint8_t  adcCheck = 0; // counter to trigger dma on adc
-    static uint16_t tapStampA = 0; // counter to represent tap on channel A
-    static uint16_t tapStampB = 0; // counter to represent tap on channel B
-    static uint16_t tapConfig = 0; // counter to switch in configuration mode
+    static uint8_t  adcCheck    = 0; // counter to trigger dma on adc
+    static uint16_t tapStampA   = 0; // counter to represent tap on channel A
+    static uint16_t tapStampB   = 0; // counter to represent tap on channel B
+    static uint16_t tapConfig   = 0; // counter to switch in configuration mode
+    static uint16_t checkStatus = 0; // counter to check active fx & progs
 
     static StateStruct cmdBlock = { 0 };
 
     // Run ADC DMA conversion every 50 ms
     adcCheck++;
+    checkStatus++;
     if (adcCheck == SYSTICK_START_ADC)
     {
         adcCheck = 0;
         HAL_ADC_Start_DMA(&hadc1, (uint32_t*) adcData, NUMBER_OF_CHANNELS);
+    }
+
+    // Check if FX & PROGs changed every 15 seconds
+    if (checkStatus == SYSTICK_CHECK_STATUS)
+    {
+        checkStatus = 0;
+        cmdBlock.state = EXECUTOR_STATE_UPDATE_FX_AND_PROG_DATA;
+        Button_PushCommand(&cmdBlock); // ToDo: Refactor
     }
 
     // Check for both buttons pressed to enter special mode
@@ -211,6 +221,19 @@ void SysTick_Handler(void)
             tapConfig = 0;
             cmdBlock.state = EXECUTOR_STATE_TOGGLE_FOR_CONFIG_MODE;
             Button_PushCommand(&cmdBlock); // ToDo: Refactor
+
+            // Back to normal mode -> save new values
+            if (!gTapConfigMode)
+            {
+                // Update A_PROGS EEPROM Page
+                cmdBlock.number = EEPROM_A_PROGS_ADDR;
+                cmdBlock.state  = EXECUTOR_STATE_SAVE_TO_EEPROM;
+                Button_PushCommand(&cmdBlock);
+                // Update B_PROGS EEPROM Page
+                cmdBlock.number = EEPROM_B_PROGS_ADDR;
+                cmdBlock.state  = EXECUTOR_STATE_SAVE_TO_EEPROM;
+                Button_PushCommand(&cmdBlock);
+            }
         }
     }
 

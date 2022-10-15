@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 
 #define NUMBER_OF_CHANNELS 2
 #define CHANNEL_A 'A'

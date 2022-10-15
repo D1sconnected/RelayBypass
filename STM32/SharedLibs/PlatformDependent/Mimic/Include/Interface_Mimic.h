@@ -61,70 +61,20 @@ extern volatile uint8_t gProgramB;
 extern volatile uint16_t gTimeA[FV1_MAX_PROGS];
 extern volatile uint16_t gTimeB[FV1_MAX_PROGS];
 
-/*
-typedef struct InterfaceStruct Interface;
-
-Interface * Interface_Create(void);
-void Interface_Destroy(Interface *pSelf);
-*/
-
-// Switch selected channel ON/OFF
-// channel - specify FX slot to switch
-//
-// Returns:
-// OK � in case of success
-// INVALID_FORMAT - in case of incorrect or lack of arguments
-Status Interface_SwitchChannel(char channel);
-
-// Toggle RGB LED on selected channel
-// channel - specify FX slot to toggle
-// 
-// Returns:
-// OK � in case of success
-// INVALID_FORMAT - in case of incorrect or lack of arguments
-Status Interface_ToggleChannel(char channel);
-
-
-// Reads GPIOs on scpecified channel and identifies LED colour
-// channel - specify FX slot to get
-// 
-// Returns:
-// LedColour enum, which can be RED, GREEN, BLUE or NONE
-LedColour Interface_GetColour(char channel);
-
-// Change signal path route
-// channel - specify which FX slot will be first
-//
-// Returns:
-// OK � in case of success
-// INVALID_FORMAT - in case of incorrect or lack of arguments
-Status Interface_ChangeRoute(char channel);
-
-// Updating LED & RELAY state with HAL_GPIO_WritePin
-// channel - specify FX slot to update
-// state - specify GPIO_PIN_SET (ON) or GPIO_PIN_RESET (OFF)
-//
-// Returns:
-// None
-void Interface_UpdateGpioForSwitch(char channel, GPIO_PinState state);
-
-// Updating DIR RELAY state with HAL_GPIO_WritePin
-// state - specify GPIO_PIN_SET (ON) or GPIO_PIN_RESET (OFF)
-//
-// Returns:
-// None
-void Interface_UpdateGpioForChange(GPIO_PinState state);
-
-void Interface_UpdateGpioForToggle(char channel);
-
-Status Interface_SwitchProgram(char channel, char specificator);
-Status Interface_SwitchEeprom(char channel);
-Status Interface_UpdateDigitalPot(char channel, uint8_t value);
-Status Interface_UpdateDigitalPotByTap(char channel, uint16_t number);
-Status Interface_UpdateDigitalPotByAdc(char channel, uint16_t number);
-Status Interface_UpdateMaxTimeForTap(char channel, char specificator);
-Status Interface_ToggleForConfigMode(void);
-Status Interface_SaveToEeprom(uint16_t addr);
-Status Interface_CheckFxAndProgData(void);
+Status      Interface_SwitchChannel(char channel, GPIO_PinState state);
+Status      Interface_ToggleChannel(char channel);
+LedColour   Interface_GetColour(char channel);
+Status      Interface_ChangeRoute(char channel);
+void        Interface_UpdateGpioForChange(GPIO_PinState state);
+void        Interface_UpdateGpioForToggle(char channel);
+Status      Interface_SwitchProgram(char channel, char specificator);
+Status      Interface_SwitchEeprom(char channel);
+Status      Interface_UpdateDigitalPot(char channel, uint8_t value);
+Status      Interface_UpdateDigitalPotByTap(char channel, uint16_t number);
+Status      Interface_UpdateDigitalPotByAdc(char channel, uint16_t number);
+Status      Interface_UpdateMaxTimeForTap(char channel, char specificator);
+Status      Interface_ToggleForConfigMode(void);
+Status      Interface_SaveToEeprom(uint16_t addr);
+Status      Interface_CheckFxAndProgData(void);
 
 #endif

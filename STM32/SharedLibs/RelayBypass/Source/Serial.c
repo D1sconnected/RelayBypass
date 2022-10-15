@@ -102,7 +102,8 @@ Status Serial_HandleToggleCommand(Serial *pSelf)
             toggleResponse[13] = '\r';
             toggleResponse[14] = '\n';
                 
-            return Serial_SendResponse(pSelf, toggleResponse);
+            status = Serial_SendResponse(pSelf, toggleResponse);
+            return status;
         }
 
     return INVALID_FORMAT;
@@ -118,7 +119,8 @@ Status Serial_HandleSwitchCommand(Serial *pSelf)
     // Check if slot parameter is correct
     if (pSelf->command[7] == CHANNEL_A || pSelf->command[7] == CHANNEL_B)
     {
-        Status status = Interface_SwitchChannel(pSelf->command[7]);
+        // ToDo: update to send state
+        Status status = Interface_SwitchChannel(pSelf->command[7], 0);
         
         if (status != OK)
         {

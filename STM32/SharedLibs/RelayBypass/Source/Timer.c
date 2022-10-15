@@ -57,6 +57,7 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_A;
         cmdBlock.specificator = 0;
+        cmdBlock.number = (uint16_t)!gFxStateA;
         Timer_PushCommand(&cmdBlock);
         gBtnStateA = false;
     }
@@ -66,6 +67,7 @@ void Timer_Callback (TIM_HandleTypeDef *htim)
         cmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
         cmdBlock.channel = CHANNEL_B;
         cmdBlock.specificator = 0;
+        cmdBlock.number = (uint16_t)!gFxStateB;
         Timer_PushCommand(&cmdBlock);
         gBtnStateB = false;
     }

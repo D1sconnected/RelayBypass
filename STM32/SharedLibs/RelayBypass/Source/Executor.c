@@ -59,7 +59,7 @@ Status Executor_Handler(Executor *pSelf)
 
         case EXECUTOR_STATE_SWITCH_CHANNEL:
         {
-            status = Interface_SwitchChannel(currentCmdBlock.channel);
+            status = Interface_SwitchChannel(currentCmdBlock.channel, currentCmdBlock.number);
             return status;
         }
         break;

@@ -26,12 +26,15 @@ void Interface_UpdateGpioForToggle(char channel)
     }
 }
 
-void Interface_UpdateGpioForSwitch(char channel, GPIO_PinState state)
+Status Interface_SwitchChannel(char channel, GPIO_PinState state)
 {
     switch (channel)
     {
         case CHANNEL_A:
         {
+            // Update gFxStateA
+            gFxStateA = (uint8_t)state;
+
             // Update LED state
             HAL_GPIO_WritePin(A_LED_RED_GPIO_Port, A_LED_RED_Pin, state);
 
@@ -54,6 +57,9 @@ void Interface_UpdateGpioForSwitch(char channel, GPIO_PinState state)
 
         case CHANNEL_B:
         {
+            // Update gFxStateB
+            gFxStateB = (uint8_t)state;
+
             // Update LED state
             HAL_GPIO_WritePin(B_LED_GREEN_GPIO_Port, B_LED_GREEN_Pin, state);
 
@@ -74,6 +80,8 @@ void Interface_UpdateGpioForSwitch(char channel, GPIO_PinState state)
         }
         break;
     }
+
+    return OK;
 }
 
 void Interface_UpdateGpioForChange(GPIO_PinState state)
@@ -81,62 +89,62 @@ void Interface_UpdateGpioForChange(GPIO_PinState state)
     return;
 }
 
-Status Interface_SwitchChannel(char channel)
-{
-    
-    if ((channel != CHANNEL_A) && (channel != CHANNEL_B)) 
-    {
-        return INVALID_FORMAT;
-    }
-
-    switch (channel) 
-    {
-        case CHANNEL_A:
-        {
-            uint8_t temp = (gFxStateA == FX_OFF) ? FX_ON : FX_OFF;
-            gFxStateA = temp;
-
-            switch (gFxStateA)
-            {
-                case FX_ON:
-                {
-                    Interface_UpdateGpioForSwitch(channel, GPIO_PIN_SET);
-                }
-                break;
-
-                case FX_OFF:
-                {
-                    Interface_UpdateGpioForSwitch(channel, GPIO_PIN_RESET);
-                }
-                break;
-            }
-        }
-        break;
-    
-        case CHANNEL_B:
-        {
-            uint8_t temp = (gFxStateB == FX_OFF) ? FX_ON : FX_OFF;
-            gFxStateB = temp;
-
-            switch (gFxStateB)
-            {
-                case FX_ON:
-                {
-                    Interface_UpdateGpioForSwitch(channel, GPIO_PIN_SET);
-                }
-                break;
-
-                case FX_OFF:
-                {
-                    Interface_UpdateGpioForSwitch(channel, GPIO_PIN_RESET);
-                }
-                break;
-            }
-        }
-        break;
-    }
-    return OK;
-}
+//Status Interface_SwitchChannel(char channel)
+//{
+//
+//    if ((channel != CHANNEL_A) && (channel != CHANNEL_B))
+//    {
+//        return INVALID_FORMAT;
+//    }
+//
+//    switch (channel)
+//    {
+//        case CHANNEL_A:
+//        {
+//            uint8_t temp = (gFxStateA == FX_OFF) ? FX_ON : FX_OFF;
+//            gFxStateA = temp;
+//
+//            switch (gFxStateA)
+//            {
+//                case FX_ON:
+//                {
+//                    Interface_UpdateGpioForSwitch(channel, GPIO_PIN_SET);
+//                }
+//                break;
+//
+//                case FX_OFF:
+//                {
+//                    Interface_UpdateGpioForSwitch(channel, GPIO_PIN_RESET);
+//                }
+//                break;
+//            }
+//        }
+//        break;
+//
+//        case CHANNEL_B:
+//        {
+//            uint8_t temp = (gFxStateB == FX_OFF) ? FX_ON : FX_OFF;
+//            gFxStateB = temp;
+//
+//            switch (gFxStateB)
+//            {
+//                case FX_ON:
+//                {
+//                    Interface_UpdateGpioForSwitch(channel, GPIO_PIN_SET);
+//                }
+//                break;
+//
+//                case FX_OFF:
+//                {
+//                    Interface_UpdateGpioForSwitch(channel, GPIO_PIN_RESET);
+//                }
+//                break;
+//            }
+//        }
+//        break;
+//    }
+//    return OK;
+//}
 
 Status Interface_ToggleChannel(char channel)
 {
@@ -149,7 +157,7 @@ Status Interface_ToggleChannel(char channel)
 
     for (uint8_t i = 0; i <= 3; i++)
     {
-        Interface_UpdateGpioForSwitch(channel, state);
+        Interface_SwitchChannel(channel, state);
         state = !state;
         HAL_Delay(200);
     }
@@ -169,9 +177,9 @@ Status Interface_ToggleForConfigMode(void)
     }
 
     // Turn Channel A 'ON'
-    Interface_UpdateGpioForSwitch(CHANNEL_A, GPIO_PIN_SET);
+    Interface_SwitchChannel(CHANNEL_A, GPIO_PIN_SET);
     // Turn Channel B 'ON'
-    Interface_UpdateGpioForSwitch(CHANNEL_B, GPIO_PIN_SET);
+    Interface_SwitchChannel(CHANNEL_B, GPIO_PIN_SET);
 
     return OK;
 }

@@ -209,7 +209,7 @@ Status Interface_SwitchProgram(char channel, char specificator)
                 {
                     gProgramA--;
 
-                    if (!gProgramA)
+                    if (gProgramA > FV1_MAX_PROGS - 1)
                     {
                         gProgramA = FV1_MAX_PROGS - 1;
                     }
@@ -244,7 +244,7 @@ Status Interface_SwitchProgram(char channel, char specificator)
             {
                 gProgramB--;
 
-                if (!gProgramB)
+                if (gProgramB > FV1_MAX_PROGS - 1)
                 {
                     gProgramB = FV1_MAX_PROGS - 1;
                 }
@@ -399,36 +399,26 @@ Status Interface_UpdateDigitalPotByTap(char channel, uint16_t number)
 
 Status Interface_UpdateMaxTimeForTap(char channel, char specificator)
 {
-    if (specificator == WRITE) 
-    {
-        //ToDo: Write locals timeA & timeB to to SPI memory
-    }
-
-    uint8_t prog = 0;
     switch (channel)
     {
         case CHANNEL_A:
         {
-            prog += (HAL_GPIO_ReadPin(A_PROG_0_CTRL_GPIO_Port, A_PROG_0_CTRL_Pin));
-            prog += (HAL_GPIO_ReadPin(A_PROG_1_CTRL_GPIO_Port, A_PROG_1_CTRL_Pin) << 1);
-            prog += (HAL_GPIO_ReadPin(A_PROG_2_CTRL_GPIO_Port, A_PROG_2_CTRL_Pin) << 2);
-
             switch (specificator)
             {
                 case UP:
                 {
-                    if (gTimeA[prog] != FV1_MAX_TIME)
+                    if (gTimeA[gProgramA] != FV1_MAX_TIME)
                     {
-                        gTimeA[prog] += FV1_TAP_STEP;
+                        gTimeA[gProgramA] += FV1_TAP_STEP;
                     }
                 }
                 break;
 
                 case DOWN:
                 {
-                    if (gTimeA[prog] != FV1_MIN_TIME)
+                    if (gTimeA[gProgramA] != FV1_MIN_TIME)
                     {
-                        gTimeA[prog] -= FV1_TAP_STEP;
+                        gTimeA[gProgramA] -= FV1_TAP_STEP;
                     }
                 }
                 break;
@@ -438,26 +428,22 @@ Status Interface_UpdateMaxTimeForTap(char channel, char specificator)
 
         case CHANNEL_B:
         {
-            prog += (HAL_GPIO_ReadPin(B_PROG_0_CTRL_GPIO_Port, B_PROG_0_CTRL_Pin));
-            prog += (HAL_GPIO_ReadPin(B_PROG_1_CTRL_GPIO_Port, B_PROG_1_CTRL_Pin) << 1);
-            prog += (HAL_GPIO_ReadPin(B_PROG_2_CTRL_GPIO_Port, B_PROG_2_CTRL_Pin) << 2);
-
             switch (specificator)
             {
                 case UP:
                 {
-                    if (gTimeB[prog] != FV1_MAX_TIME)
+                    if (gTimeB[gProgramB] != FV1_MAX_TIME)
                     {
-                        gTimeB[prog] += FV1_TAP_STEP;
+                        gTimeB[gProgramB] += FV1_TAP_STEP;
                     }
                 }
                 break;
 
                 case DOWN:
                 {
-                    if (gTimeB[prog] != FV1_MIN_TIME)
+                    if (gTimeB[gProgramB] != FV1_MIN_TIME)
                     {
-                        gTimeB[prog] -= FV1_TAP_STEP;
+                        gTimeB[gProgramB] -= FV1_TAP_STEP;
                     }
                 }
                 break;

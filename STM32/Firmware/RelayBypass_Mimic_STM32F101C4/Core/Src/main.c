@@ -107,22 +107,17 @@ int main(void)
   }
 
   /* Reload values & Config platform */
-  /* 1. Switch I2C EEPROM based on pressed A button, B EEPROM selected by default */
   GPIO_PinState btnA = HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin);
   GPIO_PinState btnB = HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin);
   StateStruct localCmdBlock = {0};
+
+  /* 1. Switch I2C EEPROM based on pressed A button, B EEPROM selected by default */
   if (!btnA && btnB)
   {
       localCmdBlock.state = EXECUTOR_STATE_SWITCH_I2C_EEPROM;
       localCmdBlock.channel = CHANNEL_A;
       status = Executor_PushCommand(pExecutor, &localCmdBlock);
   }
-
-  if (btnA && !btnB)
-  {
-      gTapPointer = &gTapStampB;
-  }
-
 
   /* 2. Load saved data from SPI flash */
   uint8_t initData[EEPROM_PAGESIZE] = {0};
@@ -145,9 +140,25 @@ int main(void)
       gFxStateB = initData[EEPROM_B_FX_STATE_BYTE];
       gProgramA = initData[EEPROM_A_FX_PROG_BYTE];
       gProgramB = initData[EEPROM_B_FX_PROG_BYTE];
+
+      if (initData[EEPROM_TAP_POINTER])
+      {
+          gTapPointer = &gTapStampB;
+      }
+      else
+      {
+          gTapPointer = &gTapStampA;
+      }
   }
 
-  // Set parameters
+  /* 3. Switch TapPointer */
+  if (btnA && !btnB)
+  {
+      //gTapPointer = &gTapStampB;
+      gTapPointer = (gTapPointer == &gTapStampA) ? &gTapStampB : &gTapStampA;
+  }
+
+  // 4. Set parameters
   localCmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
   localCmdBlock.channel = CHANNEL_A;
   localCmdBlock.specificator = 0;

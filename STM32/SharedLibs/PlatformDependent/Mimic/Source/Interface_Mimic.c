@@ -487,6 +487,7 @@ Status Interface_SaveToEeprom(uint16_t addr)
             buf[EEPROM_B_FX_STATE_BYTE] = gFxStateB;
             buf[EEPROM_A_FX_PROG_BYTE]  = gProgramA;
             buf[EEPROM_B_FX_PROG_BYTE]  = gProgramB;
+            buf[EEPROM_TAP_POINTER] = (gTapPointer == &gTapStampA) ? 0 : 1;
         }
         break;
     }
@@ -501,15 +502,19 @@ Status Interface_CheckFxAndProgData()
     uint8_t buf[EEPROM_PAGESIZE] = {0};
     EEPROM_SPI_ReadBuffer(buf, (uint16_t)EEPROM_INIT_DATA_ADDR, (uint16_t)sizeof(buf));
 
+    uint8_t tapState = (gTapPointer == &gTapStampA) ? 0 : 1;
+
     if (buf[EEPROM_A_FX_STATE_BYTE] != gFxStateA ||
         buf[EEPROM_B_FX_STATE_BYTE] != gFxStateB ||
         buf[EEPROM_A_FX_PROG_BYTE]  != gProgramA ||
-        buf[EEPROM_B_FX_PROG_BYTE]  != gProgramB)
+        buf[EEPROM_B_FX_PROG_BYTE]  != gProgramB ||
+        buf[EEPROM_TAP_POINTER]     != tapState)
     {
         buf[EEPROM_A_FX_STATE_BYTE] = gFxStateA;
         buf[EEPROM_B_FX_STATE_BYTE] = gFxStateB;
         buf[EEPROM_A_FX_PROG_BYTE]  = gProgramA;
         buf[EEPROM_B_FX_PROG_BYTE]  = gProgramB;
+        buf[EEPROM_TAP_POINTER]     = tapState;
         EEPROM_SPI_WriteBuffer(buf, (uint16_t)EEPROM_INIT_DATA_ADDR, (uint16_t)sizeof(buf));
     }
 

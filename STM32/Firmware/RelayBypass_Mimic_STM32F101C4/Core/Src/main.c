@@ -109,30 +109,68 @@ int main(void)
   /* Reload values & Config platform */
   /* 1. Switch I2C EEPROM based on pressed A button, B EEPROM selected by default */
   GPIO_PinState btnA = HAL_GPIO_ReadPin(A_BTN_GPIO_Port, A_BTN_Pin);
-  if (!btnA)
+  GPIO_PinState btnB = HAL_GPIO_ReadPin(B_BTN_GPIO_Port, B_BTN_Pin);
+  StateStruct localCmdBlock = {0};
+  if (!btnA && btnB)
   {
-      StateStruct localCmdBlock;
       localCmdBlock.state = EXECUTOR_STATE_SWITCH_I2C_EEPROM;
       localCmdBlock.channel = CHANNEL_A;
       status = Executor_PushCommand(pExecutor, &localCmdBlock);
   }
 
+  if (btnA && !btnB)
+  {
+      gTapPointer = &gTapStampB;
+  }
+
+
   /* 2. Load saved data from SPI flash */
   uint8_t initData[EEPROM_PAGESIZE] = {0};
   EEPROM_SPI_INIT(&hspi1);
 
-  // Default write values - perform only once, comment on prod
-//  EEPROM_SPI_WriteBuffer((uint8_t*)gTimeA, (uint16_t)EEPROM_A_PROGS_ADDR,   (uint16_t)sizeof(gTimeA));
-//  EEPROM_SPI_WriteBuffer((uint8_t*)gTimeB, (uint16_t)EEPROM_B_PROGS_ADDR,   (uint16_t)sizeof(gTimeB));
-//  EEPROM_SPI_WriteBuffer(initData,         (uint16_t)EEPROM_INIT_DATA_ADDR, (uint16_t)sizeof(initData));
+  // Reset EEPROM
+  if (!btnA && !btnB)
+  {
+        EEPROM_SPI_WriteBuffer((uint8_t*)gTimeA, (uint16_t)EEPROM_A_PROGS_ADDR,   (uint16_t)sizeof(gTimeA));
+        EEPROM_SPI_WriteBuffer((uint8_t*)gTimeB, (uint16_t)EEPROM_B_PROGS_ADDR,   (uint16_t)sizeof(gTimeB));
+        EEPROM_SPI_WriteBuffer(initData,         (uint16_t)EEPROM_INIT_DATA_ADDR, (uint16_t)sizeof(initData));
+  }
+  // Load from EEPROM
+  else
+  {
+      EEPROM_SPI_ReadBuffer((uint8_t*)gTimeA, (uint16_t)EEPROM_A_PROGS_ADDR,   (uint16_t)sizeof(gTimeA));
+      EEPROM_SPI_ReadBuffer((uint8_t*)gTimeB, (uint16_t)EEPROM_B_PROGS_ADDR,   (uint16_t)sizeof(gTimeB));
+      EEPROM_SPI_ReadBuffer(initData,         (uint16_t)EEPROM_INIT_DATA_ADDR, (uint16_t)sizeof(initData));
+      gFxStateA = initData[EEPROM_A_FX_STATE_BYTE];
+      gFxStateB = initData[EEPROM_B_FX_STATE_BYTE];
+      gProgramA = initData[EEPROM_A_FX_PROG_BYTE];
+      gProgramB = initData[EEPROM_B_FX_PROG_BYTE];
+  }
 
-  EEPROM_SPI_ReadBuffer((uint8_t*)gTimeA, (uint16_t)EEPROM_A_PROGS_ADDR,   (uint16_t)sizeof(gTimeA));
-  EEPROM_SPI_ReadBuffer((uint8_t*)gTimeB, (uint16_t)EEPROM_B_PROGS_ADDR,   (uint16_t)sizeof(gTimeB));
-  EEPROM_SPI_ReadBuffer(initData,         (uint16_t)EEPROM_INIT_DATA_ADDR, (uint16_t)sizeof(initData));
-  gFxStateA = initData[EEPROM_A_FX_STATE_BYTE];
-  gFxStateB = initData[EEPROM_B_FX_STATE_BYTE];
-  gProgramA = initData[EEPROM_A_FX_PROG_BYTE];
-  gProgramB = initData[EEPROM_B_FX_PROG_BYTE];
+  // Set parameters
+  localCmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
+  localCmdBlock.channel = CHANNEL_A;
+  localCmdBlock.specificator = 0;
+  localCmdBlock.number = gFxStateA;
+  status = Executor_PushCommand(pExecutor, &localCmdBlock);
+
+  localCmdBlock.state = EXECUTOR_STATE_SWITCH_CHANNEL;
+  localCmdBlock.channel = CHANNEL_B;
+  localCmdBlock.specificator = 0;
+  localCmdBlock.number = gFxStateB;
+  status = Executor_PushCommand(pExecutor, &localCmdBlock);
+
+  localCmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+  localCmdBlock.channel = CHANNEL_A;
+  localCmdBlock.specificator = 0;
+  localCmdBlock.number = 0;
+  status = Executor_PushCommand(pExecutor, &localCmdBlock);
+
+  localCmdBlock.state = EXECUTOR_STATE_SWITCH_PROGRAM;
+  localCmdBlock.channel = CHANNEL_B;
+  localCmdBlock.specificator = 0;
+  localCmdBlock.number = 0;
+  status = Executor_PushCommand(pExecutor, &localCmdBlock);
 
   /*ADC-DMA test*/
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcData, 2);
